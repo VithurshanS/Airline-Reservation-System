@@ -1,0 +1,100 @@
+create schema Bai;
+use Bai;
+CREATE TABLE `Passenger` (
+  `Passenger_ID` INT AUTO_INCREMENT,
+  `Passenger_Name` VARCHAR(200),
+  `Passport_Number` CHAR(10),
+  `DOB` DATE,
+  `Age` INT,
+  `Bookings_count` INT DEFAULT 0,
+  `Passenger_category` VARCHAR(10),
+  `Username` VARCHAR(200) UNIQUE, 
+  `Password` VARCHAR(255),  
+  `is_registered` BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY (`Passenger_ID`)
+);
+
+-- Admin Table
+CREATE TABLE `Admin` (
+  `Admin_id` VARCHAR(20),
+  `Admin_name` VARCHAR(255),
+  `Username` VARCHAR(255),
+  `Password` VARCHAR(255),
+  PRIMARY KEY (`Admin_id`)
+);
+
+-- Airport Table
+CREATE TABLE `Airport` (
+  `Airport_Code` VARCHAR(5),
+  `Country` VARCHAR(255),
+  `State_Province` VARCHAR(255),
+  `City` VARCHAR(255),
+  PRIMARY KEY (`Airport_Code`)
+);
+
+-- Route Table
+CREATE TABLE `Route` (
+  `Route_ID` VARCHAR(10),
+  `Departure_Airport` VARCHAR(5),
+  `Arrival_Airport` VARCHAR(5),
+  PRIMARY KEY (`Route_ID`),
+  FOREIGN KEY (`Departure_Airport`) REFERENCES `Airport`(`Airport_Code`),
+  FOREIGN KEY (`Arrival_Airport`) REFERENCES `Airport`(`Airport_Code`)
+);
+
+-- Aircraft Type Table
+CREATE TABLE `Aircraft_type` (
+  `AircraftType_ID` VARCHAR(20),
+  `Fuel_capacity` INT,
+  `Economy_Seats` INT,
+  `Business_Seats` INT,
+  `Platinum_Seats` INT,
+  PRIMARY KEY (`AircraftType_ID`)
+);
+
+-- Plane Table
+CREATE TABLE `Plane` (
+  `Plane_ID` VARCHAR(5),
+  `Plane_Type` VARCHAR(20),
+  `Status` VARCHAR(25),
+  PRIMARY KEY (`Plane_ID`),
+  FOREIGN KEY (`Plane_Type`) REFERENCES `Aircraft_type`(`AircraftType_ID`)
+);
+
+-- Schedule Table (correct foreign key references)
+CREATE TABLE `Schedule` (
+  `Schedule_ID` VARCHAR(100),
+  `Route_ID` VARCHAR(10),
+  `Plane_ID` VARCHAR(5),
+  `Departure_Time` DATETIME,
+  `Arrival_Time` DATETIME,
+  `Economy_Fare` DECIMAL(10,2),
+  `Business_Fare` DECIMAL(10,2),
+  `Platinum_Fare` DECIMAL(10,2),
+  PRIMARY KEY (`Schedule_ID`),
+  FOREIGN KEY (`Plane_ID`) REFERENCES `Plane`(`Plane_ID`),
+  FOREIGN KEY (`Route_ID`) REFERENCES `Route`(`Route_ID`)
+);
+
+-- Booking Table
+CREATE TABLE `Booking` (
+  `Booking_ID` VARCHAR(200),
+  `Schedule_ID` VARCHAR(100),
+  `Passenger_ID` INT,
+  `Seat_Number` INT,
+  `Seat_class` VARCHAR(20),
+  `Actual_Price` DECIMAL(10,2),
+  `Final_Price` DECIMAL(10,2),
+  `Booking_Status` VARCHAR(10),
+  PRIMARY KEY (`Booking_ID`),
+  FOREIGN KEY (`Schedule_ID`) REFERENCES `Schedule`(`Schedule_ID`),
+  FOREIGN KEY (`Passenger_ID`) REFERENCES `Passenger`(`Passenger_ID`)
+);
+
+-- Ticket Table
+CREATE TABLE `Ticket` (
+  `Ticket_ID` INT AUTO_INCREMENT,
+  `Booking_ID` VARCHAR(200),
+  PRIMARY KEY (`Ticket_ID`),
+  FOREIGN KEY (`Booking_ID`) REFERENCES `Booking`(`Booking_ID`)
+);
