@@ -47,7 +47,7 @@ app.get('/display',(req,res)=>{
     const query = 'select * from Passenger;';
     db.query(query,(err,result)=>{
         if(err){
-            console.log(fuck);
+            console.log("error occured");
         }
         res.send(result)
         console.log(result);
