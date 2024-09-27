@@ -37,7 +37,15 @@ app.post('/signup',async (req,res)=>{
     })
 })
 
-app.post('signup/details', async (req,res)=>{
+app.post('/signup/details', async (req,res)=>{
+    const {Passenger_Name,Passport_Number,DOB,Age,Bookings_count,Passenger_category,Username,Password,is_registered} = await req.body;
+    const query = 'insert into Passenger (Passenger_Name,Passport_Number,DOB,Age,Bookings_count,Passenger_category,Username,Password,is_registered) values (?,?,?,?,?,?,?,?,?)';
+    db.query(query,[Passenger_Name,Passport_Number,DOB,Age,Bookings_count,Passenger_category,Username,Password,is_registered],(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        res.json(result);
+    })
     
 })
 
