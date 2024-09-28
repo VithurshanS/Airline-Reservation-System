@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className='ima'>
         <h1>welcome to ARS</h1>
         <button onClick={handlelo}>login</button>
         <button onClick={handlesi}>signup</button>

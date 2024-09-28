@@ -42,7 +42,7 @@ export default function Signup(){
 
 
     return (
-        <>
+        <div className='sss'>
         <div className="signup-div">
             <form className='form-container'>
                 <label htmlFor="name">Enter username</label>
@@ -63,7 +63,7 @@ export default function Signup(){
             <p>hi da machn {result}</p>
         </div>
 
-        </>
+        </div>
 
     )
 }
