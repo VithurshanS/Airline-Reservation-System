@@ -4,32 +4,66 @@ import "./assets/signup.css";
 
 
 export default function Signup(){
-    const [username , setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const handleUserdata = () =>{
-        axios.post('http://localhost:3066/signup',{username,password})
+    const [Username , setUsername] = useState('');
+    const [Password, setPassword] = useState('');
+    const [DOB,setDOB] = useState();
+    const[Age,setAge] = useState()
+    const [Passenger_Name, setPN] = useState();
+    const [Passport_Number, setPaN] = useState();
+    const [result,setResult] = useState('');
+
+    const calculateAge =()=>{
+        const birdate = new Date(DOB);
+        const today = new Date();
+        let age = today.getFullYear()-birdate.getFullYear();
+        const mon = today.getMonth()-birdate.getMonth();
+        if(mon<0){
+            age--;
+        }
+        console.log(age);
+        return age;
+    }
+
+    const handleUserdata = (event) =>{
+        event.preventDefault();
+        const age = calculateAge();
+        setAge(age);
+        axios.post('http://localhost:3066/signup/details',{Passenger_Name,Passport_Number,DOB,Age:age,Username,Password})
         .then((response)=>{
-            console.log(response.data)
+            console.log(response.data);
+            setResult(response.data);
+
         })
         .catch((error)=>{
             console.error('error when post');
         })
     }
 
+
+
     return (
-        <div>
-            <form>
-                <lable for="name">Enter username</lable>
+        <>
+        <div className="signup-div">
+            <form className='form-container'>
+                <label htmlFor="name">Enter username</label>
                 <input className='name-in' type='text' id='name' name='name' onChange={(e)=>setUsername(e.target.value)}/>
-                <label for="pass">Enter password:</label>
+                <label htmlFor="pass">Enter password:</label>
                 <input className="password-in" type='password' id='pass' name='pass' onChange={(e)=>setPassword(e.target.value)}/>
-                <button className="submit" onClick={handleUserdata} >Submit</button>
+                <label htmlFor="DOB">Enter DateofBirth</label>
+                <input type='date' onChange={(e)=>setDOB(e.target.value)}/>
+                <label htmlFor="PN">name:</label>
+                <input type='text' onChange={(e)=>setPN(e.target.value)}/>
+                <label htmlFor="PaN">Passport Number:</label>
+                <input type='text' onChange={(e)=>setPaN(e.target.value)}/>
+                <input type='submit' onClick={handleUserdata}></input>
 
             </form>
-            <div>
-                <p>username is {username}<br/></p>
-            </div>
         </div>
+        <div>
+            <p>hi da machn {result}</p>
+        </div>
+
+        </>
 
     )
 }

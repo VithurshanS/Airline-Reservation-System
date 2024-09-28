@@ -1,15 +1,74 @@
-/*.name-in,.password-in{
-    align-items: center;
-    border-radius: 20px;
-    align-items:inherit;
-    align-self: auto;
-    display:flex;
-    
+/* Basic reset for margin and padding */
+.signup-div{
+    margin: 10px;
+    padding: 50px;
+    box-sizing: border-box;
+    background-color: #71acae;
+    background-blend-mode: color;
+    border-radius: 40px;
+
 }
-label{
+
+/* Style for the form container */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+    display: contents;
+    border-radius: 40px;
+    box-shadow: 0 4px 8px rgba(199, 19, 19, 0.727);
+}
+
+/* Style for labels */
+label {
+    display: block; /* Ensures label takes up full width */
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align:center;
+    
+    color: #333;
+}
+
+/* Style for inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Full width input fields */
+    padding: 10px;
+    margin-bottom: 20px; /* Space between inputs */
+    font-size: 14px;
+    border: 1px solid #422385;
+    background-color: #44594d;
+    border-radius: 4px;
+    text-align: center;
+    align-content: center;
+    transition: border-color 0.3s ease;
+}
+
+/* Change border color on focus */
+input:focus {
+    border-color: #2bca65;
+    outline: 0;
+}
+
+/* Style for submit button */
+input[type="submit"] {
+    background-color: #751715;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     align-items: center;
-    border-radius: 20px;
-    align-items:inherit;
-    align-self: auto;
-    display:flex;
-}*/
+    width: 100%;
+    transition: background-color 0.3s ease-in;
+}
+
+input[type="submit"]:hover {
+    background-color: #2a00b3;
+}
