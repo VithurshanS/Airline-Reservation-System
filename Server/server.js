@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const db = require('./database')
-const signup = require('./signup')
+const signup = require('./router/signup')
+const login = require('./router/login')
 //const bodyParser = require('body-parser');
 
 
@@ -12,20 +13,9 @@ app.use(cors());
 //app.use(bodyParser.json());
 app.use(express.json());
 app.use('/signup',signup);
+app.use('/hi',login);
 
 
-
-
-app.get('/display',(req,res)=>{
-    const query = 'select * from Passenger;';
-    db.query(query,(err,result)=>{
-        if(err){
-            console.log("error occured");
-        }
-        res.send(result)
-        console.log(result);
-    })
-})
 
 
 

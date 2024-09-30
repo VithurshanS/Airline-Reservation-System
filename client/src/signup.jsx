@@ -60,7 +60,7 @@ export default function Signup(){
             </form>
         </div>
         <div>
-            <p>hi da machn {result}</p>
+            <p>{result}</p>
         </div>
 
         </div>
