@@ -11,9 +11,13 @@ const login = require('./router/login')
 const app = express();
 app.use(cors());
 //app.use(bodyParser.json());
+
+
+
+
 app.use(express.json());
 app.use('/signup',signup);
-app.use('/hi',login);
+app.use('/',login);
 
 
 

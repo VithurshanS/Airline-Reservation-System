@@ -9,7 +9,7 @@ export default function Login(){
 
     const handleInput = async (event)=>{
         event.preventDefault();
-        axios.post('http://localhost:3066/hi/login',{Username,Password}).then((response)=>{
+        await axios.post('http://localhost:3066/hi/login',{Username,Password}).then((response)=>{
             setUserdata(response.data[0]);
         }).catch((error)=>{
             console.log(error);
@@ -29,7 +29,7 @@ export default function Login(){
     return(
         <div className='sss'>
         <div className="signup-div">
-            <form className='form-container'>
+            <form>
                 <label htmlFor="name">Enter username</label>
                 <input className='name-in' type='text' id='name' name='name' onChange={(e)=>setUsername(e.target.value)}/>
                 <label htmlFor="pass">Enter password:</label>
@@ -49,4 +49,4 @@ export default function Login(){
     )
 
 
-}
+} 
