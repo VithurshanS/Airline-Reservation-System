@@ -30,8 +30,8 @@ exports.addPassengerDetails = async (req, res) => {
 
 exports.loginPassenger = async (req,res)=>{
     const {Username,Password} = req.body;
-    const askUser = 'select * from passenger;'
-    db.query(askUser,(err,result)=>{ [{},{},{}]
+    const askUser = 'select * from passenger where Username = ? and Password = ?;'
+    db.query(askUser,[Username,Password],(err,result)=>{ [{},{},{}]
         if(err){
             console.log(err);
         }else{
