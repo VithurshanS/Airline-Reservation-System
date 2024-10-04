@@ -9,7 +9,7 @@ export default function Login(){
 
     const handleInput = async (event)=>{
         event.preventDefault();
-        await axios.post('http://localhost:3066/hi/login',{Username,Password}).then((response)=>{
+        await axios.post('http://localhost:3066/login',{Username,Password}).then((response)=>{
             setUserdata(response.data[0]);
         }).catch((error)=>{
             console.log(error);
