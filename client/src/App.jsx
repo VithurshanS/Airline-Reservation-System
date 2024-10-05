@@ -8,6 +8,8 @@ import Navbar from './assets/Navbar';
 
 import Entry from './Components/Entry/entry';
 
+//
+
 // function App() {
 //   const Navigate=useNavigate();
 //   return (
