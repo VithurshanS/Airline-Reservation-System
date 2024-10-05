@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import axios from 'axios';
-import "./assets/signup.css";
+import "./signup.css";
 
 
 export default function Signup(){
