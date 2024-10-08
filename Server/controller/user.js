@@ -1,9 +1,11 @@
 const db = require('../database');
+const bcrypt = require('bcrypt');
 
 exports.addDetails = async (req,res)=>{
     const {User_ID,User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role} = req.body;
     const insertUser = `INSERT INTO User (User_ID,User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role) VALUES (UUID(),?,?,?,?,?,?,?,?,?);`;
-    db.query(insertUser,[User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role],(error,result)=>{
+    const encryptedPassword = await bcrypt.hash(Password, 10);
+    db.query(insertUser,[User_Name,First_name,Last_name,Email,DOB,Age,Gender,encryptedPassword,Role],(error,result)=>{
         if(error){
             console.log(error);
             res.send("error")
@@ -18,12 +20,13 @@ exports.addDetails = async (req,res)=>{
 exports.getDetails = async (req,res)=>{
     const {User_Name,Password} = req.body;
     const getUser = `call handleLogin(?,?,@mes);SELECT @mes AS message;`;
+    
     db.query(getUser,[User_Name,Password],(error,result)=>{
         if(error){
             console.log(error);
             res.send("error");
         }else{
-            //const mes = result[2][0].message;
+
             let mes;
             try{
                 mes = result[2][0].message;
@@ -31,9 +34,9 @@ exports.getDetails = async (req,res)=>{
                 mes = result[1][0].message;
             }
             if(mes === 201){
-                res.send([result[0],mes]);
+                res.send({"message":201,"data":result[0][0]});
             }else{
-                res.send({mes});
+                res.send({"message":mes,"data":null});
             }
             
         }
