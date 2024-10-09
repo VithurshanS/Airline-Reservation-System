@@ -4,6 +4,8 @@ const cors = require('cors');
 const db = require('./database')
 const user = require('./router/user');
 //const bodyParser = require('body-parser');
+const passenger = require('./router/passenger');
+const address = require('./router/address');
 
 
 
@@ -15,7 +17,9 @@ app.use(cors());
 
 
 app.use(express.json());
-app.use('/user',user)
+app.use('/',user)
+app.use('/',passenger);
+app.use('/',address);
 
 
 
