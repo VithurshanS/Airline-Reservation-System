@@ -12,3 +12,16 @@ exports.addRoute = async (req,res) =>{
         }
     });
 }
+
+exports.getRoute = async (req, res) =>{
+    const routeID = req.params.id;
+    const getRoute = `SELECT * FROM route WHERE Route_ID =?;`;
+    db.query(getRoute,[routeID],(error,result)=>{
+        if(error){
+            console.log(error);
+            res.status(500).send({"message":"Failed to get route."});
+        } else {
+            res.send({"message":"Route retrieved successfully.","result":result[0]});
+        }
+    });
+}
