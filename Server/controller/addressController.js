@@ -59,7 +59,7 @@ exports.addLocation =  async (req, res) => {
 }
 
 exports.getLocation = async (req, res) => {
-    const {locationID} = req.body;
+    const locationID = req.params.id;
     const getFullLocation = (locationID, locationList = [], callback) => {
         const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?`;
 
