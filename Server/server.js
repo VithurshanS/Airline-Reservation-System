@@ -6,6 +6,7 @@ const user = require('./router/user');
 //const bodyParser = require('body-parser');
 const passenger = require('./router/passenger');
 const address = require('./router/address');
+const airport = require('./router/airport');
 
 
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/',user)
 app.use('/',passenger);
 app.use('/',address);
+app.use('/',airport)
 
 
 

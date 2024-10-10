@@ -43,6 +43,24 @@ const insert = (address, parentAddressID, callback) => {
     });
 };
 
+exports.addressadder = (Addresslist) => {
+    return new Promise((resolve, reject) => {
+        const lastaddress = Addresslist[Addresslist.length - 1];
+        let parentoffinal = null;
+
+        handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
+            if (err) {
+                console.log(err);
+                reject(err); // Reject the promise if there is an error
+            } else {
+                resolve(finaladdress); // Resolve the promise with the final address
+            }
+        });
+    });
+};
+
+
+
 exports.addLocation =  async (req, res) => {
     const { Addresslist } = req.body;
     const lastaddress = Addresslist[Addresslist.length - 1];
