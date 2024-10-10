@@ -7,6 +7,7 @@ const user = require('./router/user');
 const passenger = require('./router/passenger');
 const address = require('./router/address');
 const airport = require('./router/airport');
+const route = require('./router/route');
 
 
 
@@ -22,6 +23,7 @@ app.use('/',user)
 app.use('/',passenger);
 app.use('/',address);
 app.use('/',airport)
+app.use('/',route);
 
 
 
