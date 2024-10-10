@@ -35,4 +35,22 @@ CREATE PROCEDURE handleSignin(
 DELIMITER;
 
 
+DELIMITER $$
+CREATE PROCEDURE handleRouteadd(
+    IN Depature_Airport VARCHAR(5),
+    IN Arival_Airport VARCHAR(5),
+)
+BEGIN
+    DECLARE route_count INT DEFAULT 0;
+    SELECT COUNT(*) INTO route_count FROM route WHERE Depature_Airport = Depature_Airport AND Arival_Airport = Arival_Airport;
+    IF route_count = 0 THEN
+        INSERT INTO route (Deature_Airport, Arival_Airport) VALUES (Deature_Airport, Arival_Airport);
+    END IF;
+END $$
+
+DELIMITER ;
+
+
 //`INSERT INTO User (User_ID,User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role)
+
+

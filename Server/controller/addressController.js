@@ -51,9 +51,9 @@ exports.addressadder = (Addresslist) => {
         handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
             if (err) {
                 console.log(err);
-                reject(err); // Reject the promise if there is an error
+                reject(err);
             } else {
-                resolve(finaladdress); // Resolve the promise with the final address
+                resolve(finaladdress);
             }
         });
     });
