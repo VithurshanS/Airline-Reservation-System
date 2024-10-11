@@ -10,6 +10,7 @@ const airport = require('./router/airport');
 const route = require('./router/route');
 const plane = require('./router/plane');
 const aircraft = require('./router/aircraft');
+const schedule = require('./router/schedule');
 
 
 
@@ -28,6 +29,7 @@ app.use('/',airport)
 app.use('/',route);
 app.use('/',plane);
 app.use('/',aircraft);
+app.use('/',schedule);
 
 
 
