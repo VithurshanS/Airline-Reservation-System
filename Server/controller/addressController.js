@@ -45,7 +45,6 @@ const insert = (address, parentAddressID, callback) => {
 
 exports.addressadder = (Addresslist) => {
     return new Promise((resolve, reject) => {
-        const lastaddress = Addresslist[Addresslist.length - 1];
         let parentoffinal = null;
 
         handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
@@ -63,7 +62,6 @@ exports.addressadder = (Addresslist) => {
 
 exports.addLocation =  async (req, res) => {
     const { Addresslist } = req.body;
-    const lastaddress = Addresslist[Addresslist.length - 1];
 
     let parentoffinal = null;
     
@@ -79,7 +77,7 @@ exports.addLocation =  async (req, res) => {
 exports.getLocation = async (req, res) => {
     const locationID = req.params.id;
     const getFullLocation = (locationID, locationList = [], callback) => {
-        const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?`;
+        const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?;`;
 
         db.query(query, [locationID], (err, result) => {
             if (err) {
