@@ -1,0 +1,67 @@
+.book-now-page {
+    max-width: 100%;
+      width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #94abd0;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 130px;
+      /* padding-left: 200px; */
+      margin-left: 150px;
+    }
+    
+    .class-selection {
+      margin-bottom: 20px;
+    }
+    
+    .passengers {
+      margin-bottom: 20px;
+    }
+    
+    .passenger {
+      margin-bottom: 10px;
+    }
+    
+    .passenger label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .passenger input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+    
+    .animation-container {
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    .animation-container.animate {
+      opacity: 1;
+    }
+    
+    /* Add some styling to the select element */
+    .class-selection select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+    
+    /* Add some styling to the buttons */
+    button {
+      background-color: #010e01;
+      color: #3f6fae;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #010801;
+    }

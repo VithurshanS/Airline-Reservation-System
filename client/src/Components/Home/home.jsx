@@ -8,6 +8,7 @@ import MyWork from '../MyWork/MyWork'
 import Contact from '../Contact/Contact'
 import Footer from '../Footer/Footer'
 import './Home.css'
+import { Link } from 'react-router-dom';
 
 function Home() {
   const Navigate = useNavigate();
@@ -36,6 +37,13 @@ function Home() {
       <Contact/>
       <Footer/>
 
+      home page
+      {/* <button className="btn-booknow" >Book Now </button> */}
+      <Link to='/bookingpage' >
+                <button className="bookingpage-button" >
+                  TO Book
+                  </button>
+                  </Link>
     </div>
   )
 }

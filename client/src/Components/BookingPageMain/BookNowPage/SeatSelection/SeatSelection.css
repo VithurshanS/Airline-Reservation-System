@@ -1,0 +1,27 @@
+.seat-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .seat-selection .MuiButton-root {
+    margin: 4px;
+  }
+  
+  .seat-selection .MuiTypography-root {
+    font-weight: bold;
+  }
+  
+  .seat-selection .selected-seat {
+    background-color: #1976d2 !important;
+    color: white !important;
+  }
+  
+  .seat-selection .seat {
+    border-radius: 50%;
+  }
+  
+  .seat-selection .seat:hover {
+    background-color: #1565c0 !important;
+  }
+  

@@ -21,41 +21,16 @@
   padding: 20px; 
 }
 
-h1 {
-  font-family: "Open Sans", sans-serif;
+/* h1 {
+  
   margin-bottom: 0.5em;
-  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  color: white;
+  background: linear-gradient(270deg,rgb(255, 0, 0),YELLOW);
 }
 p{
   color:white;
   font-family: Georgia, 'Times New Roman', Times, serif;
   
 }
-
-.hero-text button {
-  background:linear-gradient(rgb(238, 0, 255),rgb(192, 255, 255));
-  border: none; /* Remove default border */
-  color: rgb(57, 119, 219); /* White text */
-  padding: 15px 32px; /* Padding for the button */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Inline-block layout */
-  font-size: 16px; /* Font size */
-  margin: 10px 0; /* Margin around the button */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 8px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth background color transition */
-  z-index: 9999;
-  position: relative;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
-
-.hero-text button:hover {
-  background-color: #f33030;
-  transform: scale(1.1);
-}
-
-.hero-text button:active {
-  background-color: #f33030; /* Even darker green on click */
-}
+button{
+  font-size: 40px;
+} */
