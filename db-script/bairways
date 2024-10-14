@@ -1,141 +1,129 @@
-CREATE SCHEMA ARS;
-USE ARS;
-
+DROP schema if exists AIRLINE;
+CREATE schema AIRLINE;
+use AIRLINE;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS User_Category;
 DROP TABLE IF EXISTS Seat;
 DROP TABLE IF EXISTS Schedule;
-DROP TABLE IF EXISTS Catergory;
+DROP TABLE IF EXISTS Category;
 DROP TABLE IF EXISTS Route;
 DROP TABLE IF EXISTS Airport;
 DROP TABLE IF EXISTS Address;
 DROP TABLE IF EXISTS Passenger;
 DROP TABLE IF EXISTS Plane;
-DROP TABLE IF EXISTS Aircraft_type;
-
-
-
-CREATE TABLE Aircraft_type (
-  Aircraft_ID INT ,
-  AircraftType VARCHAR(20),
-  Fuel_capacity INT,
-  PRIMARY KEY (Aircraft_ID)
-);
-
-CREATE TABLE Plane (
-  Plane_ID INT,
-  Aircraft_ID INT,
-  Plane_name VARCHAR(20),
-  Total_seats INT,
-  Economy_seat_start_no INT,
-  Business_seat_start_no INT,
-  Platinum_seat_start_no INT,
-  PRIMARY KEY (Plane_ID),
-  FOREIGN KEY (Aircraft_ID) REFERENCES Aircraft_type(Aircraft_ID)
-);
-
-CREATE TABLE Passenger (
-  Passenger_ID INT,
-  Passenger_Name VARCHAR(200),
-  Passport_Number CHAR(10),
-  DOB DATE,
-  Gender ENUM('Admin', 'registered_user'),
-  PRIMARY KEY (Passenger_ID)
-);
-
+DROP TABLE IF EXISTS Aircraft;
 CREATE TABLE Address (
-  Location_ID UUID,
-  Parent_Location_ID UUID,
-  Address VARCHAR(255),
-  PRIMARY KEY (Location_ID),
-  FOREIGN KEY (Parent_Location_ID) REFERENCES Address(Location_ID)
+    Location_ID INT auto_increment PRIMARY KEY,
+    Parent_Location_ID INT,
+    Address VARCHAR(255)
+);
+
+CREATE TABLE Aircraft (
+    Aircraft_ID INT PRIMARY KEY,
+    Company VARCHAR(255),
+    Aircraft_type VARCHAR(255),
+    Total_seats INT,
+    Economy_seat_start_no INT,
+    Business_seat_start_no INT,
+    Platinum_seat_start_no INT
 );
 
 CREATE TABLE Airport (
-  Airport_Code VARCHAR(5),
-  Airport_name VARCHAR(255),
-  Location_ID UUID,
-  PRIMARY KEY (Airport_Code),
-  FOREIGN KEY (Location_ID) REFERENCES Address(Location ID)
+    Airport_Code VARCHAR(5) PRIMARY KEY,
+    Airport_name VARCHAR(255),
+    Location_ID INT,
+    FOREIGN KEY (Location_ID) REFERENCES Address(Location_ID)
+);
+
+CREATE TABLE Plane (
+    Plane_ID INT auto_increment PRIMARY KEY,
+    Aircraft_ID INT,
+    Plane_name VARCHAR(20),
+    Total_seats INT,
+    Economy_seat_start_no INT,
+    Business_seat_start_no INT,
+    Platinum_seat_start_no INT,
+    FOREIGN KEY (Aircraft_ID) REFERENCES Aircraft(Aircraft_ID)
 );
 
 CREATE TABLE Route (
-  Route_ID INT,
-  Depature_Airport VARCHAR(5),
-  Arival_Airport VARCHAR(5),
-  PRIMARY KEY (Route_ID),
-  FOREIGN KEY (Depature_Airport) REFERENCES Airport(Airport_Code),
-  FOREIGN KEY (Arival_Airport) REFERENCES Airport(Airport_Code)
+    Route_ID INT auto_increment PRIMARY KEY,
+    Departure_Airport VARCHAR(5),
+    Arrival_Airport VARCHAR(5),
+    FOREIGN KEY (Departure_Airport) REFERENCES Airport(Airport_Code),
+    FOREIGN KEY (Arrival_Airport) REFERENCES Airport(Airport_Code)
 );
 
-CREATE TABLE Catergory (
-  Catergory_ID INT,
-  Catergory_Type ENUM(normal,frequent,gold),
-  Discount DECIMAL(2,2),
-  PRIMARY KEY (Catergory_ID)
-);
-
-CREATE TABLE Schedule (
-  Schedule_ID UUID,
-  Route_ID INT,
-  Plane_ID INT,
-  Depature_Time DATETIME,
-  Arival_Time DATETIME,
-  Economy_Fare DECIMAL(10,2),
-  Business_Fare DECIMAL(10,2),
-  Platinum_Fare DECIMAL(10,2),
-  Status ENUM('on time', 'delayed', 'cancelled'),
-  PRIMARY KEY (Schedule_ID),
-  FOREIGN KEY (Route_ID) REFERENCES Route(Route_ID),
-  FOREIGN KEY (Plane_ID) REFERENCES Plane(Plane_ID)
-);
-
-CREATE TABLE Seat (
-  Seat_ID VARCHAR(100),
-  Schedule_ID UUID,
-  Seat_number INT,
-  Seat_class ENUM(economy,business,platinum),
-  Is_available BOOLEAN,
-  PRIMARY KEY (Seat_ID),
-  FOREIGN KEY (Schedule_ID) REFERENCES Schedule(Schedule_ID)
-);
-
-CREATE TABLE User_Category (
-  User_ID UUID,
-  Bookings_count INT,
-  Catergory_ID INT,
-  PRIMARY KEY (User_ID),
-  FOREIGN KEY (Catergory_ID) REFERENCES Catergory(Catergory_ID)
+CREATE TABLE Passenger (
+    Passenger_ID CHAR(36) PRIMARY KEY,
+    Passenger_Name VARCHAR(200),
+    Passport_Number CHAR(10),
+    DOB DATE,
+    Gender ENUM('Male', 'Female')
 );
 
 CREATE TABLE User (
-  User_ID UUID,
-  User_Name VARCHAR(200),
-  First_name VARCHAR(200),
-  Last_name VARCHAR(200),
-  Email VARCHAR(200),
-  DOB DATE,
-  Age INT,
-  Gender ENUM('Male', 'Female'),
-  Username VARCHAR(200),
-  Password VARCHAR(10),
-  Role ENUM('Admin', 'registered user'),
-  PRIMARY KEY (User_ID)
+    User_ID CHAR(36) PRIMARY KEY,
+    User_Name VARCHAR(200),
+    First_name VARCHAR(200),
+    Last_name VARCHAR(200),
+    Email VARCHAR(200),
+    DOB DATE,
+    Age INT,
+    Gender ENUM('Male', 'Female'),
+    Password VARCHAR(255),
+    Role ENUM('Admin', 'registered user')
+);
+
+CREATE TABLE Category (
+    Category_ID INT PRIMARY KEY,
+    Category_Type VARCHAR(255),
+    Discount DECIMAL(2,2)
+);
+
+CREATE TABLE User_Category (
+    User_ID CHAR(36),
+    Bookings_count INT,
+    Category_ID INT,
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+    FOREIGN KEY (Category_ID) REFERENCES Category(Category_ID)
+);
+
+
+
+CREATE TABLE Schedule (
+    Schedule_ID CHAR(36) PRIMARY KEY,
+    Route_ID INT,
+    Plane_ID INT,
+    Departure_Time DATETIME,
+    Arrival_Time DATETIME,
+    Economy_Fare DECIMAL(10,2),
+    Business_Fare DECIMAL(10,2),
+    Platinum_Fare DECIMAL(10,2),
+    FOREIGN KEY (Route_ID) REFERENCES Route(Route_ID),
+    FOREIGN KEY (Plane_ID) REFERENCES Plane(Plane_ID)
+);
+
+CREATE TABLE Seat (
+    Seat_ID CHAR(36) PRIMARY KEY,
+    Schedule_ID CHAR(36),
+    Seat_number INT,
+    Seat_class ENUM('economy', 'business', 'platinum'),
+    Seat_status ENUM('available', 'selected', 'booked'),
+    FOREIGN KEY (Schedule_ID) REFERENCES Schedule(Schedule_ID)
 );
 
 CREATE TABLE Booking (
-  Booking_ID UUID,
-  Shedule_ID VARCHAR(20),
-  Passenger_ID INT,
-  User_ID UUID,
-  Seat_ID VARCHAR(100),
-  Final_Price DECIMAL(10,2),
-  Booking_Status ENUM ('pending','confirmed','cancelled'),
-  PRIMARY KEY (Booking_ID),
-  FOREIGN KEY (Shedule_ID) REFERENCES Schedule(Schedule_ID),
-  FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
-  FOREIGN KEY (User_ID) REFERENCES User(User_ID),
-  FOREIGN KEY (Seat_ID) REFERENCES Seat(Seat_ID)
+    Booking_ID CHAR(36) PRIMARY KEY,
+    Passenger_ID CHAR(36),
+    User_ID CHAR(36),
+    Seat_ID VARCHAR(100),
+    Final_Price DECIMAL(10,2),
+    Booking_Status ENUM('pending', 'confirmed', 'cancelled'),
+    FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+    FOREIGN KEY (Seat_ID) REFERENCES Seat(Seat_ID)
 );
+
 

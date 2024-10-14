@@ -32,7 +32,7 @@ CREATE PROCEDURE handleSignin(
 
 )
 
-DELIMITER;
+DELIMITER;  
 
 
 DELIMITER $$
@@ -51,6 +51,6 @@ END $$
 DELIMITER ;
 
 
-//`INSERT INTO User (User_ID,User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role)
+//`INSERT INTO User (User_ID,;User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role)
 
 
