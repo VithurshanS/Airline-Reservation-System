@@ -1,21 +1,21 @@
 const db = require('../database');
 
 exports.addAircraft = async (req,res)=>{
-    const {AircraftType,Fuel_capacity} = req.body;
-    const insertAircraft = `INSERT INTO Aircraft_type (AircraftType, Fuel_Capacity) VALUES (?,?);`;
-    db.query(insertAircraft,[AircraftType,Fuel_capacity],(error,result)=>{
+    const {company,AircraftType,totalseats,ESSN,BSSN,PSSN} = req.body;
+    const insertAircraft = `call handleAircraft(?,?,?,?,?,?);`;
+    db.query(insertAircraft,[company,AircraftType,totalseats,ESSN,BSSN,PSSN],(error,result)=>{
         if(error){
             console.log(error);
             res.status(500).send({"message":"Failed to add aircraft."});
         } else {
-            res.send({"message":"Aircraft added successfully.","result":result});
+            res.send({"message":result[0][0].message});
         }
     })
 }
 
 exports.getAircraft = async (req,res)=>{
     const aircraftID = req.params.id;
-    const getAircrafts = `SELECT * FROM Aircraft_type WHERE Aircraft_ID =?;`;
+    const getAircrafts = `SELECT * FROM Aircraft WHERE Aircraft_ID =?;`;
     db.query(getAircrafts,[aircraftID],(error,result)=>{
         if(error){
             console.log(error);
