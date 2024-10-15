@@ -95,7 +95,15 @@ exports.addLocation =  async (req, res) => {
 
 exports.getLocation = async (req, res) => {
     const locationID = req.params.id;
-    const getFullLocation = (locationID, locationList = [], callback) => {
+    const quer = `call getLocation(?);`;
+    db.query(quer,[locationID],(err, result) => {
+        if(err){
+            console.log(err);
+            return res.status(500).send({"message":"Failed to get location."});
+        }
+        res.send({"message":"Successfully get location.","results":result[0]});
+    });
+    /*const getFullLocation = (locationID, locationList = [], callback) => {
         const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?;`;
 
         db.query(query, [locationID], (err, result) => {
@@ -126,5 +134,5 @@ exports.getLocation = async (req, res) => {
         }
 
         res.send({ "fullLocation": fullLocation });
-    });
+    });*/
 }
