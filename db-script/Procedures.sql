@@ -99,6 +99,26 @@ BEGIN
 END $$;
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE getLocation(
+    IN Loc_ID INT
+)
+BEGIN
+    DECLARE ad VARCHAR(1000);
+    DECLARE current_ID INT DEFAULT Loc_ID;
+    DECLARE part VARCHAR(200) DEFAULT "";
+    SELECT Parent_Location_ID,Address INTO current_ID,ad FROM LOCATION WHERE LOCATION_ID = current_ID;
+    WHILE current_ID IS NOT NULL DO
+        SELECT Address,Parent_Location_ID INTO part,current_ID FROM LOCATION WHERE Location_ID = current_ID;
+        SET ad = CONCAT(ad,' , ',part);
+    END WHILE;
+    SELECT ad;
+END $$;
+
+
+
+DELIMITER ;
+
 //`INSERT INTO User (User_ID,;User_Name,First_name,Last_name,Email,DOB,Age,Gender,Password,Role)
 
 
