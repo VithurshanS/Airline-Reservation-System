@@ -7,6 +7,9 @@ import Navbar from './assets/Navbar';
 
 
 import Entry from './Components/Entry/entry';
+import Home from './Components/Home/home';
+import BookingPageMain from './Components/BookingPageMain/BookingPageMain';
+import BookNowPage from './Components/BookingPageMain/BookNowPage/BookNowPage';
 
 //
 
@@ -107,8 +110,22 @@ function App() {
                   <Signup />
                 </div>
               }
+            
             />
-            {/* </div> */}
+            <Route
+              path='/Home'
+              element= {<Home/>}
+            />
+
+            <Route
+              path='/bookingpage'
+              element= {<BookingPageMain/>}
+            />
+
+          <Route
+              path='/booknow' 
+              element= {<BookNowPage></BookNowPage>}
+            />
           
             
           </Routes>
