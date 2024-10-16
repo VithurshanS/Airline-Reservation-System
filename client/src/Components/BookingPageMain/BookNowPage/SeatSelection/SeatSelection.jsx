@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import './SeatSelection.css';
 
-const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'];
+const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N']; // Added 3 more rows for Business class
 const seatsPerRow = 12;
 
 function SeatSelection() {
@@ -118,11 +118,11 @@ function SeatSelection() {
         </Grid>
       ))}
 
-      {/* Space between Economy and Platinum Class */}
+      {/* Space between Economy and Business Class */}
       <Box sx={{ height: '20px' }} />
 
-      {/* Last 4 rows - Platinum Class */}
-      <Typography variant="h6" sx={{ mb: 1, color: '#1976d2' }}>Platinum Class</Typography>
+      {/* Last 7 rows - Business Class */}
+      <Typography variant="h6" sx={{ mb: 1, color: '#1976d2' }}>Business Class</Typography>
       {rows.slice(10, 14).map((row) => (
         <Grid container spacing={1} key={row} sx={{ mb: 1 }}>
           <Grid item xs={1}>

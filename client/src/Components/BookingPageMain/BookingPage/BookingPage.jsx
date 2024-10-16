@@ -70,9 +70,10 @@ function BookingPage() {
         <div className="overlay">
           <h1 className='overlayh1'>Book Your Flight Today!</h1>
           <form onSubmit={handleSearch} className="search-form">
-            <label>
+            <label className='label1'>
               <h2 className="h2tags">From:</h2>
               <TextField
+                className='textfield'
                 placeholder="Enter departure city"
                 variant="filled"
                 value={searchQuery.from}
@@ -82,6 +83,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">To:</h2>
               <TextField
+              className='textfield'
                 placeholder="Enter destination city"
                 variant="filled"
                 value={searchQuery.to}
@@ -91,6 +93,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">Departure Date:</h2>
               <TextField
+              className='textfield'
                 type="date"
                 variant="filled"
                 value={searchQuery.departureDate}
@@ -100,6 +103,8 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">Passengers:</h2>
               <TextField
+                className='textfield'
+                clads
                 type="number"
                 variant="filled"
                 value={searchQuery.passengers}
