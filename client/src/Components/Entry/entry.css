@@ -20,16 +20,38 @@
   padding: 20px; 
 }
 
-h1 {
+.hero-text-h1 {
   
   margin-bottom: 0.5em;
-  background: linear-gradient(270deg,RED,YELLOW);
+  background: linear-gradient(270deg,rgb(255, 0, 0),YELLOW);
 }
-p{
+.hero-text-p1{
   color:rgb(26, 24, 27);
   font-family: Georgia, 'Times New Roman', Times, serif;
   
 }
-button{
+/* button{
   font-size: 40px;
+} */
+
+.homebutton {
+  /* padding: 15px 30px; */
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  background-color: #007BFF; /* Attractive blue color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
+/* button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+} */
+
+/* button:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+} */
