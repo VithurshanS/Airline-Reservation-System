@@ -1,0 +1,228 @@
+[33mcommit 84bb87dcaa4e582c2c0f3d6e889b423827506fb8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: a935d60 9a18a26
+Author: Vithurshan Sivanathan <155006746+VithurshanS@users.noreply.github.com>
+Date:   Wed Oct 16 13:54:22 2024 +0530
+
+    Merge pull request #4 from VithurshanS/Dinushka
+    
+    add booking page and booknow page
+
+[33mcommit a935d605d931b1b60113f2cd00c8dae81904a3ff[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Wed Oct 16 13:51:30 2024 +0530
+
+    procedures updated
+
+[33mcommit 03cea9925765bfa29309a2061027462223948ee3[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Wed Oct 16 06:26:08 2024 +0530
+
+    insertstatements
+
+[33mcommit 9a18a26fcc453dc3be66dd4f92ad4938e692f452[m[33m ([m[1;31morigin/Dinushka[m[33m)[m
+Author: Dinushka-Aththanayake <161476349+Dinushka-Aththanayake@users.noreply.github.com>
+Date:   Tue Oct 15 21:46:11 2024 +0530
+
+    insert sample data
+
+[33mcommit d14bd21bcbf45b7a1f8767e99b022215253c25e2[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Tue Oct 15 18:22:59 2024 +0530
+
+    procedure for getaddress
+
+[33mcommit 1a607218c7c89d0a50d967fe0b01ffec2e293c7c[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Tue Oct 15 13:47:50 2024 +0530
+
+    schema updated
+
+[33mcommit d8e3a666cd36822a805dc3a3cb30b830b938e8e7[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Mon Oct 14 22:52:18 2024 +0530
+
+    schema updated
+
+[33mcommit fdab44d91edd0c34886fac92a9adfd9184b8243c[m
+Author: Dinushka-Aththanayake <161476349+Dinushka-Aththanayake@users.noreply.github.com>
+Date:   Mon Oct 14 13:18:52 2024 +0530
+
+    add booking page and booknow page
+    
+    i have add some mi components and 2 pages
+
+[33mcommit faa280d3b1a280088cd10fdd707bc1c9c06d4e8c[m[33m ([m[1;31morigin/Shaama[m[33m)[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Fri Oct 11 22:12:03 2024 +0530
+
+    booking and seat section added into the backend (server)
+
+[33mcommit e72149915c2f737e61bfeb7c6b0b8d6a1150d205[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Fri Oct 11 14:55:38 2024 +0530
+
+    scheduler addeded
+
+[33mcommit 54082250883da0f61ada5349a3f09025a805eea5[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 17:39:00 2024 +0530
+
+    plane and aircraft added
+
+[33mcommit bebc5f47b5ad2ee1e1ddaf7ef7a816f2188f7026[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 11:45:27 2024 +0530
+
+    route updated
+
+[33mcommit 844afe7c1ef06a027c971e655fa1b03b71ac8082[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 11:33:27 2024 +0530
+
+    route added
+
+[33mcommit db7875337f01acdda203d66e52fa154a47d59b04[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 10:04:21 2024 +0530
+
+    airport added for the backend
+
+[33mcommit a5ac3afedae1479afde664c0a5871a1e3a6a23c7[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 07:50:44 2024 +0530
+
+    adress updated
+
+[33mcommit 846ab7def04499e1b11ea60530316a16b5813952[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Thu Oct 10 00:16:15 2024 +0530
+
+    address added in backend
+
+[33mcommit 8e34e9133acc3ce2024b9aa8df71971298105538[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Tue Oct 8 21:47:04 2024 +0530
+
+    login and signup upgraded
+
+[33mcommit 5ff4e10b794f86cf6ba3816c3fa59bc267a63043[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Tue Oct 8 12:11:41 2024 +0530
+
+    hi
+
+[33mcommit f8385002c36215e1dc2deaf7a1d3279ad9ba5276[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Mon Oct 7 22:58:05 2024 +0530
+
+    define procedure for login
+
+[33mcommit 0c9a05fac4061023a46716d7c5c57fa2a1bab1bc[m
+Author: vithurshan <vithurshans.22@uom.lk>
+Date:   Mon Oct 7 20:13:42 2024 +0530
+
+    final table scheama updated
+
+[33mcommit c722a80af03ffaef01d67c1f78226b6a93108091[m
+Merge: de56c87 b68a698
+Author: Vithurshan Sivanathan <155006746+VithurshanS@users.noreply.github.com>
+Date:   Sat Oct 5 23:56:30 2024 +0530
+
+    Merge pull request #3 from VithurshanS/vithu
+    
+    Vithu
+
+[33mcommit b68a698765103bd3ab7b12d4484dcdb0f728f170[m[33m ([m[1;31morigin/vithu[m[33m)[m
+Merge: de56c87 d337d0d
+Author: vithurshan <vithurshansivanathan610@gmail.com>
+Date:   Sat Oct 5 23:50:16 2024 +0530
+
+    Merge branch 's1' of https://github.com/VithurshanS/Airline-Reservation-System
+
+[33mcommit d337d0dd880f0d96c7b6a2c324c9e51a8ee24880[m
+Merge: cc2b8ac 21db725
+Author: Seth724 <amanethmeis@gmail.com>
+Date:   Sat Oct 5 22:35:58 2024 +0530
+
+    Merge branch 's1' of https://github.com/VithurshanS/Airline-Reservation-System into s1
+
+[33mcommit cc2b8ac36fe4a7f8961a00d2ca0e77a43f5c9337[m
+Author: Seth724 <amanethmeis@gmail.com>
+Date:   Sat Oct 5 22:26:33 2024 +0530
+
+    commited
+
+[33mcommit 8f1a80247cb9334868338c9f3097e1f2714d338a[m
+Author: Seth724 <amanethmeis@gmail.com>
+Date:   Sat Oct 5 20:37:06 2024 +0530
+
+    create some changes
+
+[33mcommit de56c87a73730bac10cc7d5ea081348f2662b2e5[m
+Merge: 8f5fb71 a0e333d
+Author: Vithurshan Sivanathan <155006746+VithurshanS@users.noreply.github.com>
+Date:   Fri Oct 4 14:45:38 2024 +0530
+
+    Merge pull request #1 from VithurshanS/vithu
+    
+    login bug fixed
+
+[33mcommit a0e333d8ddf3134b1be0cda084794455be2921f2[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Fri Oct 4 14:35:43 2024 +0530
+
+    login bug fixed
+
+[33mcommit 3ec0d6e1f6a4d5a9473d3a348b6019c539bad6f7[m
+Author: Seth724 <amanethmeis@gmail.com>
+Date:   Thu Oct 3 23:18:16 2024 +0530
+
+    make a change
+
+[33mcommit 21db72540593e1741049996721d369843c902ba5[m
+Author: Seth724 <amanethmeis@gmail.com>
+Date:   Thu Oct 3 11:58:06 2024 +0530
+
+    comment
+
+[33mcommit 8f5fb712acb113b61f4b5222e7ce574c2885fdf2[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Wed Oct 2 23:15:16 2024 +0530
+
+    using tailwind instead of traditional css and implement routing in the client
+
+[33mcommit 05f141191666b2e279ab1df77940fd1f71bf4621[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Mon Sep 30 21:41:54 2024 +0530
+
+    login added
+
+[33mcommit 10b31aaf3a316c291bdf509b2affa2594cb78488[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Sun Sep 29 00:41:33 2024 +0530
+
+    background image added
+
+[33mcommit 559ac1e9262333ab9834f659a64be5fefdf1147a[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Sun Sep 29 00:00:19 2024 +0530
+
+    signup page
+
+[33mcommit f3b58fc7d3125aee4071ea2dae19130e1b6c1275[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Sat Sep 28 00:17:52 2024 +0530
+
+    update server add signup
+
+[33mcommit e8f6ee0436eb875cc0592f7196caa6afc1b110a8[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Fri Sep 27 14:45:31 2024 +0530
+
+    second commit
+
+[33mcommit cef1b20c52ff21d8070e35b7a3c5c69c024ec3d8[m
+Author: sivanathan vithurshan <vithurshans.22@uom.lk>
+Date:   Fri Sep 27 14:32:44 2024 +0530
+
+    first commit
