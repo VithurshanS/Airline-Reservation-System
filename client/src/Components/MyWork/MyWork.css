@@ -1,0 +1,338 @@
+/* .mywork{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  margin: 80px 170px;
+}
+.mywork-title{
+  position: relative;
+
+}
+.mywork-title h1{
+  padding: 0px 30px;
+  font-size: 80px;
+  font-weight: 600;
+}
+.mywork-title img{
+  position: absolute;
+  bottom:0;
+  right: 0;
+  z-index: -1;
+}
+.mywork-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+}
+.mywork-container img{
+  box-sizing: border-box;
+  width: 419px;
+  height: 280px;
+  transition: 0.3s;
+  cursor: pointer;
+
+}
+.mywork-container img:hover{
+  transform: scale(1.10);
+  border:4px solid rgb(225, 29, 209);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+.mywork-showmore{
+  display: flex;
+  gap: 15px;
+  border-radius: 50px;
+  border: 2px solid white;
+  padding: 30px 60px;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 80px;
+  transition: 0.6s;
+  cursor: pointer;
+}
+.mywork-showmore:hover{
+  gap:30px;
+  transition:0.6s ;
+}
+@media(max-width:768px){
+  .mywork{
+    gap: 50px;
+    margin: 50px 70px;
+    align-items: start;
+  }
+  .mywork-title hr{
+    padding: 0;
+    font-size: 50px;
+    font-weight: 600;
+  }
+  .mywork-title img{
+    width: 130px;
+    margin-right: -20px;
+  }
+  .mywork-container{
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .mywork-container img{
+    width: 100%;
+    height: 100%;
+  }
+  .mywork-showmore{
+    padding: 20px 40px;
+    font-size: 18px;
+    margin: 50px auto;
+    cursor: pointer;
+
+  }
+
+}  */
+
+/* .faq-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ff5722;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.faq-question:hover {
+  background-color: #f1f1f1;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+  border-left: 2px solid #ff5722;
+  background-color: #fff;
+}
+
+.faq-answer.open {
+  max-height: 100px;
+  padding-top: 10px;
+}
+
+.arrow {
+  transition: transform 0.3s;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+.arrow.down {
+  transform: rotate(0);
+} */
+
+
+
+.mywork {
+  background: url('https://png.pngtree.com/background/20210714/original/pngtree-abstract-technology-background-with-line-tech-awesome-light-effect-picture-image_1243084.jpg');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  margin: 80px 170px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.mywork-title {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mywork-title h1 {
+  padding: 0px 30px;
+  font-size: 80px;
+  font-weight: 600;
+  color: #3e8e41;
+}
+
+.mywork-title img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.mywork-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mywork-container img {
+  box-sizing: border-box;
+  width: 419px;
+  height: 280px;
+  transition: 0.3s;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.mywork-container img:hover {
+  transform: scale(1.10);
+  border: 4px solid #3e8e41;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.mywork-showmore {
+  display: flex;
+  gap: 15px;
+  border-radius: 50px;
+  border: 2px solid #3e8e41;
+  padding: 30px 60px;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 80px;
+  transition: 0.6s;
+  cursor: pointer;
+  background-color: #fff;
+  color: #3e8e41;
+}
+
+.mywork-showmore:hover {
+  gap: 30px;
+  transition: 0.6s;
+  background-color: #3e8e41;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .mywork {
+    gap: 50px;
+    margin: 50px 70px;
+    align-items: start;
+  }
+  .mywork-title hr {
+    padding: 0;
+    font-size: 50px;
+    font-weight: 600;
+  }
+  .mywork-title img {
+    width: 130px;
+    margin-right: -20px;
+  }
+  .mywork-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .mywork-container img {
+    width: 100%;
+    height: 100%;
+  }
+  .mywork-showmore {
+    padding: 20px 40px;
+    font-size: 18px;
+    margin: 50px auto;
+    cursor: pointer;
+  }
+}
+
+.faq-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background:linear-gradient(200deg,yellow,red);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(to bottom, #f9f9f9, #fff);
+}
+
+.faq-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #3e8e41;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  background-image: linear-gradient(to bottom, #f9f9f9, #fff);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  background-image: linear-gradient(to bottom, #f9f9f9, #fff);
+}
+
+.faq-question:hover {
+  background-color: #f1f1f1;
+  background-image: linear-gradient(to bottom, #f1f1f1, #fff);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+  border-left: 2px solid #3e8e41;
+  background-color: #fff;
+  background-image: linear-gradient(to bottom, #f9f9f9, #fff);
+}
+
+.faq-answer.open {
+  max-height: 100px;
+  padding-top: 10px;
+  background-color: #f1f1f1;
+  background-image: linear-gradient(to bottom, #f1f1f1, #fff);
+}
+
+.arrow {
+  transition: transform 0.3s;
+  color: #3e8e41;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+.arrow.down {
+  transform: rotate(0);
+}

@@ -1,0 +1,59 @@
+*{
+  margin:0 ;
+  padding: 0;
+
+}
+
+body{
+  height: 100vh;
+  background-color: #131512;
+  color:rgb(15, 134, 231);
+  font-family: 'outfit';
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+button {
+  background:linear-gradient(270deg,rgb(0, 170, 255),pink);
+  color: white;
+  border: none;
+  width: 100px;
+  height: 40px;
+  border-radius: 45%;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #0d6db4;
+  transform: scale(1.1);
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Special Styling for "Book Now" Button */
+.button-container button:nth-child(2) {
+  background:linear-gradient(270deg,rgb(234, 0, 255),pink) ;/* Bright orange for highlighting */
+  color: rgb(166, 5, 247);
+  width: 120px;
+  height: 60px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 0 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-container button:nth-child(2):hover {
+  background-color: #ff331f; /* Darker orange on hover */
+  transform: scale(1.1);
+  box-shadow: 0px 4px 15px rgba(255, 87, 51, 0.5); /* Glow effect */
+}
