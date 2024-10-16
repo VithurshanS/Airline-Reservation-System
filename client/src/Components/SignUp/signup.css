@@ -41,12 +41,12 @@ label {
 }
 
 /* Style for inputs */
-input[type="text"],
+/* input[type="text"],
 input[type="date"],
 input[type="password"] {
-    width: 100%; /* Full width input fields */
+    width: 100%; 
     padding: 10px;
-    margin-bottom: 20px; /* Space between inputs */
+    margin-bottom: 20px; 
     font-size: 14px;
     border: 1px solid #422385;
     background-color: #44594d;
@@ -54,15 +54,15 @@ input[type="password"] {
     text-align: center;
     align-content: center;
     transition: border-color 0.3s ease;
-}
+} */
 
 /* Change border color on focus */
-input:focus {
+/* input:focus {
     border-color: #2bca65;
     outline: 0;
 }
 
-/* Style for submit button */
+
 input[type="submit"] {
     background-color: #751715;
     color: white;
@@ -78,4 +78,4 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #2a00b3;
-}
+} */
