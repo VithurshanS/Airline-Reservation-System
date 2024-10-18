@@ -1,6 +1,7 @@
 
 import Login from './Components/Login/login';
 import Signup from './Components/SignUp/signup';
+import SeatDisplay from './Components/seatdisplay/SeatDisplay';
 import "./App.css"
 import { Routes, Route,  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './assets/Navbar';
@@ -68,6 +69,7 @@ import BookNowPage from './Components/BookingPageMain/BookNowPage/BookNowPage';
 // }
 
 function App() {
+  const scheduleID = "415020d3-8d02-11ef-923f-c85acfdb72cc";
   
   return (
     <div>
@@ -112,6 +114,7 @@ function App() {
               }
             
             />
+            <Route path="/selection" element={<SeatDisplay />}/>
             <Route
               path='/Home'
               element= {<Home/>}

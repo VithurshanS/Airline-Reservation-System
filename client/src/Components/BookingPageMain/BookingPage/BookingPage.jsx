@@ -1,60 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BookingPage.css';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Carosoul from './Carosoul/Carousel';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function BookingPage() {
   const [searchQuery, setSearchQuery] = useState({
     from: '',
     to: '',
     departureDate: '',
-    returnDate: '',
     passengers: 1,
   });
 
-  const [flights, setFlights] = useState([
-    {
-      id: 1,
-      airline: 'Airline 1',
-      departure: 'New York (JFK)',
-      arrival: 'Los Angeles (LAX)',
-      departureDate: '2024-03-15',
-      returnDate: '2024-03-20',
-      price: 200,
-    },
-    {
-      id: 2,
-      airline: 'Airline 2',
-      departure: 'New York (JFK)',
-      arrival: 'Chicago (ORD)',
-      departureDate: '2024-03-15',
-      returnDate: '2024-03-20',
-      price: 150,
-    },
-    {
-      id: 3,
-      airline: 'Airline 3',
-      departure: 'New York (JFK)',
-      arrival: 'Los Angeles (LAX)',
-      departureDate: '2024-03-15',
-      returnDate: '2024-03-20',
-      price: 150,
-    },
-  ]);
-
+  const [flights, setFlights] = useState([]);
   const [filteredFlights, setFilteredFlights] = useState([]);
 
+  // Fetch schedules from backend using Axios
+  useEffect(() => {
+    axios.get('http://localhost:3066/getschedule')
+      .then(response => {
+        if (response.data.message === 'successfully get') {
+          const schedules = response.data.results;
+          const formattedFlights = schedules.map(schedule => ({
+            id: schedule.Schedule_ID,
+            routeId: schedule.Route_ID,
+            planeId: schedule.Plane_ID,
+            departureTime: new Date(schedule.Departure_Time).toLocaleString(),
+            arrivalTime: new Date(schedule.Arrival_Time).toLocaleString(),
+            economyFare: schedule.Economy_Fare,
+            businessFare: schedule.Business_Fare,
+            platinumFare: schedule.Platinum_Fare
+          }));
+          setFlights(formattedFlights);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching flight schedules:', error);
+      });
+  }, []);
+
+  // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
-
     const results = flights.filter(
       (flight) =>
-        flight.departure.toLowerCase().includes(searchQuery.from.toLowerCase()) &&
-        flight.arrival.toLowerCase().includes(searchQuery.to.toLowerCase()) &&
-        flight.departureDate === searchQuery.departureDate
+        flight.departureTime.includes(searchQuery.departureDate)
     );
     setFilteredFlights(results);
   };
@@ -122,18 +115,16 @@ function BookingPage() {
             {filteredFlights.map((flight) => (
               <li key={flight.id} className="flight-item">
                 <h3>
-                  {flight.airline} - {flight.departure} to {flight.arrival}
+                  Plane {flight.planeId} - Departure: {flight.departureTime} to Arrival: {flight.arrivalTime}
                 </h3>
                 <p>
-                  Departure Date: {flight.departureDate}
-                  <br />
-                  Price: ${flight.price}
+                  Economy Fare: ${flight.economyFare}<br />
+                  Business Fare: ${flight.businessFare}<br />
+                  Platinum Fare: ${flight.platinumFare}
                 </p>
-                <Link to='/booknow' >
-                <button className="search-button" >
-                  Book Now
-                  </button>
-                  </Link>
+                <Link to='/booknow'>
+                  <button className="search-button">Book Now</button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -145,14 +136,9 @@ function BookingPage() {
       <section className="booking-summary">
         <h2>Booking Summary</h2>
         <p>
-          From: {searchQuery.from}
-          <br />
-          To: {searchQuery.to}
-          <br />
-          Departure Date: {searchQuery.departureDate}
-          <br />
-          Return Date: {searchQuery.returnDate}
-          <br />
+          From: {searchQuery.from}<br />
+          To: {searchQuery.to}<br />
+          Departure Date: {searchQuery.departureDate}<br />
           Passengers: {searchQuery.passengers}
         </p>
       </section>
