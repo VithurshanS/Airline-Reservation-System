@@ -1,6 +1,5 @@
 import Login from './Components/Login/login';
 import Signup from './Components/SignUp/signup';
-import './App.css'
 import SeatDisplay from './Components/seatdisplay/SeatDisplay';
 import "./App.css"
 import { Routes, Route,  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';

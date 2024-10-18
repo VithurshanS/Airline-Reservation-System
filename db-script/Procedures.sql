@@ -165,4 +165,117 @@ BEGIN
     ORDER BY 
         TotalRevenue DESC;
 END$$
+<<<<<<< HEAD
 DELIMITER ;
+=======
+DELIMITER ;
+
+use airline;
+
+DROP PROCEDURE InsertSeatsForSchedule;
+DELIMITER $$
+
+CREATE PROCEDURE InsertSeatsForSchedule(IN schedule_id CHAR(36))
+BEGIN
+    DECLARE total_seats INT;
+    DECLARE economy_start INT;
+    DECLARE business_start INT;
+    DECLARE platinum_start INT;
+    DECLARE seat_no INT;
+
+    -- Get the Aircraft and seat details from Schedule and Aircraft tables in a single query
+    SELECT a.Total_seats, a.Economy_seat_start_no, a.Business_seat_start_no, a.Platinum_seat_start_no
+    INTO total_seats, economy_start, business_start, platinum_start
+    FROM Aircraft a
+    JOIN Plane p ON a.Aircraft_ID = p.Aircraft_ID
+    JOIN Schedule s ON p.Plane_ID = s.Plane_ID
+    WHERE s.Schedule_ID = schedule_id;
+
+    -- Insert seats for economy class
+    SET seat_no = economy_start;
+    WHILE seat_no < business_start DO
+        INSERT INTO Seat (Seat_ID, Schedule_ID, Seat_number, Seat_class, Seat_status)
+        VALUES (UUID(), schedule_id, seat_no, 'economy', 'available');
+        SET seat_no = seat_no + 1;
+    END WHILE;
+
+    -- Insert seats for business class
+    SET seat_no = business_start;
+    WHILE seat_no < platinum_start DO
+        INSERT INTO Seat (Seat_ID, Schedule_ID, Seat_number, Seat_class, Seat_status)
+        VALUES (UUID(), schedule_id, seat_no, 'business', 'available');
+        SET seat_no = seat_no + 1;
+    END WHILE;
+
+    -- Insert seats for platinum class
+    SET seat_no = platinum_start;
+    WHILE seat_no <= total_seats DO
+        INSERT INTO Seat (Seat_ID, Schedule_ID, Seat_number, Seat_class, Seat_status)
+        VALUES (UUID(), schedule_id, seat_no, 'platinum', 'available');
+        SET seat_no = seat_no + 1;
+    END WHILE;
+
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER AfterInsertSchedule
+AFTER INSERT ON Schedule
+FOR EACH ROW
+BEGIN
+    -- Call the procedure to insert seats for the new schedule
+    CALL InsertSeatsForSchedule(NEW.Schedule_ID);
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER CheckScheduleOverlap
+BEFORE INSERT ON Schedule
+FOR EACH ROW
+BEGIN
+    DECLARE conflicting_schedules INT;
+
+    -- Check for overlapping schedules for the same plane
+    SELECT COUNT(*)
+    INTO conflicting_schedules
+    FROM Schedule s
+    WHERE s.Plane_ID = NEW.Plane_ID
+      AND (
+            -- New schedule starts before an existing schedule ends and after an existing schedule starts
+            (NEW.Departure_Time BETWEEN s.Departure_Time AND s.Arrival_Time)
+            OR
+            -- New schedule ends after an existing schedule starts and before it ends
+            (NEW.Arrival_Time BETWEEN s.Departure_Time AND s.Arrival_Time)
+            OR
+            -- New schedule completely overlaps with an existing schedule
+            (NEW.Departure_Time <= s.Departure_Time AND NEW.Arrival_Time >= s.Arrival_Time)
+          );
+
+    -- If there are conflicting schedules, raise an error
+    IF conflicting_schedules > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: The plane is already scheduled for another route during the given time.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER DeleteSeatsAfterSchedule
+AFTER DELETE ON Schedule
+FOR EACH ROW
+BEGIN
+    DELETE FROM Seat
+    WHERE Schedule_ID = OLD.Schedule_ID;
+END$$
+
+DELIMITER ;
+
+
+
+>>>>>>> 150c0a54fe788b8463b3d53fc13ce7bc8615b7a0
