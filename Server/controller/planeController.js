@@ -1,9 +1,9 @@
 const db = require('../database');
 
 exports.addPlane = async (req,res) =>{
-    const {Aircraft_ID,Plane_name,Total_seats,ESSN,BSSN,PSSN} = req.body;
-    const insertPlane = `INSERT INTO Plane (Aircraft_ID, Plane_name, Total_seats,Economy_seat_start_no , Business_seat_start_no, Platinum_seat_start_no) VALUES (?,?,?,?,?,?);`;
-    db.query(insertPlane,[Aircraft_ID,Plane_name,Total_seats,ESSN,BSSN,PSSN],(error,result)=>{
+    const {Aircraft_ID,Plane_name} = req.body;
+    const insertPlane = `INSERT INTO Plane (Aircraft_ID, Plane_name) VALUES (?,?);`;
+    db.query(insertPlane,[Aircraft_ID,Plane_name],(error,result)=>{
         if(error){
             console.log(error);
             res.status(500).send({"message":"Failed to add plane."});

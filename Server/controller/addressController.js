@@ -1,4 +1,5 @@
 const db = require('../database');
+const { insertaddress } = require('../models/addressModel');
 
 
 const handleInsertAddress = (Addresslist, parentAddressID, index, callback) => {
@@ -17,8 +18,19 @@ const handleInsertAddress = (Addresslist, parentAddressID, index, callback) => {
     });
 };
 
-const insert = (address, parentAddressID, callback) => {
-    const checkAddress = `SELECT Location_ID FROM Location WHERE Address = ?;`;
+
+
+const insert = async (address, parentAddressID, callback) => {
+    try{
+        const result = await addressModel.insertaddress(address, parentAddressID);
+        return callback(null, result);
+    }catch(err){
+        console.log(err);
+        return callback(err);
+    }
+};
+    
+    /*const checkAddress = `SELECT Location_ID FROM Location WHERE Address = ?;`;
     
     db.query(checkAddress, [address], (err, result) => {
         if (err) {
@@ -40,12 +52,11 @@ const insert = (address, parentAddressID, callback) => {
 
             return callback(null, result.insertId);
         });
-    });
-};
+    });*/
+
 
 exports.addressadder = (Addresslist) => {
     return new Promise((resolve, reject) => {
-        const lastaddress = Addresslist[Addresslist.length - 1];
         let parentoffinal = null;
 
         handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
@@ -63,23 +74,39 @@ exports.addressadder = (Addresslist) => {
 
 exports.addLocation =  async (req, res) => {
     const { Addresslist } = req.body;
-    const lastaddress = Addresslist[Addresslist.length - 1];
 
     let parentoffinal = null;
+
+    try{
+        handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({ "message": "Failed to add location." });
+            }
+            res.send({ "message": "Location added successfully.", "result": finaladdress });
+        });
+
+    }catch (err) {
+        console.log(err);
+        return res.status(500).send({ "message": "Failed to add location." });
+    }
     
-    handleInsertAddress(Addresslist, parentoffinal, Addresslist.length - 1, (err, finaladdress) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send({ "message": "Failed to add location." });
-        }
-        res.send({ "message": "Location added successfully.", "result": finaladdress });
-    });
+    
 }
 
 exports.getLocation = async (req, res) => {
     const locationID = req.params.id;
-    const getFullLocation = (locationID, locationList = [], callback) => {
-        const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?`;
+    try{    
+        const result = await addressModel.getLocation(locationID);
+        res.send({"message":"Successfully get location.","results":result});
+
+    }catch (err) {
+        console.log(err);
+        return res.status(500).send({"message":"Failed to get location."});
+    }
+};
+    /*const getFullLocation = (locationID, locationList = [], callback) => {
+        const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?;`;
 
         db.query(query, [locationID], (err, result) => {
             if (err) {
@@ -109,5 +136,4 @@ exports.getLocation = async (req, res) => {
         }
 
         res.send({ "fullLocation": fullLocation });
-    });
-}
+    });*/
