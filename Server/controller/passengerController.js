@@ -2,28 +2,25 @@ const db = require('../database');
 
 
 
-exports.addGuest = async (req,res)=>{
-    const {Passenger_Name,Passport_Number,DOB,Gender} = req.body;
-    const insertGuest = `INSERT INTO Passenger (Passenger_ID, Passenger_Name, Passport_Number, DOB, Gender) VALUES (UUID(),?,?,?,?);`;
-    db.query(insertGuest,[Passenger_Name,Passport_Number,DOB,Gender],(error,result)=>{
-        if(error){
+    // Start of Selection
+    exports.addGuest = async (req, res) => {
+        const { Passenger_Name, Passport_Number, DOB, Gender } = req.body;
+        try {
+            const insertId = await passengerModel.addPassenger(Passenger_Name, Passport_Number, DOB, Gender);
+            res.send({ "message": "Guest added successfully.", "result": insertId });
+        } catch (error) {
             console.log(error);
-            res.status(500).send({"message":"Failed to add guest."});
-        } else {
-            res.send({"message":"Guest added successfully.","result":result});
+            res.status(500).send({ "message": "Failed to add guest." });
         }
-    });
-}
-
-exports.getGuest = async (req,res)=>{
-    const {Passport_Number} = req.body;
-    const getGuests = `SELECT * FROM Passenger where Passport_Number = ?;`;
-    db.query(getGuests,[Passport_Number],(error,result)=>{
-        if(error){
+    };
+    
+    exports.getGuest = async (req, res) => {
+        const { Passport_Number } = req.body;
+        try {
+            const guest = await passengerModel.getPassengerByPassportNumber(Passport_Number);
+            res.send({ "message": "Guests retrieved successfully.", "result": guest });
+        } catch (error) {
             console.log(error);
-            res.status(500).send({"message":"Failed to get guests."});
-        } else {
-            res.send({"message":"Guests retrieved successfully.","result":result[0]});
+            res.status(500).send({ "message": "Failed to get guests." });
         }
-    });
-}
+    };

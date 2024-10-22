@@ -1,27 +1,26 @@
 const db = require('../database');
 
-exports.addRoute = async (req,res) =>{
-    const {Depature_Airport,Arival_Airport} = req.body;
-    const insertRoute = `call handleRouteadd('${Depature_Airport}', '${Arival_Airport}');`;
-    db.query(insertRoute,(error,result)=>{
-        if(error){
-            console.log(error);
-            res.status(500).send({"message":"Failed to add route."});
-        } else {
-            res.send({"message":"Route added successfully.","result":result});
-        }
-    });
-}
+ // Start of Selection
+const routeModel = require('../models/routeModel');
 
-exports.getRoute = async (req, res) =>{
+exports.addRoute = async (req, res) => {
+    const { Depature_Airport, Arival_Airport } = req.body;
+    try {
+        const insertId = await routeModel.addRoute(Depature_Airport, Arival_Airport);
+        res.send({ "message": "Route added successfully.", "result": insertId });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to add route." });
+    }
+};
+
+exports.getRoute = async (req, res) => {
     const routeID = req.params.id;
-    const getRoute = `SELECT * FROM route WHERE Route_ID =?;`;
-    db.query(getRoute,[routeID],(error,result)=>{
-        if(error){
-            console.log(error);
-            res.status(500).send({"message":"Failed to get route."});
-        } else {
-            res.send({"message":"Route retrieved successfully.","result":result[0]});
-        }
-    });
-}
+    try {
+        const route = await routeModel.getRoute(routeID);
+        res.send({ "message": "Route retrieved successfully.", "result": route });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to get route." });
+    }
+};

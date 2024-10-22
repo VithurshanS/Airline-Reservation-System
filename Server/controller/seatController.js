@@ -1,76 +1,70 @@
 const db = require('../database');
 
 
-exports.addSeat = async (req,res)=>{
-    const {Schedule_ID,Seat_number,Seat_class,Seat_status} = req.body;
-    const insertSeat = `INSERT INTO seat (Seat_ID, Schedule_ID, Seat_Number, Seat_class,Seat_status) VALUES (UUID(),?,?,?,?);`;
-    db.query(insertSeat,[Schedule_ID,Seat_number,Seat_class,Seat_status],(error,result)=>{
-        if(error){
+    // Start of Selection
+    const seatModel = require('../models/seatModel');
+
+    exports.addSeat = async (req, res) => {
+        const { Schedule_ID, Seat_number, Seat_class, Seat_status } = req.body;
+        try {
+            const result = await seatModel.addSeat(Schedule_ID, Seat_number, Seat_class, Seat_status);
+            res.send({ "message": "Seat added successfully.", "result": result });
+        } catch (error) {
             console.log(error);
-            res.status(500).send({"message":"Failed to add seat."});
-        } else {
-            res.send({"message":"Seat added successfully.","result":result});
+            res.status(500).send({ "message": "Failed to add seat." });
         }
-    });
+    };
 
-}
-
-exports.getSeat = async (req,res)=>{
-    const getquery = `SELECT * FROM seat;`;
-    db.query(getquery,(error,result)=>{
-        if(error){
-            res.send({"message":"error occured when get seat"});
-        } else{
-            res.send({"message":"Successfully get","results":result});
+    exports.getSeat = async (req, res) => {
+        try {
+            const results = await seatModel.getSeat();
+            res.send({ "message": "Successfully retrieved seats.", "results": results });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when getting seats." });
         }
-    });
-}
+    };
 
-exports.getavailableSeat = async (req,res)=>{
-    const Schedule_ID = req.params.scheduleid;
-    const getquery = `SELECT Seat_ID,Seat_number FROM seat WHERE Schedule_ID =? and Seat_status = "available";`;
-    db.query(getquery,[Schedule_ID],(error,result)=>{
-        if(error){
-            res.send({"message":"error occured when get seat for schedule"});
-        } else{
-            res.send({"message":"Successfully get","results":result});
+    exports.getavailableSeat = async (req, res) => {
+        const Schedule_ID = req.params.scheduleid;
+        try {
+            const results = await seatModel.getavailableSeat(Schedule_ID);
+            res.send({ "message": "Successfully retrieved available seats.", "results": results });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when getting available seats for schedule." });
         }
-    });
-}
-exports.getbookedSeat = async (req,res)=>{
-    const Schedule_ID = req.params.scheduleid;
-    const getquery = `SELECT Seat_ID,Seat_number FROM seat WHERE Schedule_ID =? and Seat_status = "booked";`;
-    db.query(getquery,[Schedule_ID],(error,result)=>{
-        if(error){
-            res.send({"message":"error occured when get seat for schedule"});
-        } else{
-            res.send({"message":"Successfully get","results":result});
-        }
-    });
-}
-exports.getselectedSeat = async (req,res)=>{
-    const Schedule_ID = req.params.scheduleid;
-    const getquery = `SELECT Seat_ID,Seat_number FROM seat WHERE Schedule_ID =? and Seat_status = "selected";`;
-    db.query(getquery,[Schedule_ID],(error,result)=>{
-        if(error){
-            res.send({"message":"error occured when get seat for schedule"});
-        } else{
-            res.send({"message":"Successfully get","results":result});
-        }
-    });
-}
+    };
 
-exports.bookSeats = async (req, res) => {
-    const { selectedSeats } = req.body;
+    exports.getbookedSeat = async (req, res) => {
+        const Schedule_ID = req.params.scheduleid;
+        try {
+            const results = await seatModel.getbookedSeat(Schedule_ID);
+            res.send({ "message": "Successfully retrieved booked seats.", "results": results });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when getting booked seats for schedule." });
+        }
+    };
 
-    const updateSeatQuery = `UPDATE seat SET Seat_status = 'booked' WHERE Seat_ID IN (?)`;
-    
-    db.query(updateSeatQuery, [selectedSeats], (error, result) => {
-        if (error) {
+    exports.getselectedSeat = async (req, res) => {
+        const Schedule_ID = req.params.scheduleid;
+        try {
+            const results = await seatModel.getselectedSeat(Schedule_ID);
+            res.send({ "message": "Successfully retrieved selected seats.", "results": results });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when getting selected seats for schedule." });
+        }
+    };
+
+    exports.bookSeats = async (req, res) => {
+        const { selectedSeats } = req.body;
+        try {
+            const result = await seatModel.bookSeats(selectedSeats);
+            res.send({ "message": "Seats booked successfully.", "result": result });
+        } catch (error) {
             console.log(error);
             res.status(500).send({ "message": "Failed to book seats." });
-        } else {
-            res.send({ "message": "Seats booked successfully.", "result": result });
         }
-    });
-};
+    };
