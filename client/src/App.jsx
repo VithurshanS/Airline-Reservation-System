@@ -1,11 +1,8 @@
 import Login from './Components/Login/login';
 import Signup from './Components/SignUp/signup';
-<<<<<<< HEAD
 import './App.css'
-=======
 import SeatDisplay from './Components/seatdisplay/SeatDisplay';
 import "./App.css"
->>>>>>> 63049f5 (seat reservation)
 import { Routes, Route,  BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './assets/Navbar';
 import Entry from './Components/Entry/entry';
