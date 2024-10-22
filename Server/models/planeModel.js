@@ -16,7 +16,7 @@ exports.addPlane = (Aircraft_ID, Plane_name) => {
 
 exports.getPlane = (Aircraft_ID) => {
     return new Promise((resolve, reject) => {
-        const query = `SELECT * FROM Plane WHERE Aircraft_ID = ?;`;
+        const query = `SELECT * FROM Plane WHERE Aircraft_ID = (?);`;
         db.query(query, [Aircraft_ID], (error, results) => {
             if (error) {
                 reject(error);

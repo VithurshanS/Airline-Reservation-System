@@ -1,10 +1,10 @@
 const db = require('../database');
 
     // Start Generation Here
-    exports.insertBooking = (Schedule_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status) => {
+    exports.insertBooking = (Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status) => {
         return new Promise((resolve, reject) => {
-            const query = `INSERT INTO booking (Booking_ID, Schedule_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status) VALUES (UUID(),?,?,?,?,?,?);`;
-            db.query(query, [Schedule_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status], (error, result) => {
+            const query = `INSERT INTO booking (Booking_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status) VALUES (UUID(),?,?,?,?,?);`;
+            db.query(query, [Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status], (error, result) => {
                 if (error) {
                     reject(error);
                 } else {

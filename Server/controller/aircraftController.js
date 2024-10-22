@@ -1,4 +1,4 @@
-
+const aircraftModel = require('../models/aircraftModel');
 
 exports.addAircraft = async (req,res)=>{
     const {company,AircraftType,totalseats,ESSN,BSSN,PSSN} = req.body;
@@ -6,12 +6,12 @@ exports.addAircraft = async (req,res)=>{
         const result = await aircraftModel.addAircraftQ(company,AircraftType,totalseats,ESSN,BSSN,PSSN);
         res.send({"message":result});
     } catch (error) {
-        res.status(500).send({"message":"Failed to add aircraft."});
+        res.status(500).send({"message":"Failed to add aircraft.","Error":error});
     }
 }
 
     // Start of Selection
-    exports.getAircraft = async (req, res) => {
+exports.getAircraft = async (req, res) => {
         const aircraftID = req.params.id;
         try {
             const result = await aircraftModel.getAircraftQuery(aircraftID);
