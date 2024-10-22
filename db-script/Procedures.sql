@@ -166,8 +166,11 @@ BEGIN
         TotalRevenue DESC;
 END$$
 <<<<<<< HEAD
+<<<<<<< HEAD
 DELIMITER ;
 =======
+=======
+>>>>>>> 32925bc (seat reservation)
 DELIMITER ;
 
 use airline;
@@ -278,4 +281,7 @@ DELIMITER ;
 
 
 
+<<<<<<< HEAD
 >>>>>>> 150c0a54fe788b8463b3d53fc13ce7bc8615b7a0
+=======
+>>>>>>> 32925bc (seat reservation)
