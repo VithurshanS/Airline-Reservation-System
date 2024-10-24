@@ -1,71 +1,104 @@
-import React, {useState,useEffect} from 'react'
+import { useState } from 'react';
 import axios from 'axios';
-import "./signup.css";
+import './signup.css';
+import { useNavigate } from 'react-router-dom';
 
-
-export default function Signup(){
-    const [Username , setUsername] = useState('');
+export default function Signup() {
+    const [Username, setUsername] = useState('');
+    const [FirstName, setFirstName] = useState('');
+    const [LastName, setLastName] = useState('');
+    const [Email, setEmail] = useState('');
+    const [DOB, setDOB] = useState('');
+    const [Age, setAge] = useState();
+    const [Passport_Number, setPaN] = useState('');
+    const [Gender, setGender] = useState('');
+    const [Role, setRole] = useState('user'); // default to 'user'
     const [Password, setPassword] = useState('');
-    const [DOB,setDOB] = useState();
-    const[Age,setAge] = useState()
-    const [Passenger_Name, setPN] = useState();
-    const [Passport_Number, setPaN] = useState();
-    const [result,setResult] = useState('');
-
-    const calculateAge =()=>{
-        const birdate = new Date(DOB);
+    const [result, setResult] = useState('');
+    const navigate = useNavigate();
+    const calculateAge = () => {
+        const birthDate = new Date(DOB);
         const today = new Date();
-        let age = today.getFullYear()-birdate.getFullYear();
-        const mon = today.getMonth()-birdate.getMonth();
-        if(mon<0){
-            age--;
+        let Age = today.getFullYear() - birthDate.getFullYear();
+        const month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            Age--;
         }
-        console.log(age);
-        return age;
-    }
+        return Age;
+    };
 
-    const handleUserdata = (event) =>{
+    const handleUserdata = (event) => {
         event.preventDefault();
         const age = calculateAge();
         setAge(age);
-        axios.post('http://localhost:3066/signup/details',{Passenger_Name,Passport_Number,DOB,Age:age,Username,Password})
-        .then((response)=>{
+        axios.post('http://localhost:3066/signup/details', {
+            Username,
+            FirstName,
+            LastName,
+            Email,
+            Passport_Number,
+            DOB,
+            Age,
+            Gender,
+            Password,
+            Role
+        })
+        .then((response) => {
             console.log(response.data);
             setResult(response.data);
-
+            navigate('/components/Login/login'); // Redirect to login page after signup
         })
-        .catch((error)=>{
-            console.error('error when post');
-        })
-    }
-
-
+        .catch((error) => {
+            console.error('Error during post request:', error);
+        });
+    };
 
     return (
         <div className='sss'>
-        <div className="signup-div">
-            <form className='form-container'>
-                <label htmlFor="name">Enter username</label>
-                <input className='name-in' type='text' id='name' name='name' onChange={(e)=>setUsername(e.target.value)}/>
-                <label htmlFor="pass">Enter password:</label>
-                <input className="password-in" type='password' id='pass' name='pass' onChange={(e)=>setPassword(e.target.value)}/>
-                <label htmlFor="DOB">Enter DateofBirth</label>
-                <input type='date' onChange={(e)=>setDOB(e.target.value)}/>
-                <label htmlFor="PN">name:</label>
-                <input type='text' onChange={(e)=>setPN(e.target.value)}/>
-                <label htmlFor="PaN">Passport Number:</label>
-                <input type='text' onChange={(e)=>setPaN(e.target.value)}/>
-                <input type='submit' onClick={handleUserdata}></input>
+            <div className="signup-div">
+                <form className='form-container'>
+                    <label htmlFor="username">Enter Username</label>
+                    <input className='name-in' type='text' id='username' name='username' onChange={(e) => setUsername(e.target.value)} />
 
-            </form>
-        </div>
-        <div>
-            <p>{result}</p>
-        </div>
+                    <label htmlFor="firstName">Enter First Name</label>
+                    <input type='text' id='firstName' name='firstName' onChange={(e) => setFirstName(e.target.value)} />
 
-        </div>
+                    <label htmlFor="lastName">Enter Last Name</label>
+                    <input type='text' id='lastName' name='lastName' onChange={(e) => setLastName(e.target.value)} />
 
-    )
+                    <label htmlFor="email">Enter Email</label>
+                    <input type='email' id='email' name='email' onChange={(e) => setEmail(e.target.value)} />
+
+                    <label htmlFor="dob">Enter Date of Birth</label>
+                    <input type='date' id='dob' name='dob' onChange={(e) => setDOB(e.target.value)} />
+
+                    <label htmlFor="PaN">Enter Passport Number</label>
+                    <input type='text' onChange={(e) => setPaN(e.target.value)} />
+
+                    <label htmlFor="gender">Select Gender</label>
+                    <select id="gender" name="gender" onChange={(e) => setGender(e.target.value)}>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <label htmlFor="password">Enter Password</label>
+                    <input className="password-in" type='password' id='password' name='password' onChange={(e) => setPassword(e.target.value)} />
+
+                    <label htmlFor="role">Select Role</label>
+                    <select id="role" name="role" onChange={(e) => setRole(e.target.value)}>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <input type='Submit' onClick={handleUserdata}></input>
+                </form>
+            </div>
+            <div>
+                
+                <p>{result}</p>
+            </div>
+        </div>
+    );
 }
-
-
