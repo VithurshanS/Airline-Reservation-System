@@ -26,3 +26,5 @@ const db = require('../database');
             });
         });
     };
+
+    //get all bookings made by users

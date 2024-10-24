@@ -1,5 +1,6 @@
 use AIRLINE;
 ------------------------------------------------------------------------------------------------
+drop procedure if exists handleAircraft;
 DELIMITER $$
 CREATE PROCEDURE handleAircraft(
    IN Comp VARCHAR(255),
@@ -23,7 +24,28 @@ BEGIN
     SELECT mes as message;
 END $$
 
-DELIMITER ;															
+DELIMITER ;	
+
+
+drop procedure if exists handleRouteadd;
+DELIMITER $$
+create Procedure handleRouteadd(
+	IN DA CHAR(3),
+    IN AA char(3)
+)
+BEGIN
+	declare counti INT default 0;
+    select count(*) into counti from route where Departure_Airport = DA and Arrival_Airport = AA;
+    IF counti = 0 then
+		INSERT into route (Departure_Airport,Arrival_Airport) values (DA,AA);
+	END IF;
+	select Route_ID from route where Departure_Airport = DA and Arrival_Airport = AA;
+    
+END $$;
+DELIMITER ;
+
+
+
 
 drop procedure if exists addAddress;
 DELIMITER $$
@@ -69,23 +91,25 @@ BEGIN
 END $$;
 DELIMITER ;
 
-DELIMITER $$
-CREATE FUNCTION calculateAge(dateOfBirth DATE)
-RETURNS INT
-DETERMINISTIC
-BEGIN
-    RETURN FLOOR(DATEDIFF(CURDATE(), dateOfBirth) / 365.25);
-END$$
-DELIMITER ;
+
+
+drop procedure if exists updateUserAges;
 
 DELIMITER $$
-CREATE PROCEDURE updateUserAges()
+CREATE PROCEDURE updateUserAges(
+	IN UserID CHAR(36)
+		
+)
 BEGIN
     UPDATE User
-    SET Age = calculateAge(DOB);
+    SET Age = calculateAge(DOB)
+    where User_ID = UserID;
 END$$
 DELIMITER ;
 
+
+
+drop procedure if exists generateBookingsByCategoryReport;
 DELIMITER $$
 CREATE PROCEDURE generateBookingsByCategoryReport()
 BEGIN
@@ -110,7 +134,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-
+drop procedure if exists generatePopularRoutesReport;
 DELIMITER $$
 CREATE PROCEDURE generatePopularRoutesReport()
 BEGIN
@@ -141,7 +165,8 @@ BEGIN
 END$$
 DELIMITER ;
 
-DELIMITER $$
+
+drop procedure if exists generateRevenueByAircraftReport;
 CREATE PROCEDURE generateRevenueByAircraftReport()
 BEGIN
     SELECT 
@@ -163,19 +188,13 @@ BEGIN
     GROUP BY 
         a.Aircraft_type
     ORDER BY 
-        TotalRevenue DESC;
+        TotalRevenue DESC
 END$$
-<<<<<<< HEAD
-<<<<<<< HEAD
-DELIMITER ;
-=======
-=======
->>>>>>> 32925bc (seat reservation)
 DELIMITER ;
 
 use airline;
 
-DROP PROCEDURE InsertSeatsForSchedule;
+DROP PROCEDURE if exists InsertSeatsForSchedule;
 DELIMITER $$
 
 CREATE PROCEDURE InsertSeatsForSchedule(IN schedule_id CHAR(36))
@@ -222,66 +241,35 @@ END$$
 
 DELIMITER ;
 
+
+
+
+
+
+
+drop procedure if exists addUser;
 DELIMITER $$
 
-CREATE TRIGGER AfterInsertSchedule
-AFTER INSERT ON Schedule
-FOR EACH ROW
+CREATE PROCEDURE addUser(
+    IN p_User_Name VARCHAR(200),
+    IN p_First_name VARCHAR(200),
+    IN p_Last_name VARCHAR(200),
+    IN p_Email VARCHAR(200),
+    IN p_DOB DATE,
+    IN p_Gender VARCHAR(10),
+    IN p_Password VARCHAR(255),
+    IN p_Role  VARCHAR(50)
+)
 BEGIN
-    -- Call the procedure to insert seats for the new schedule
-    CALL InsertSeatsForSchedule(NEW.Schedule_ID);
-END$$
-
-DELIMITER ;
-
-DELIMITER $$
-
-CREATE TRIGGER CheckScheduleOverlap
-BEFORE INSERT ON Schedule
-FOR EACH ROW
-BEGIN
-    DECLARE conflicting_schedules INT;
-
-    -- Check for overlapping schedules for the same plane
-    SELECT COUNT(*)
-    INTO conflicting_schedules
-    FROM Schedule s
-    WHERE s.Plane_ID = NEW.Plane_ID
-      AND (
-            -- New schedule starts before an existing schedule ends and after an existing schedule starts
-            (NEW.Departure_Time BETWEEN s.Departure_Time AND s.Arrival_Time)
-            OR
-            -- New schedule ends after an existing schedule starts and before it ends
-            (NEW.Arrival_Time BETWEEN s.Departure_Time AND s.Arrival_Time)
-            OR
-            -- New schedule completely overlaps with an existing schedule
-            (NEW.Departure_Time <= s.Departure_Time AND NEW.Arrival_Time >= s.Arrival_Time)
-          );
-
-    -- If there are conflicting schedules, raise an error
-    IF conflicting_schedules > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Error: The plane is already scheduled for another route during the given time.';
-    END IF;
-END$$
-
-DELIMITER ;
-
-DELIMITER $$
-
-CREATE TRIGGER DeleteSeatsAfterSchedule
-AFTER DELETE ON Schedule
-FOR EACH ROW
-BEGIN
-    DELETE FROM Seat
-    WHERE Schedule_ID = OLD.Schedule_ID;
+	DECLARE p_Age INT;
+    SET p_Age = calculateAge(p_DOB);
+    INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB,Age, Gender, Password, Role) 
+    VALUES (UUID(), p_User_Name, p_First_name, p_Last_name, p_Email, p_DOB,p_Age, p_Gender, p_Password, p_Role);
 END$$
 
 DELIMITER ;
 
 
 
-<<<<<<< HEAD
->>>>>>> 150c0a54fe788b8463b3d53fc13ce7bc8615b7a0
-=======
->>>>>>> 32925bc (seat reservation)
+
+

@@ -16,8 +16,9 @@ const db = require('../database');
     };
 
     exports.getSeat = async (req, res) => {
+        const Schedule_ID = req.params.scheduleid;
         try {
-            const results = await seatModel.getSeat();
+            const results = await seatModel.getSeat(Schedule_ID);
             res.send({ "message": "Successfully retrieved seats.", "results": results });
         } catch (error) {
             console.log(error);

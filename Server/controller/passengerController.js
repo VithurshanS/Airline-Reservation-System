@@ -1,5 +1,7 @@
 const db = require('../database');
 
+const passengerModel = require('../models/passengerModel');
+
 
 
     // Start of Selection
@@ -15,7 +17,7 @@ const db = require('../database');
     };
     
     exports.getGuest = async (req, res) => {
-        const { Passport_Number } = req.body;
+        const { Passport_Number }= req.body;
         try {
             const guest = await passengerModel.getPassengerByPassportNumber(Passport_Number);
             res.send({ "message": "Guests retrieved successfully.", "result": guest });

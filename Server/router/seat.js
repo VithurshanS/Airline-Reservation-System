@@ -5,8 +5,7 @@ const {addSeat,getSeat,getselectedSeat,getbookedSeat,getavailableSeat,bookSeats}
 
 
 
-router.post('/addseat',addSeat);
-router.get('/getseat',getSeat);
+router.get('/getseat/:scheduleid',getSeat);
 router.get('/getavailableseats/:scheduleid',getavailableSeat);
 router.get('/getbookedseats/:scheduleid',getbookedSeat);
 router.get('/getselectedseats/:scheduleid',getselectedSeat);

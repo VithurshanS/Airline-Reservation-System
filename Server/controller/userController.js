@@ -33,10 +33,10 @@ exports.getDetails = async (req, res) => {
 };
 
 exports.addDetails = async (req, res) => {
-    const { User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role } = req.body;
+    const { User_Name, First_name, Last_name, Email, DOB, Gender, Password, Role } = req.body;
 
     // Input validation
-    if (!User_Name || !First_name || !Last_name || !Email || !DOB || !Age || !Gender || !Password) {
+    if (!User_Name || !First_name || !Last_name || !Email || !DOB || !Gender || !Password) {
         return res.status(400).send({ message: "All fields are required." });
     }
 
@@ -49,7 +49,6 @@ exports.addDetails = async (req, res) => {
             Last_name,
             Email,
             DOB,
-            Age,
             Gender,
             hash,
             Role
