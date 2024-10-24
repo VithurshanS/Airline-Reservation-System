@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, TextField, MenuItem, Grid, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import './BookNowPage.css';
 import SeatSelection from './SeatSelection/SeatSelection';
-import ParallaxFlight from './ParallaxFlight/ParallaxFlight';
-import image5 from './../../../assets/Booknowimages/image 5.jpg'
-import image6 from './../../../assets/Booknowimages/image 6.jpg'
-import image7 from './../../../assets/Booknowimages/image 7.jpg'
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+
+// const axios = require('axios');
+// import ParallaxFlight from './ParallaxFlight/ParallaxFlight';
+// import image5 from './../../../assets/Booknowimages/image 5.jpg'
+// import image6 from './../../../assets/Booknowimages/image 6.jpg'
+// import image7 from './../../../assets/Booknowimages/image 7.jpg'
 // import NavBar from '../NavBar/NavBar';
 
 function BookNowPage() {
+  const location = useLocation();
+  const { scheduleId } = location.state || {};
   const [selectedClass, setSelectedClass] = useState('Economy');
   const [passengers, setPassengers] = useState([{ name: '', dob: '', gender: '', passportNumber: '' }]);
 
@@ -26,9 +32,53 @@ function BookNowPage() {
       passengers.map((passenger, i) => (i === index ? { ...passenger, [field]: value } : passenger))
     );
   };
+  
+
+useEffect(()=>{
+  console.log("hi "); 
+  console.log("Schedule ID:" ,{scheduleId})
+
+  axios.get(`http://localhost:3066/getavailableseats/${scheduleId}`)
+  .then(response => {
+    console.log('Available seats:', response.data.results);
+  })
+  .catch(error => {
+    console.error('Error fetching available seats:', error);
+  });
+},[])
+
 
   return (
     <>
+    <div className="flightdetails">
+  <h1>Flight Schedule</h1>
+  <div className="flight-info">
+    <div className="info-item">
+      <label>Schedule ID:</label>
+      <span>{scheduleId}</span>
+    </div>
+    <div className="info-item">
+      <label>Departure:</label>
+      <span>New York</span>
+    </div>
+    <div className="info-item">
+      <label>Arrival:</label>
+      <span>London</span>
+    </div>
+    <div className="info-item">
+      <label>Economy Fees:</label>
+      <span>$100</span>
+    </div>
+    <div className="info-item">
+      <label>Platinum Class Fees:</label>
+      <span>$200</span>
+    </div>
+    <div className="info-item">
+      <label>Business Class Fees:</label>
+      <span>$300</span>
+    </div>
+  </div>
+</div>
     {/* <div className="parallax">
     <ParallaxFlight />
     </div> */}

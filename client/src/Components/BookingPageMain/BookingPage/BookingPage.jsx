@@ -19,6 +19,7 @@ function BookingPage() {
   const [filteredFlights, setFilteredFlights] = useState([]);
 
   // Fetch schedules from backend using Axios
+
   useEffect(() => {
     axios.get('http://localhost:3066/getschedule')
       .then(response => {
@@ -50,8 +51,9 @@ function BookingPage() {
         flight.departureTime.includes(searchQuery.departureDate)
     );
     setFilteredFlights(results);
+    // console.log(results)
   };
-
+  
   return (
     <div className="booking-page">
       <header className="bookingheader">
@@ -127,9 +129,14 @@ function BookingPage() {
                   Business Fare: ${flight.businessFare}<br />
                   Platinum Fare: ${flight.platinumFare}
                 </p>
-                <Link to='/booknow'>
-                  <button className="search-button">Book Now</button>
+                <Link
+                  to={{
+                    pathname: '/booknow'
+                   }}
+                   state= {{ scheduleId: flight.id }}>
+               <button className="search-button">Book Now</button>
                 </Link>
+
               </li>
             ))}
           </ul>

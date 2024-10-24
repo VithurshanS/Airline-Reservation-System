@@ -8,8 +8,10 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       margin-top: 30px;
       /* padding-left: 200px; */
-      margin-left: 250px;
+      margin-left: 40px;
       z-index: 2;
+      float: left;
+      ;
     }
 
     
@@ -68,3 +70,41 @@
     button:hover {
       background-color: #010801;
     }
+
+.flightdetails{
+  width:400px;
+  height:auto;
+  background-color: rgb(116, 122, 190);
+  float: right;
+  padding: 20px;
+  margin: 20px;
+  margin-top: 30px;
+  border-radius: 10px;
+}
+
+.flightdetails h1 {
+  text-align: center;
+  color: #080419;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.flight-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-item label {
+  font-weight: bold;
+  color: #555;
+}
