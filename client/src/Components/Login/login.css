@@ -1,4 +1,42 @@
-table,th,td{
-    border: 1px solid blue;
-    padding-inline: 10px;
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Ensures there are no gaps between table cells */
+    margin-top: 20px;
+    background-color: #e0f7fa; /* Light blue background for the table */
+}
+
+th, td {
+    border: 1px solid #00796b; /* Dark blue-green for table borders */
+    padding: 10px;
+    text-align: left; /* Align content to the left */
+    font-size: 16px;
+}
+
+/* Header row styling */
+th {
+    background-color: #00796b; /* Dark blue-green for header background */
+    color: white; /* White text for headers */
+    font-weight: bold;
+}
+
+/* Table body cell styling */
+td {
+    background-color: #ffffff; /* White background for table data cells */
+    color: #333; /* Dark text for better readability */
+}
+
+/* Additional styling for table hover effects */
+td:hover {
+    background-color: #b2dfdb; /* Light green-blue for hover effect */
+}
+
+/* For overall container style, if needed */
+.table-container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

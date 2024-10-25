@@ -1,52 +1,92 @@
-import React, {useState,useEffect} from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "./login.css";
+import './login.css';
+// "import users from '../Userdata/Userdata.js';
+import Button from '@mui/material/Button';
 
-export default function Login(){
+
+export default function Login() {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
-    const [userData, setUserdata] = useState(null);
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(''); // For displaying error messages
+    const navigate = useNavigate();
 
-    const handleInput = async (event)=>{
+    const handleInput = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:3066/login',{Username,Password}).then((response)=>{
-            setUserdata(response.data[0]);
-        }).catch((error)=>{
-            console.log(error);
-        })
-    }
-    const getDOB = ()=>{
-        if(userData){
-            return( <p>{JSON.stringify(userData)}</p>)
-        }else{
+        console.log(Username);
+
+        try {
+            // Attempt to fetch data from the backend API
+            const response = await axios.post('http://192.168.153.175:3066/get', { "Username":Username, "Password":Password });
+            console.log(response);
+            
+            if (response.data.message === 201) {
+                const user = response.data.user;
+                
+                setUserData(user); // Set user data if found
+                
+                // Redirect based on the user's role
+                if (user.Role === 'Admin') {
+                    navigate('/Adminpage'); // Redirect to Admin dashboard
+                } else {
+                    navigate('/Userpage'); // Redirect to User dashboard
+                }
+            } else if (response.data.message === 301) {
+                setError('Invalid username or password'); // Handle wrong credentials
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            setError('An error occurred during login'); // Handle server or connection errors
+        }
+    };
+
+    const getUserInfo = () => {
+        if (userData) {
+            return (<p>{JSON.stringify(userData)}</p>); // Show user info for testing
+        } else {
             return null;
         }
-        
-    }
+    };
 
+    return (
+        <div className="login-container">
+            <div className="login-form">
+                <form onSubmit={handleInput}>
+                    <label htmlFor="username">Enter username</label>
+                    <input
+                        className="input-field"
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={Username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
 
+                    <label htmlFor="pass">Enter password</label>
+                    <input
+                        className="input-field"
+                        type="password"
+                        id="pass"
+                        name="pass"
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
 
-    return(
-        <div className='sss'>
-        <div className="signup-div">
-            <form>
-                <label htmlFor="name">Enter username</label>
-                <input className='name-in' type='text' id='name' name='name' onChange={(e)=>setUsername(e.target.value)}/>
-                <label htmlFor="pass">Enter password:</label>
-                <input className="password-in" type='password' id='pass' name='pass' onChange={(e)=>setPassword(e.target.value)}/>
-                {/*<label htmlFor="DOB">Enter DateofBirth</label>
-                <input type='date' onChange={(e)=>setDOB(e.target.value)}/>
-                <label htmlFor="PN">name:</label>
-                <input type='text' onChange={(e)=>setPN(e.target.value)}/>
-                <label htmlFor="PaN">Passport Number:</label>
-                <input type='text' onChange={(e)=>setPaN(e.target.value)}/>*/}
-                <input type='submit' onClick={handleInput}></input>
+                    <Button type="submit" variant="contained" color="primary">
+                        Login
+                    </Button>
+                </form>
 
-            </form>
+                {/* Error message display */}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </div>
+
+            {/* Display user info if available */}
+            {getUserInfo()}
         </div>
-               {getDOB()}
-        </div>
-    )
-
-// fnhfhh
-} 
+    );
+}
