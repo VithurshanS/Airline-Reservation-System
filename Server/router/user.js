@@ -4,7 +4,6 @@ const {addDetails,getDetails} = require("../controller/userController");
 
 
 router.post("/add",addDetails);
-router.get("/get",getDetails);
-
+router.post("/get",getDetails);
 
 module.exports = router;

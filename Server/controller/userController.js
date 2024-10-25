@@ -5,6 +5,7 @@ const userModel = require('../models/userModel');
 
 exports.getDetails = async (req, res) => {
     const { Username, Password } = req.body;
+    console.log(req.body);
 
     if (!Username || !Password) {
         return res.status(400).send({ message: "Username and password are required." });
