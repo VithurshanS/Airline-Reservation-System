@@ -3,10 +3,6 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import entrypic from '../../assets/entrypic.jpg';
 import './entry.css'
-<<<<<<< HEAD
-import './entry.css'
-=======
->>>>>>> 150c0a54fe788b8463b3d53fc13ce7bc8615b7a0
 
 const Entry = () => {
   const navigate = useNavigate();
