@@ -53,7 +53,7 @@ function BookNowPage() {
     console.log("Schedule ID:", { scheduleId });
 
     axios
-      .get(`http://localhost:3066/getavailableseats/${scheduleId}`)
+      .get(`http://localhost:3067/getavailableseats/${scheduleId}`)
       .then((response) => {
         console.log("Available seats:", response.data.results);
       })

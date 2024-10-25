@@ -22,7 +22,7 @@ button {
   background:linear-gradient(270deg,rgb(0, 170, 255),pink);
   color: white;
   border: none;
-  width: 100px;
+  /* width: 100px; */
   height: 40px;
   border-radius: 45%;
   padding: 10px 20px;
