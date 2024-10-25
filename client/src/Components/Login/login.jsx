@@ -1,73 +1,91 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import users from '../Userdata/Userdata.js';
 import axios from 'axios';
 import './login.css';
+// "import users from '../Userdata/Userdata.js';
+import Button from '@mui/material/Button';
+
 
 export default function Login() {
     const [Username, setUsername] = useState('');
-    const [Email, setEmail] = useState('');
     const [Password, setPassword] = useState('');
     const [userData, setUserData] = useState(null);
-    const [error, setError] = useState(''); // Added for error message
+    const [error, setError] = useState(''); // For displaying error messages
     const navigate = useNavigate();
 
     const handleInput = async (event) => {
         event.preventDefault();
+        console.log(Username);
 
-        // Check the hardcoded users
-        const foundUser = users.find(user => 
-            (user.Username === Username || user.Email === Email) && user.Password === Password
-        );
-
-        console.log(foundUser);
-
-        await axios.post('http://localhost:3066/login', { Username, Password, Email })
-            .then((response) => {
-                if (response.data.length > 0) {
-                    const user = response.data[0];
-                    setUserData(user);
-                    // Redirect based on role
-                    if (foundUser.Role === 'Admin') {
-                        navigate('/Adminpage'); // Admin dashboard
-                    } else {
-                        navigate('/Userpage');  // Regular user dashboard
-                    }
+        try {
+            // Attempt to fetch data from the backend API
+            const response = await axios.post('http://192.168.153.175:3066/get', { "Username":Username, "Password":Password });
+            console.log(response);
+            
+            if (response.data.message === 201) {
+                const user = response.data.user;
+                
+                setUserData(user); // Set user data if found
+                
+                // Redirect based on the user's role
+                if (user.Role === 'Admin') {
+                    navigate('/Adminpage'); // Redirect to Admin dashboard
                 } else {
-                    setError('Invalid username or email'); // Handle invalid login
+                    navigate('/Userpage'); // Redirect to User dashboard
                 }
-            })
-            .catch((error) => {
-                console.log(error);
-                setError('An error occurred during login'); // Handle other errors
-            });
+            } else if (response.data.message === 301) {
+                setError('Invalid username or password'); // Handle wrong credentials
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            setError('An error occurred during login'); // Handle server or connection errors
+        }
     };
 
     const getUserInfo = () => {
         if (userData) {
-            return (<p>{JSON.stringify(userData)}</p>);
+            return (<p>{JSON.stringify(userData)}</p>); // Show user info for testing
         } else {
             return null;
         }
     };
 
     return (
-        <div className='sss'>
-            <div className="signup-div">
-                <form>
-                    <label htmlFor="name">Enter username</label>
-                    <input className='name-in' type='text' id='name' name='name' onChange={(e) => setUsername(e.target.value)} />
-
-                    <label htmlFor="email">Enter email</label>
-                    <input className='email-in' type='email' id='email' name='email' onChange={(e) => setEmail(e.target.value)} />
+        <div className="login-container">
+            <div className="login-form">
+                <form onSubmit={handleInput}>
+                    <label htmlFor="username">Enter username</label>
+                    <input
+                        className="input-field"
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={Username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
 
                     <label htmlFor="pass">Enter password</label>
-                    <input className="password-in" type='password' id='pass' name='pass' onChange={(e) => setPassword(e.target.value)} />
+                    <input
+                        className="input-field"
+                        type="password"
+                        id="pass"
+                        name="pass"
+                        value={Password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
 
-                    <input type='submit' onClick={handleInput}></input>
+                    <Button type="submit" variant="contained" color="primary">
+                        Login
+                    </Button>
                 </form>
-                {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+
+                {/* Error message display */}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
             </div>
+
+            {/* Display user info if available */}
             {getUserInfo()}
         </div>
     );

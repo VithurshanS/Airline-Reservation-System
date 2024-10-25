@@ -12,7 +12,7 @@ export default function Signup() {
     const [Age, setAge] = useState();
     const [Passport_Number, setPaN] = useState('');
     const [Gender, setGender] = useState('');
-    const [Role, setRole] = useState('user'); // default to 'user'
+    const [Role, setRole] = useState('registered user'); // default to 'user'
     const [Password, setPassword] = useState('');
     const [result, setResult] = useState('');
     const navigate = useNavigate();
@@ -31,17 +31,17 @@ export default function Signup() {
         event.preventDefault();
         const age = calculateAge();
         setAge(age);
-        axios.post('http://localhost:3066/signup/details', {
-            Username,
-            FirstName,
-            LastName,
-            Email,
-            Passport_Number,
-            DOB,
-            Age,
-            Gender,
-            Password,
-            Role
+        axios.post('http://192.168.153.175:3066/add', {
+            "User_Name":Username,
+            "First_name":FirstName,
+            "Last_name":LastName,
+            "Email":Email,
+            "PN":Passport_Number,
+            "DOB":DOB,
+            "A":Age,
+            "Gender":Gender,
+            "Password":Password,
+            "Role":Role
         })
         .then((response) => {
             console.log(response.data);
@@ -88,7 +88,7 @@ export default function Signup() {
 
                     <label htmlFor="role">Select Role</label>
                     <select id="role" name="role" onChange={(e) => setRole(e.target.value)}>
-                        <option value="user">User</option>
+                        <option value="registered user">ser</option>
                         <option value="admin">Admin</option>
                     </select>
 
