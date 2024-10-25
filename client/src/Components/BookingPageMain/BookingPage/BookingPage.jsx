@@ -20,9 +20,10 @@ function BookingPage() {
 
   // Fetch schedules from backend using Axios
   useEffect(() => {
-    axios.get('http://localhost:3066/getschedule')
+    axios.get('http://localhost:3067/getschedule')
       .then(response => {
-        if (response.data.message === 'successfully get') {
+        console.log(response)
+        if (response.data.message === 'Successfully retrieved schedules.') {
           const schedules = response.data.results;
           const formattedFlights = schedules.map(schedule => ({
             id: schedule.Schedule_ID,
