@@ -21,7 +21,7 @@ function Home() {
           ← Back
         </button>
 
-        <button onClick={() => Navigate("/Booking")}>
+        <button onClick={() => Navigate("/BookingPageMain")}>
           Book Now
         </button>
 

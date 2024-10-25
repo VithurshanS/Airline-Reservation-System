@@ -118,7 +118,7 @@ function App() {
             />
 
             <Route
-              path='/bookingpage'
+              path='/BookingPageMain'
               element= {<BookingPageMain/>}
             />
 
