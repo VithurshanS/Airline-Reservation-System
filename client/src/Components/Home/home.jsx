@@ -18,20 +18,17 @@ function Home() {
   const Navigate = useNavigate();
   return (
     <div>
-      <div className="button-container">
+      {/* <div className="button-container">
        
-        <button onClick={() => Navigate("/")}>
+        <button className="Homebuttons" onClick={() => Navigate("/")}>
           ← Back
         </button>
 
-        <button onClick={() => Navigate("/BookingPageMain")}>
-          Book Now
-        </button>
 
-        <button onClick={() => Navigate("/Login")}>
+        <button className="Homebuttons" onClick={() => Navigate("/Login")}>
           Next →
         </button>
-      </div>
+      </div> */}
 
       <Navbar2/>
       <Hero/>
@@ -41,13 +38,7 @@ function Home() {
       <Contact/>
       <Footer/>
 
-      home page
-      {/* <button className="btn-booknow" >Book Now </button> */}
-      <Link to='/bookingpage' >
-                <button className="bookingpage-button" >
-                  TO Book
-                  </button>
-                  </Link>
+      
     </div>
   );
 }

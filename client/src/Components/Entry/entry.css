@@ -37,14 +37,15 @@
 
 .homebutton {
   /* padding: 15px 30px; */
-  font-size: 30px;
+  font-size: 50px;
   font-weight: bold;
   color: white;
-  background-color: #007BFF; /* Attractive blue color */
+  background-color: #4278b2; /* Attractive blue color */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 150px;
 }
 
 /* button:hover {
