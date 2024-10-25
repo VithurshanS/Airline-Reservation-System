@@ -21,7 +21,7 @@ function BookingPage() {
   // Fetch schedules from backend using Axios
 
   useEffect(() => {
-    axios.get('http://localhost:3066/getschedule')
+    axios.get('http://51.20.71.167:3067/getschedule')
       .then(response => {
         if (response.data.message === 'successfully get') {
           const schedules = response.data.results;
