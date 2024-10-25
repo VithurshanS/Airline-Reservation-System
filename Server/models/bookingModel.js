@@ -15,18 +15,7 @@ const db = require('../database');
         });
     };
 
-    exports.bookSeat = (seat)=>{
-        return new Promise((resolve, reject) => {
-            const query = `call bookseat(?);`;
-            db.query(query, [seat], (error, result) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            });
-        });
-    }
+
 
     exports.getBooking = () => {
         return new Promise((resolve, reject) => {

@@ -59,13 +59,11 @@ const db = require('../database');
         }
     };
 
-    exports.bookSeats = async (req, res) => {
-        const { selectedSeats } = req.body;
-        try {
-            const result = await seatModel.bookSeats(selectedSeats);
-            res.send({ "message": "Seats booked successfully.", "result": result });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send({ "message": "Failed to book seats." });
-        }
+    exports.bookseats = async (req,res)=>{
+            const {seats} = req.body;
+            seats.forEach(seat => {
+               seatModel.bookSeat(seat);
+            });
+            res.status(200).send({"message":"booked"});
+
     };

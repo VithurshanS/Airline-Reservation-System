@@ -271,5 +271,72 @@ DELIMITER ;
 
 
 
+drop procedure if exists handleBooking;
+DELIMITER $$
+CREATE PROCEDURE handleBooking(
+	IN p_Passenger_ID char(36),
+    IN p_User_ID char(36),
+    IN p_Seat_ID char(36)
+)
+BEGIN
+	DECLARE actualPrice DECIMAL(10,2);
+    DECLARE finalPrice DECIMAL(10,2);
+    DECLARE discount DECIMAL(2,2);
+    DECLARE class VARCHAR(255);
+    DECLARE classname VARCHAR(255);
+    DECLARE getpricequery TEXT;
+    SELECT s.Seat_class into class from seat s where s.Seat_ID = p_Seat_ID;
+    IF class = "economy" THEN
+		SET classname = "Economy_Fare";
+	ELSEIF class = "business" THEN
+		SET classname = "Business_Fare";
+	ELSE
+		SET classname ="Platinum_Fare";
+	END IF;
+    SET @getpricequery = CONCAT('select ',classname,' into @ac from seat v left outer join schedule s on s.Schedule_ID = v.Schedule_ID where v.Seat_ID = ?;');
+    PREPARE vi from @getpricequery;
+    SET @p_Seat_ID = p_Seat_ID;
+    EXECUTE vi USING @p_Seat_ID;
+    DEALLOCATE PREPARE vi;
+    SET actualPrice = @ac;
+    IF p_User_ID != null THEN
+		select uc.Discount into discount from category c left outer join user_category uc on uc.Category_ID = c.Category_ID where uc.User_ID = p_User_ID;
+	ELSE
+		SET discount = 0;
+	END IF;
+    SET finalPrice = calculateFinalamount(actualPrice,discount);
+    INSERT INTO booking (Booking_ID,Passenger_ID,User_ID,final_Price,Booking_Status) 
+    values (p_Seat_ID,p_Passenger_ID,p_User_ID,finalprice,"pending");
+    
+    
+    
+END$$
+DELIMITER ;
+
+
+drop procedure if exists bookseat;
+DELIMITER $$
+CREATE PROCEDURE bookseat(
+	IN seatid CHAR(36)
+)
+BEGIN
+    DECLARE useid CHAR(36);
+    DECLARE bookingcount INT DEFAULT -1;
+    DECLARE inistatus INT DEFAULT -1;
+    SELECT COUNT(*) into inistatus from booking where  Booking_ID = seatid and Booking_Status = 'confirmed';
+    IF inistatus = -1 THEN
+		SELECT User_ID into useid from booking where Booking_ID = seatid;
+		UPDATE booking set Booking_Status = 'confirmed' where Booking_ID = seatid;
+		UPDATE seat set Seat_Status = 'booked' where Seat_ID = seatid;
+		IF useid is not null THEN
+			SELECT Bookings_count into bookingcount from user_category where User_ID = useid;
+			UPDATE user_category set Bookings_count = (bookingcount + 1) where User_ID = useid;
+		END IF;
+	END IF;
+END $$
+DELIMITER ;
+
+
+
 
 

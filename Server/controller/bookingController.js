@@ -3,17 +3,7 @@ const bookingModel = require('../models/bookingModel');
 
 
 
-exports.bookseat = async (req,res)=>{
-    try{
-        const {seats} = req.body;
-        seats.forEach(seat => {
-           bookingModel.bookSeat(seat);
-        });
-        res.status(200).send({"message":"booked"});
-    }catch(e){
-        res.status(500).send({"message":"Failed to book seats"});
-    }
-};
+
 exports.addBooking = async (req, res) => {
     try {
         const { Passenger_ID, User_ID, Seat_ID} = req.body; // here i want to declare a function that must calculate the final price

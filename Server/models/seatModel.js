@@ -66,9 +66,9 @@ const db = require('../database');
         });
     };
 
-    exports.bookSeats = (selectedSeats) => {
+    exports.bookSeat = (selectedSeats) => {
         return new Promise((resolve, reject) => {
-            const query = `UPDATE seat SET Seat_status = 'booked' WHERE Seat_ID IN (?);`;
+            const query = `call bookseat(?);`;
             db.query(query, [selectedSeats], (error, result) => {
                 if (error) {
                     reject(error);
@@ -78,6 +78,7 @@ const db = require('../database');
             });
         });
     };
+    
 
     //create a procedure to book a seat
 
