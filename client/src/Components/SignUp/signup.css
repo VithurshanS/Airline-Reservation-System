@@ -53,7 +53,7 @@ select:focus {
     outline: 0;
 }
 
-/* Style for submit button */
+
 input[type="submit"] {
     background-color: #00796b; /* Dark blue-green for submit button */
     color: white;

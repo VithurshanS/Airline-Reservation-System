@@ -43,7 +43,7 @@ body {
     /* background-color: #e7f3ff; */
     background-color: rgba(231, 243, 255, 0.5);   
     padding: 40px;
-    height: 850px;
+    height: 950px;
     width: auto;
     text-align: center;
     border-radius: 8px;
@@ -86,7 +86,7 @@ body {
     font-size: 16px;
     border: 1px solid #bcd4e6;
     border-radius: 4px;
-    width: 200px;
+    width: 280px;
   }
   
   .search-button {
@@ -163,5 +163,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
   }
+
+
   
   
