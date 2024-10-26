@@ -108,3 +108,19 @@
   font-weight: bold;
   color: #555;
 }
+
+
+
+.confirm_book{
+  height: 50px;
+  width: 200px;
+  color: #fff;
+  /* padding-left: 30px; */
+  margin-top: 30px;
+  margin-left: 150px;
+  background-color: #041f48;
+}
+
+.confirm_book :hover {
+  background-color: #007acc;
+}

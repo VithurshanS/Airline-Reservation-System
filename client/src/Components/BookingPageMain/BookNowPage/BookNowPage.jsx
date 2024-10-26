@@ -220,11 +220,12 @@ function BookNowPage() {
             availableSeats={availableSeats}
           />
         </Box>
-
-        <div className="animation-container">
-          {/* Add animation code here */}
-        </div>
       </Box>
+      
+        <button className="confirm_book">
+          Confirm Booking
+        </button>
+      
     </>
   );
 }

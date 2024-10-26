@@ -11,6 +11,7 @@ import SeatDisplay from './Components/seatdisplay/SeatDisplay';
 import "./App.css"
 import BookingPageMain from './Components/BookingPageMain/BookingPageMain';
 import BookNowPage from './Components/BookingPageMain/BookNowPage/BookNowPage';
+import AdDashboard from './Components/Adminpage/AdDashboard/AdDashboard'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/Adminpage" element={<Adminpage/>}/>
         <Route path="/BookingPageMain" element={<BookingPageMain/>}/>
         <Route path="/booknow" element={<BookNowPage/>}/>
+        <Route path="/AdDashboard" element={<AdDashboard/>}/>
         
       </Routes>
     </Router>

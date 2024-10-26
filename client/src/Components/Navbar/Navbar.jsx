@@ -33,6 +33,11 @@ const Navbar2 = () => {
        <button className="Homebuttons" onClick={() => Navigate("/Login")}>
          Next →
        </button>
+
+       <button className="Homebuttons" onClick={() => Navigate("/AdDashboard")}>
+         Admin
+       </button>
+       
      </div>
       
       <img src={menu_open} onClick={openMenu} alt="" className='nav-mob-open' />
