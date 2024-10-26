@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { Box, Typography, Grid, Paper, TextField, Button } from '@mui/material';
 
 const passengersData = [
-  { flightNo: 'BA123', name: 'John Doe', age: 16, passengerType: 'Gold',  bookingType: 'Economy', date: '2024-10-25', departure: 'Jakarta', arrival: 'Bali', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
-  { flightNo: 'BA123', name: 'Jane Smith', age: 20, passengerType: 'Frequent',  bookingType: 'Business', date: '2024-10-25', departure: 'Jakarta', arrival: 'Bali', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
-  { flightNo: 'BA123', name: 'Emily Johnson', age: 17, passengerType: 'Regular',  bookingType: 'Economy', date: '2024-10-25', departure: 'Jakarta', arrival: 'Bali', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
-  { flightNo: 'BA456', name: 'Michael Brown', age: 30, passengerType: 'Guest',  bookingType: 'First Class', date: '2024-10-26', departure: 'Jakarta', arrival: 'Sri', departureTime: '2024-10-26T14:00', arrivalTime: '2024-10-26T18:00' },
-  { flightNo: 'BA456', name: 'Sophia Davis', age: 22, passengerType: 'Regular',  bookingType: 'Economy', date: '2024-10-26', departure: 'Jakarta', arrival: 'Bali', departureTime: '2024-10-26T14:00', arrivalTime: '2024-10-26T18:00' },
+  { flightSchedule: 'BA123', name: 'John Doe', age: 16, passengerType: 'Gold',  bookingType: 'Economy', date: '2024-10-25', departure: 'BIA', arrival: 'SIN', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
+  { flightSchedule: 'BA123', name: 'Jane Smith', age: 20, passengerType: 'Frequent',  bookingType: 'Business', date: '2024-10-25', departure: 'SIN', arrival: 'ICN', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
+  { flightSchedule: 'BA123', name: 'Emily Johnson', age: 17, passengerType: 'Regular',  bookingType: 'Economy', date: '2024-10-25', departure: 'MIA', arrival: 'BIA', departureTime: '2024-10-25T10:00', arrivalTime: '2024-10-25T12:00' },
+  { flightSchedule: 'BA456', name: 'Michael Brown', age: 30, passengerType: 'Guest',  bookingType: 'First Class', date: '2024-10-26', departure: 'MIA', arrival: 'SIN', departureTime: '2024-10-26T14:00', arrivalTime: '2024-10-26T18:00' },
+  { flightSchedule: 'BA456', name: 'Sophia Davis', age: 22, passengerType: 'Regular',  bookingType: 'Economy', date: '2024-10-26', departure: 'ICN', arrival: 'BIA', departureTime: '2024-10-26T14:00', arrivalTime: '2024-10-26T18:00' },
 ];
 
 function Report() {
-  const [flightNo, setFlightNo] = useState('');
+  const [flightSchedule, setFlightNo] = useState('');
   //const [destination, setDestination] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [departure, setDeparture] = useState('');
@@ -20,13 +20,13 @@ function Report() {
   const [bookingCounts, setBookingCounts] = useState(null);
   const [pastFlights, setPastFlights] = useState(null);
 
-  const getPassengersByFlight = (flightNo) => {
-    return passengersData.filter(passenger => passenger.flightNo === flightNo);
+  const getPassengersByFlight = (flightSchedule) => {
+    return passengersData.filter(passenger => passenger.flightSchedule === flightSchedule);
   };
 
   const handleGetAgeGroupedPassengers = () => {
     const grouped = { below18: [], above18: [] };
-    const filteredPassengers = getPassengersByFlight(flightNo);
+    const filteredPassengers = getPassengersByFlight(flightSchedule);
     filteredPassengers.forEach(passenger => {
       if (passenger.age < 18) {
         grouped.below18.push(passenger);
@@ -72,10 +72,10 @@ function Report() {
           <Paper elevation={6} sx={{ p: 4, backgroundColor: '#fffde7' }}>
             <Typography variant="h5" sx={{ color: '#424242', fontWeight: 'bold', mb: 2 }}>Passenger Count by Flight</Typography>
             <TextField
-              label="Flight No"
+              label="Flight Schedule"
               variant="outlined"
               fullWidth
-              value={flightNo}
+              value={flightSchedule}
               onChange={(e) => setFlightNo(e.target.value)}
               sx={{ mb: 2 }}
             />
@@ -91,6 +91,8 @@ function Report() {
             )}
           </Paper>
         </Grid>
+
+        
 
         <Grid item xs={12} md={6}>
           <Paper elevation={6} sx={{ p: 4, backgroundColor: '#e1f5fe' }}>

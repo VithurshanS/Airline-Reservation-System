@@ -19,7 +19,7 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
 
-//import PassengerDetails from '../Report/Report';   // Replace with your actual component
+import Passengerdetails from '../Passengerdetails/Passengerdetails';   // Replace with your actual component
 import AdminProfile from '../AdminProfile/AdminProfile';   // Replace with your actual component
 import Overview from '../Overview/Overview';   // Replace with your actual component
 import Report from '../Report/Report'; // Import your Reports component
@@ -27,8 +27,8 @@ import Aircraft from '../Aircraft/Aircraft'; // Import your Aircraft component
 import Airport from '../Airport/Airport'; // Import your Airport component
 import Booking from '../Booking/Booking'; // Import your Bookings component
 import Userdetails from '../Userdetails/Userdetails'; // Import your User Details component
-// import Routes from '../Routes/Routes'; // Import your Routes component
-// import PlaneDetails from '../PlaneDetails/PlaneDetails'; // Import your Plane Details component
+import Route from '../Route/Route'; // Import your Routes component
+import Planedetails from '../Planedetails/Planedetails'; // Import your Plane Details component
 import Schedule from '../Schedule/Schedule'; // Import your Schedules component
 // import SeatAvailability from '../SeatAvailability/SeatAvailability'; // Import your Seat Availability component
 
@@ -156,7 +156,7 @@ function DemoPageContent({ pathname }) {
       content = <Overview />;
       break;
     case '/passenger-details':
-      content = '<PassengerDetails />';
+      content = <Passengerdetails />;
       break;
     case '/revenue':
       content = '<Revenue />';
@@ -180,10 +180,10 @@ function DemoPageContent({ pathname }) {
       content = <Userdetails />;
       break;
     case '/routes':
-      content = '<Routes />';
+      content = <Route />;
       break;
     case '/plane-details':
-      content = '<PlaneDetails />';
+      content = <Planedetails />;
       break;
     case '/schedules':
       content = <Schedule />;
