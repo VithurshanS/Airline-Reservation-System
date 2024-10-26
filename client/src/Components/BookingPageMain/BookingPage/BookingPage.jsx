@@ -134,7 +134,11 @@ function BookingPage() {
                   to={{
                     pathname: '/booknow'
                    }}
-                   state= {{ scheduleId: flight.id }}>
+                   state= {{ scheduleId: flight.id,
+                    economyFare: flight.economyFare,
+                    businessFare: flight.businessFare,
+                    platinumFare: flight.platinumFare
+                    }}>
                <button className="search-button">Book Now</button>
                 </Link>
 

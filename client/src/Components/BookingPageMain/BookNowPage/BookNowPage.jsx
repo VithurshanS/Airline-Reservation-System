@@ -23,7 +23,9 @@ import { useLocation } from "react-router-dom";
 
 function BookNowPage() {
   const location = useLocation();
-  const { scheduleId } = location.state || {};
+  const { scheduleId,economyFare,businessFare,platinumFare } = location.state || {};
+  const [availableSeats, setAvailableSeats] = useState([]);
+
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [passengers, setPassengers] = useState([
     { name: "", dob: "", gender: "", passportNumber: "" },
@@ -51,16 +53,18 @@ function BookNowPage() {
   useEffect(() => {
     console.log("hi ");
     console.log("Schedule ID:", { scheduleId });
+    console.log({availableSeats})
 
     axios
       .get(`http://localhost:3067/getavailableseats/${scheduleId}`)
       .then((response) => {
         console.log("Available seats:", response.data.results);
+        setAvailableSeats(response.data.results);
       })
       .catch((error) => {
         console.error("Error fetching available seats:", error);
       });
-  }, []);
+  }, [scheduleId]);
 
   return (
     <>
@@ -81,15 +85,15 @@ function BookNowPage() {
           </div>
           <div className="info-item">
             <label>Economy Fees:</label>
-            <span>$100</span>
+            <span>{economyFare}</span>
           </div>
           <div className="info-item">
             <label>Platinum Class Fees:</label>
-            <span>$200</span>
+            <span>{platinumFare}</span>
           </div>
           <div className="info-item">
             <label>Business Class Fees:</label>
-            <span>$300</span>
+            <span>{businessFare}</span>
           </div>
         </div>
       </div>
@@ -213,6 +217,7 @@ function BookNowPage() {
               economyRows: 8,
               seatsPerRow: 9,
             }}
+            availableSeats={availableSeats}
           />
         </Box>
 
