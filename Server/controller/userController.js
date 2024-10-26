@@ -15,7 +15,7 @@ exports.getDetails = async (req, res) => {
         const result = await userModel.getDetails(Username);
         
         if (result.length === 0) {
-            return res.status(404).send({ message: 301 });
+            return res.send({ message: 301 });
         }
 
         const user = result[0];
@@ -25,7 +25,7 @@ exports.getDetails = async (req, res) => {
             const { Password, ...userDetails } = user;
             res.send({ message: 201, user: userDetails });
         } else {
-            res.status(401).send({ message: 401 });
+            res.send({ message: 401 });
         }
     } catch (error) {
         console.error('Database Error:', error);
