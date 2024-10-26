@@ -322,9 +322,9 @@ CREATE PROCEDURE bookseat(
 BEGIN
     DECLARE useid CHAR(36);
     DECLARE bookingcount INT DEFAULT -1;
-    DECLARE inistatus INT DEFAULT -1;
+    DECLARE inistatus INT DEFAULT 0;
     SELECT COUNT(*) into inistatus from booking where  Booking_ID = seatid and Booking_Status = 'confirmed';
-    IF inistatus = -1 THEN
+    IF inistatus = 0 THEN
 		SELECT User_ID into useid from booking where Booking_ID = seatid;
 		UPDATE booking set Booking_Status = 'confirmed' where Booking_ID = seatid;
 		UPDATE seat set Seat_Status = 'booked' where Seat_ID = seatid;
@@ -337,6 +337,13 @@ END $$
 DELIMITER ;
 
 
-
-
+drop procedure if exists getscheduleafter;
+DELIMITER $$
+CREATE PROCEDURE getscheduleafter(
+	IN indate date
+)
+BEGIN
+	SELECT * FROM schedule where DATE(Departure_Time) >= indate;
+END $$
+DELIMITER ;
 

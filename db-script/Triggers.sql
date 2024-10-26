@@ -45,17 +45,47 @@ CREATE TRIGGER addusercategory
 AFTER INSERT ON user
 FOR EACH ROW
 BEGIN
-	DECLARE catid INT;
-    select Category_ID into catid from category where RBC = 0;
-    IF NEW.Role != "Admin" THEN
-		INSERT INTO user_category (User_ID,Bookings_Count,Category_ID) VALUES (NEW.User_ID,0,catid); 
-	END IF;
+    DECLARE catid INT;
+
+    -- Initialize Category_ID based on initial conditions (RBC = 0)
+    SELECT Category_ID INTO catid FROM category WHERE RBC = 0;
+
+    -- Insert only if the new user is not an Admin
+    IF NEW.Role != 'Admin' THEN
+        INSERT INTO user_category (User_ID, Bookings_count, Category_ID) 
+        VALUES (NEW.User_ID, 0, catid);
+    END IF;
 END $$
 DELIMITER ;
 
+
+drop trigger if exists Update_User_Category;
 DELIMITER $$
-CREATE
+CREATE TRIGGER Update_User_Category
+BEFORE UPDATE ON user_category
+FOR EACH ROW
+BEGIN
+    DECLARE new_category_id INT;
+
+    -- Find the appropriate Category_ID based on the updated Bookings_count
+    SELECT Category_ID
+    INTO new_category_id
+    FROM category
+    WHERE NEW.Bookings_count >= RBC
+    ORDER BY RBC DESC
+    LIMIT 1;
+
+    -- Update the NEW.Category_ID directly
+    IF new_category_id IS NOT NULL THEN
+        SET NEW.Category_ID = new_category_id;
+    END IF;
+END $$
 DELIMITER ;
+
+
+
+
+
 
 drop trigger if exists DeleteSeatsAfterSchedule;
 DELIMITER $$

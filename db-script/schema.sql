@@ -6,7 +6,8 @@ use AIRLINE;
 CREATE TABLE Location (
     Location_ID INT auto_increment PRIMARY KEY,
     Parent_Location_ID INT,
-    Address VARCHAR(255)
+    Address VARCHAR(255),
+    FOREIGN KEY (parent_Location_ID) REFERENCES Location(Location_ID)
 );
 
 INSERT INTO Location (Location_ID,Parent_Location_ID, Address) VALUES (1,NULL, 'sri lanka');
@@ -74,6 +75,7 @@ CREATE TABLE Passenger (
     Passenger_Name VARCHAR(200),
     Passport_Number CHAR(10),
     DOB DATE,
+    AGE INT,
     Gender ENUM('Male', 'Female')
 );
 
