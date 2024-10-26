@@ -11,6 +11,11 @@ const Booking = () => {
       <button onClick={() => Navigate("/ScheduleEdit")}>
           Schedule edditing
         </button>
+
+        <button onClick={() => Navigate("/PlaneDetails")}>
+        PlaneDetails
+        </button>
+
       
       </div>
 
