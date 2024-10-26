@@ -6,6 +6,7 @@ import Navbar from './assets/Navbar';
 import Entry from './Components/Entry/entry';
 import Home from './Components/Home/home';
 import Booking from './Components/Booking/Booking';
+import ScheduleEdit from './Components/ScheduleEdit/ScheduleEdit';
 
 
 
@@ -58,6 +59,9 @@ function App() {
             <Route path="/Home" element={<Home/>} /> {/* This is the route for the Home page */}
 
             <Route path="/Booking" element={<Booking/>} /> 
+
+            <Route path="/ScheduleEdit" element={<ScheduleEdit/>} /> 
+
           </Routes>
           
           </Router>

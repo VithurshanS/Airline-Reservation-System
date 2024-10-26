@@ -1,4 +1,10 @@
-table,th,td{
+table,th,td{ 
     border: 1px solid blue;
     padding-inline: 10px;
 }
+.css {
+    /* Avoid component caches */
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
+  }
