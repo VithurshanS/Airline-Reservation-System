@@ -45,7 +45,7 @@ const UserProfile = () => {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#f0f4f8' }}>
+    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '70vh', backgroundColor: '#f0f4f8' }}>
       <Grid item xs={12} sm={10} md={10} lg={8}>
         <ProfileContainer elevation={4}>
           {/* User Info Rectangle */}
