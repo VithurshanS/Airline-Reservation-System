@@ -2,7 +2,9 @@ import { Grid, TextField, Paper, Avatar, Button, IconButton, Typography, Card, C
 import { Edit, Lock, Person } from '@mui/icons-material';
 import { useState } from 'react';
 import { styled } from '@mui/system';
-
+const user = JSON.parse(localStorage.getItem("user"));
+const formattedDOB = new Date(user.DOB).toISOString().split('T')[0];
+console.log("user details",user);
 const CustomButton = styled(Button)({
   backgroundColor: '#64b5f6',
   color: '#fff',
@@ -25,14 +27,14 @@ const ProfileContainer = styled(Paper)({
 const UserProfile = () => {
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({
-    username: 'johnDoe123',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'johndoe@example.com',
-    dob: '1990-01-01',
-    age: 34,
-    passportNumber: 'A1234567',
-    gender: 'Male',
+    username: user.User_Name,
+    firstName: user.First_name,
+    lastName: user.Last_name,
+    email: user.Email,
+    dob: formattedDOB,
+    age:user.Age,
+    
+    gender: user.Gender,
   });
 
   const handleInputChange = (e) => {
@@ -121,7 +123,7 @@ const UserProfile = () => {
                       label="Date of Birth"
                       fullWidth
                       name="dob"
-                      type="date"
+                      // type="date"
                       value={userData.dob}
                       onChange={handleInputChange}
                       InputLabelProps={{ shrink: true }}
@@ -140,7 +142,7 @@ const UserProfile = () => {
                       InputProps={{ style: { backgroundColor: '#fff', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif' } }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <TextField
                       label="Passport Number"
                       fullWidth
@@ -150,8 +152,9 @@ const UserProfile = () => {
                       disabled={!editMode}
                       InputProps={{ style: { backgroundColor: '#fff', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif' } }}
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12}>
+                    {/* <h1>gender</h1> */}
                     <TextField
                       label="Gender"
                       fullWidth

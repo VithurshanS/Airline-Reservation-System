@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 export default function Login() {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
-    const [role, setRole] = useState('user'); // Define role state
+    const [role, setRole] = useState('R_user'); // Define role state
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -22,19 +22,19 @@ export default function Login() {
                 Password: Password,
                 Role: role // Include role in request payload
             });
-            console.log(response);
+            console.log(response.data);
             
             if (response.data.message === 201) {
                 const user = response.data.user;
                 setUserData(user);
 
-                localStorage.setItem(user,  JSON.stringify(user));
+                localStorage.setItem("user",  JSON.stringify(user));
 
 
-                if (user.Role === 'admin') {
+                if (user.Role === 'Admin') {
                     navigate('/AdDashboard');
                 } else {
-                    navigate('/Userpage');
+                    navigate('/Home');
                 }
             } else if (response.data.message === 301) {
                 setError('Invalid username or password');
@@ -54,11 +54,12 @@ export default function Login() {
     };
 
     return (
+      <div className="body">
         <div className="login-container">
             <div className="login-form">
                 <h2>Login</h2>
                 <form onSubmit={handleInput}>
-                    <label htmlFor="username">Username</label>
+                <label htmlFor="username" className="label">Username</label>
                     <input
                         className="input-field"
                         type="text"
@@ -69,7 +70,7 @@ export default function Login() {
                         required
                     />
 
-                    <label htmlFor="pass">Password</label>
+                    <label htmlFor="pass" className="label">Password</label>
                     <input
                         className="input-field"
                         type="password"
@@ -80,15 +81,15 @@ export default function Login() {
                         required
                     />
 
-                    <label htmlFor="role">Select Role</label>
+                    <label htmlFor="role" className="label">Select Role</label>
                     <select
                         id="role"
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                         className="role-select"
                     >
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
+                        <option value="R_user">User</option>
+                        <option value="Admin">Admin</option>
                     </select>
 
                     <Button type="submit" variant="contained" color="primary" fullWidth>
@@ -100,6 +101,7 @@ export default function Login() {
             </div>
 
             {getUserInfo()}
+        </div>
         </div>
     );
 }

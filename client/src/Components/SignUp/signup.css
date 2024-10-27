@@ -80,3 +80,11 @@ select {
     background-color: #e0f7fa; /* Page background aligned with theme */
     padding: 50px 0;
 }
+ .label1{
+    align-items: center;
+ }
+
+ .input1{
+    align-items: center;
+    
+ }

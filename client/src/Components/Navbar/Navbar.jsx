@@ -34,9 +34,7 @@ const Navbar2 = () => {
          Next →
        </button>
 
-       <button className="Homebuttons" onClick={() => Navigate("/AdDashboard")}>
-         Admin
-       </button>
+       
        
      </div>
       

@@ -2,72 +2,52 @@ import React, { useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import './SeatSelection.css';
 
-const SeatSelection = ({ seatConfig,availableSeats }) => {
-  const { economyRows,businessRows,platinumRows,   seatsPerRow } = seatConfig;
+const SeatSelection = ({ seatConfig, availableSeats }) => {
+  const { economyRows, businessRows, platinumRows, seatsPerRow } = seatConfig;
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatClick = (seat) => {
+    // If the seat is red (unavailable), prevent selection
+    const isAvailable = availableSeats.some((s) => s.Seat_number === seat);
+    if (!isAvailable) return;
+
     if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter(s => s !== seat));
+      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
     } else {
       setSelectedSeats([...selectedSeats, seat]);
     }
-    console.log(selectedSeats);
   };
 
   const renderSeat = (seatNumber, rowType) => {
     const isSelected = selectedSeats.includes(seatNumber);
-    // const seatColor = rowType === 'Platinum' ? '#1976d2' : (rowType === 'Business' ? '#64b5f6' : '#8bc34a'); // Color for each class
     const isAvailable = availableSeats.some((seat) => seat.Seat_number === seatNumber);
-    // console.log(availableSeats)
-    // console.log(seatNumber)
-    // console.log(isAvailable)
+    
     const seatColor = isSelected
       ? 'yellow'
       : isAvailable
       ? (rowType === 'Platinum' ? '#1976d2' : rowType === 'Business' ? '#64b5f6' : '#8bc34a')
       : 'red';
 
-      
-
-  //   return (
-  //     <Button
-  //       key={seatNumber}
-  //       variant={isSelected ? 'contained' : 'outlined'}
-  //       sx={{
-  //         minWidth: '60px',
-  //         minHeight: '40px',
-  //         color: isSelected ? '#fff' : '#000',
-  //         backgroundColor: isSelected ? seatColor : '#e0e0e0',
-  //         '&:hover': {
-  //           backgroundColor: isSelected ? '#1565c0' : '#bdbdbd',
-  //         },
-  //       }}
-  //       onClick={() => handleSeatClick(seatNumber)}
-  //     >
-  //       {seatNumber}
-  //     </Button>
-  //   );
-  // };
-  return (
-    <Button
-      key={seatNumber}
-      variant={isSelected ? 'contained' : 'outlined'}
-      sx={{
-        minWidth: '60px',
-        minHeight: '40px',
-        color: isSelected ? '#fff' : '#000',
-        backgroundColor: seatColor,
-        '&:hover': {
-          backgroundColor: isSelected ? '#1565c0' : '#bdbdbd',
-        },
-      }}
-      onClick={() => handleSeatClick(seatNumber)}
-    >
-      {seatNumber}
-    </Button>
-  );
-};
+    return (
+      <Button
+        key={seatNumber}
+        variant={isSelected ? 'contained' : 'outlined'}
+        disabled={!isAvailable} // Disable the button if the seat is not available (red)
+        sx={{
+          minWidth: '60px',
+          minHeight: '40px',
+          color: isSelected ? '#fff' : '#000',
+          backgroundColor: seatColor,
+          '&:hover': {
+            backgroundColor: isSelected ? '#1565c0' : '#bdbdbd',
+          },
+        }}
+        onClick={() => handleSeatClick(seatNumber)}
+      >
+        {seatNumber}
+      </Button>
+    );
+  };
 
   const generateSeatNumber = (rowIndex, seatIndex, startingSeatNumber) => {
     return startingSeatNumber + rowIndex * seatsPerRow + seatIndex; // Start seat numbers from the given starting number
