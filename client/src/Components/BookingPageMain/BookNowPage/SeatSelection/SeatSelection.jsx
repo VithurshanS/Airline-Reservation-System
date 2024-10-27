@@ -3,7 +3,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import './SeatSelection.css';
 
 const SeatSelection = ({ seatConfig,availableSeats }) => {
-  const { platinumRows, businessRows, economyRows, seatsPerRow } = seatConfig;
+  const { economyRows,businessRows,platinumRows,   seatsPerRow } = seatConfig;
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const handleSeatClick = (seat) => {
@@ -19,9 +19,9 @@ const SeatSelection = ({ seatConfig,availableSeats }) => {
     const isSelected = selectedSeats.includes(seatNumber);
     // const seatColor = rowType === 'Platinum' ? '#1976d2' : (rowType === 'Business' ? '#64b5f6' : '#8bc34a'); // Color for each class
     const isAvailable = availableSeats.some((seat) => seat.Seat_number === seatNumber);
-    console.log(availableSeats)
-    console.log(seatNumber)
-    console.log(isAvailable)
+    // console.log(availableSeats)
+    // console.log(seatNumber)
+    // console.log(isAvailable)
     const seatColor = isSelected
       ? 'yellow'
       : isAvailable
@@ -120,11 +120,11 @@ const SeatSelection = ({ seatConfig,availableSeats }) => {
     <Box className="seat-selection" sx={{ p: 4, backgroundColor: '#fff', borderRadius: 2 }}>
       <Typography variant="h5" sx={{ mb: 2, color: '#1976d2' }}>Select Your Seat</Typography>
       
-      {renderRows('Platinum', platinumRows, 1)}
+      {renderRows('Economy', economyRows, 1)}
       <Box sx={{ height: '20px' }} />
       {renderRows('Business', businessRows, businessStartingSeat)}
       <Box sx={{ height: '20px' }} />
-      {renderRows('Economy', economyRows, economyStartingSeat)}
+      {renderRows('Platinum', platinumRows, economyStartingSeat)}
 
       <Box sx={{ mt: 4 }}>
         <Typography variant="body2" color="textSecondary">

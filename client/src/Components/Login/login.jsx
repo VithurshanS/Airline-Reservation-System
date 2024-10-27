@@ -2,49 +2,52 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
-// "import users from '../Userdata/Userdata.js';
 import Button from '@mui/material/Button';
-
 
 export default function Login() {
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
+    const [role, setRole] = useState('user'); // Define role state
     const [userData, setUserData] = useState(null);
-    const [error, setError] = useState(''); // For displaying error messages
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleInput = async (event) => {
         event.preventDefault();
         console.log(Username);
-
+       
         try {
-            // Attempt to fetch data from the backend API
-            const response = await axios.post('http://192.168.153.175:3066/get', { "Username":Username, "Password":Password });
+            const response = await axios.post('http://localhost:3067/login', {
+                Username: Username,
+                Password: Password,
+                Role: role // Include role in request payload
+            });
             console.log(response);
             
             if (response.data.message === 201) {
                 const user = response.data.user;
-                
-                setUserData(user); // Set user data if found
-                
-                // Redirect based on the user's role
-                if (user.Role === 'Admin') {
-                    navigate('/Adminpage'); // Redirect to Admin dashboard
+                setUserData(user);
+
+                localStorage.setItem(user,  JSON.stringify(user));
+
+
+                if (user.Role === 'admin') {
+                    navigate('/AdDashboard');
                 } else {
-                    navigate('/Userpage'); // Redirect to User dashboard
+                    navigate('/Userpage');
                 }
             } else if (response.data.message === 301) {
-                setError('Invalid username or password'); // Handle wrong credentials
+                setError('Invalid username or password');
             }
         } catch (error) {
             console.error('Error during login:', error);
-            setError('An error occurred during login'); // Handle server or connection errors
+            setError('An error occurred during login');
         }
     };
 
     const getUserInfo = () => {
         if (userData) {
-            return (<p>{JSON.stringify(userData)}</p>); // Show user info for testing
+            return (<p className="user-info">{JSON.stringify(userData)}</p>);
         } else {
             return null;
         }
@@ -53,8 +56,9 @@ export default function Login() {
     return (
         <div className="login-container">
             <div className="login-form">
+                <h2>Login</h2>
                 <form onSubmit={handleInput}>
-                    <label htmlFor="username">Enter username</label>
+                    <label htmlFor="username">Username</label>
                     <input
                         className="input-field"
                         type="text"
@@ -65,7 +69,7 @@ export default function Login() {
                         required
                     />
 
-                    <label htmlFor="pass">Enter password</label>
+                    <label htmlFor="pass">Password</label>
                     <input
                         className="input-field"
                         type="password"
@@ -76,16 +80,25 @@ export default function Login() {
                         required
                     />
 
-                    <Button type="submit" variant="contained" color="primary">
+                    <label htmlFor="role">Select Role</label>
+                    <select
+                        id="role"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className="role-select"
+                    >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <Button type="submit" variant="contained" color="primary" fullWidth>
                         Login
                     </Button>
                 </form>
 
-                {/* Error message display */}
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p className="error-message">{error}</p>}
             </div>
 
-            {/* Display user info if available */}
             {getUserInfo()}
         </div>
     );

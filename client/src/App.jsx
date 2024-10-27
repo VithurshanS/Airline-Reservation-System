@@ -12,9 +12,10 @@ import "./App.css"
 import BookingPageMain from './Components/BookingPageMain/BookingPageMain';
 import BookNowPage from './Components/BookingPageMain/BookNowPage/BookNowPage';
 import AdDashboard from './Components/Adminpage/AdDashboard/AdDashboard'
-
+import { AuthProvider } from './Context/AuthContext/AuthContext'
 function App() {
   return (
+    //<AuthProvider>
     <Router>
       {/* <Navbar /> */}
       <Routes>
@@ -31,6 +32,7 @@ function App() {
         
       </Routes>
     </Router>
+    //</AuthProvider>
   );
 }
 

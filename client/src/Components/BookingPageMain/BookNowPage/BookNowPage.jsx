@@ -25,7 +25,15 @@ function BookNowPage() {
   const location = useLocation();
   const { scheduleId,economyFare,businessFare,platinumFare } = location.state || {};
   const [availableSeats, setAvailableSeats] = useState([]);
-
+  const [seats,setSeats] =useState([]);
+  const [totalSeats, setTotalSeats] = useState(0);
+  const [economySeatStart, setEconomySeatStart] = useState(0);
+  const [businessSeatStart, setBusinessSeatStart] = useState(0);
+  const [platinumSeatStart, setPlatinumSeatStart] = useState(0);
+      console.log(totalSeats);
+      console.log(economySeatStart);
+      console.log(businessSeatStart);
+      console.log(platinumSeatStart);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [passengers, setPassengers] = useState([
     { name: "", dob: "", gender: "", passportNumber: "" },
@@ -54,13 +62,36 @@ function BookNowPage() {
     console.log("hi ");
     console.log("Schedule ID:", { scheduleId });
     console.log({availableSeats})
-
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
     axios
       .get(`http://localhost:3067/getavailableseats/${scheduleId}`)
       .then((response) => {
         console.log("Available seats:", response.data.results);
         setAvailableSeats(response.data.results);
       })
+      .catch((error) => {
+        console.error("Error fetching available seats:", error);
+      });
+  }, [scheduleId]);
+
+  useEffect(() => {
+   
+    axios
+      .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
+      .then((response) => {
+        console.log("getseats:", response.data.results);
+        setSeats(response.data.results);
+        
+        if (response.data.results && response.data.results[0] && response.data.results[0][0]) {
+          const seatDetails = response.data.results[0][0];
+          setTotalSeats(seatDetails.Total_seats);
+          setEconomySeatStart(seatDetails.Economy_seat_start_no);
+          setBusinessSeatStart(seatDetails.Business_seat_start_no);
+          setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
+        } 
+      })
+      
       .catch((error) => {
         console.error("Error fetching available seats:", error);
       });
@@ -212,9 +243,9 @@ function BookNowPage() {
         <Box sx={{ mt: 4 }}>
           <SeatSelection
             seatConfig={{
-              platinumRows: 4,
-              businessRows: 8,
-              economyRows: 8,
+              economyRows: Math.floor((platinumSeatStart - businessSeatStart) / 9),
+              businessRows: Math.floor((businessSeatStart - economySeatStart) / 9),
+              platinumRows: Math.floor((totalSeats - platinumSeatStart) / 9),
               seatsPerRow: 9,
             }}
             availableSeats={availableSeats}
