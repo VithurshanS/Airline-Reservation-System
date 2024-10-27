@@ -372,4 +372,17 @@ END $$
 
 DELIMITER ;
 
+drop procedure if exists getseatdetails;
+DELIMITER $$
+CREATE PROCEDURE getseatdetails(
+	IN S_ID CHAR(36)
+)
+BEGIN
+	DECLARE PI INT;
+    SELECT Plane_ID into PI from schedule where Schedule_ID = S_ID;
+	SELECT Total_seats,Economy_seat_start_no,Business_seat_start_no,Platinum_seat_start_no FROM aircraft right outer join plane ON plane.Aircraft_ID = aircraft.Aircraft_ID where plane.Plane_ID = PI;
+END $$
+
+DELIMITER ;
+
 

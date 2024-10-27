@@ -78,6 +78,19 @@ const db = require('../database');
             });
         });
     };
+
+    exports.getse = (Schedule_ID) => {
+        return new Promise((resolve, reject) => {
+            const query = `call getseatdetails(?);`;
+            db.query(query, [Schedule_ID], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
     
 
     //create a procedure to book a seat
