@@ -347,3 +347,29 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+drop procedure if exists AddPassenger;
+DELIMITER $$
+
+CREATE PROCEDURE AddPassenger (
+    IN p_Passenger_Name VARCHAR(255),
+    IN p_Passport_Number VARCHAR(255),
+    IN p_DOB DATE,
+    IN p_Gender VARCHAR(10)
+)
+BEGIN
+    DECLARE ID CHAR(36);
+    SELECT Passenger_ID INTO ID FROM Passenger WHERE Passport_Number = p_Passport_Number;
+    IF ID IS NOT NULL THEN
+        SELECT ID;
+    ELSE
+        INSERT INTO Passenger (Passenger_ID, Passenger_Name, Passport_Number, DOB, AGE, Gender)
+        VALUES (UUID(), p_Passenger_Name, p_Passport_Number, p_DOB, calculateAge(p_DOB), p_Gender);
+        SELECT Passenger_ID INTO ID FROM Passenger WHERE Passport_Number = p_Passport_Number;
+        SELECT ID;
+    END IF;
+END $$
+
+DELIMITER ;
+
+
