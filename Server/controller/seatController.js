@@ -1,7 +1,5 @@
 const db = require('../database');
 
-
-    // Start of Selection
     const seatModel = require('../models/seatModel');
 
     exports.addSeat = async (req, res) => {
@@ -59,13 +57,46 @@ const db = require('../database');
         }
     };
 
-    exports.bookSeats = async (req, res) => {
-        const { selectedSeats } = req.body;
+    exports.bookseats = async (req,res)=>{
+            const {seat} = req.body;
+            try{
+                const results = await seatModel.bookSeat(seat);
+                res.send({ "message": "Successfully booked seats.", "results": results });
+            }catch(err){
+                console.log(err);
+                res.status(500).send({"message":"Failed to book seats."});
+            }
+
+    };
+    exports.getseatDetails = async (req, res) => {
+        const Schedule_ID = req.params.scheduleid;
         try {
-            const result = await seatModel.bookSeats(selectedSeats);
-            res.send({ "message": "Seats booked successfully.", "result": result });
+            const results = await seatModel.getse(Schedule_ID);
+            res.send({ "message": "Successfully retrieved seats.", "results": results });
         } catch (error) {
             console.log(error);
-            res.status(500).send({ "message": "Failed to book seats." });
+            res.status(500).send({ "message": "Error occurred when getting seats." });
+        }
+    };
+
+    exports.addselectedseats = async (req, res) => {
+        const {seats} = req.body;
+        try {
+            const results = await seatModel.addselectedseats(seats);
+            res.status(200).send({"message": "Successfully added", "results": results});
+        }catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when adding", "error": error });
+        }
+
+    };
+    exports.removeselectseat = async (req, res) => {
+        const {seats} = req.body;
+        try {
+            const results = await seatModel.removeselectedseats(seats);
+            res.status(200).send({"message": "Successfully added", "results": results});
+        }catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when removing", "error": error });
         }
     };

@@ -24,4 +24,15 @@ exports.getSchedule = async (req, res) => {
     }
 };
 
+exports.getsched = async (req, res) => {
+    try {
+        const {date} = req.body;
+        const results = await scheduleModel.getSche(date);
+        res.send({ "message": "Successfully retrieved schedules.", "results": results });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to get schedules." });
+    }
+}
+
 //define a function that will be called when we need get particular schedule

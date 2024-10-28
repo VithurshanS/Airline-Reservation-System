@@ -1,10 +1,13 @@
 const db = require('../database');
 const bookingModel = require('../models/bookingModel');
 
+
+
+
 exports.addBooking = async (req, res) => {
     try {
-        const { Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status } = req.body; // here i want to declare a function that must calculate the final price
-        const insertId = await bookingModel.insertBooking(Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status);
+        const { Passenger_ID, User_ID, Seat_ID} = req.body; // here i want to declare a function that must calculate the final price
+        const insertId = await bookingModel.insertBooking(Passenger_ID, User_ID, Seat_ID);
         res.send({ "message": "Booking added successfully.", "result": insertId });
     } catch (error) {
         console.log(error);
