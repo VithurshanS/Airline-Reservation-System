@@ -1,5 +1,5 @@
-const db = require('../database');
-const { insertaddress } = require('../models/addressModel');
+const addressModel = require('../models/addressModel');
+
 
 
 const handleInsertAddress = (Addresslist, parentAddressID, index, callback) => {

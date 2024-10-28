@@ -1,4 +1,6 @@
 const db = require('../database');
+const { insertBooking, getBooking } = require('../models/bookingModel');
+
 
 exports.addBooking = async (req, res) => {
     try {

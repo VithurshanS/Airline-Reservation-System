@@ -1,4 +1,6 @@
 const db = require('../database');
+const passengerModel = require('../models/passengerModel');
+
 
 
 

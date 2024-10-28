@@ -1,4 +1,4 @@
-
+const aircraftModel = require('../models/aircraftModel');
 
 exports.addAircraft = async (req,res)=>{
     const {company,AircraftType,totalseats,ESSN,BSSN,PSSN} = req.body;
@@ -14,6 +14,7 @@ exports.addAircraft = async (req,res)=>{
     exports.getAircraft = async (req, res) => {
         const aircraftID = req.params.id;
         try {
+            console.log(aircraftID)
             const result = await aircraftModel.getAircraftQuery(aircraftID);
             res.send({ "message": "Aircraft retrieved successfully.", "result": result });
         } catch (error) {

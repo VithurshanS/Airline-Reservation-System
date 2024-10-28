@@ -13,6 +13,7 @@ const aircraft = require('./router/aircraft');
 const schedule = require('./router/schedule');
 const booking = require('./router/booking');
 const seat = require('./router/seat');
+const report = require('./router/report');
 
 
 
@@ -34,6 +35,7 @@ app.use('/',aircraft);
 app.use('/',schedule);
 app.use('/',booking);
 app.use('/',seat);
+app.use('/',report);
 
 
 

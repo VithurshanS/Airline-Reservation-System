@@ -1,5 +1,6 @@
 const reportModel = require('../models/reportModel');
 
+
 // 1. Get Passengers by Age for a Given Flight
 exports.getPassengersByAge = async (req, res) => {
     const flight_no = req.params.flight_no;
@@ -17,7 +18,7 @@ exports.getPassengersByAge = async (req, res) => {
 
 // 2. Get Passenger Count by Destination Within a Date Range
 exports.getPassengerCountByDestination = async (req, res) => {
-    const { startDate, endDate, destination } = req.query;
+    const { startDate, endDate, destination } = req.body;
     if (!startDate || !endDate || !destination) {
         return res.status(400).send({ "message": "startDate, endDate, and destination are required." });
     }
@@ -35,7 +36,7 @@ exports.getPassengerCountByDestination = async (req, res) => {
 
 // 3. Get Bookings by Passenger Category Within a Date Range
 exports.getBookingsByCategory = async (req, res) => {
-    const { startDate, endDate } = req.query;
+    const { startDate, endDate } = req.body;
     if (!startDate || !endDate) {
         return res.status(400).send({ "message": "startDate and endDate are required." });
     }
@@ -53,7 +54,7 @@ exports.getBookingsByCategory = async (req, res) => {
 
 // 4. Get Past Flights Data Between Origin and Destination
 exports.getPastFlights = async (req, res) => {
-    const { origin, destination } = req.query;
+    const { origin, destination } = req.body;
     if (!origin || !destination) {
         return res.status(400).send({ "message": "origin and destination are required." });
     }

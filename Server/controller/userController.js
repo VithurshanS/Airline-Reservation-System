@@ -1,6 +1,5 @@
 const db = require('../database');
 const bcrypt = require('bcrypt');
-
 const userModel = require('../models/userModel');
 
 exports.getDetails = async (req, res) => {

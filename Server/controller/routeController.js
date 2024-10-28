@@ -1,7 +1,6 @@
 const db = require('../database');
-
- // Start of Selection
 const routeModel = require('../models/routeModel');
+ // Start of Selection
 
 exports.addRoute = async (req, res) => {
     const { Depature_Airport, Arival_Airport } = req.body;

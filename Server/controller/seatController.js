@@ -1,8 +1,8 @@
 const db = require('../database');
+const seatModel = require('../models/seatModel');
 
 
-    // Start of Selection
-    const seatModel = require('../models/seatModel');
+
 
     exports.addSeat = async (req, res) => {
         const { Schedule_ID, Seat_number, Seat_class, Seat_status } = req.body;
