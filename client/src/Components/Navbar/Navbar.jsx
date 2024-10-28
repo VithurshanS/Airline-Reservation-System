@@ -5,6 +5,7 @@ import underline from '../../assets/nav_underline.svg'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import menu_open from '../../assets/menu_open.svg'
 import menu_close from '../../assets/menu_close.svg'
+import { useNavigate } from 'react-router-dom';
 
 const Navbar2 = () => {
 
@@ -18,15 +19,29 @@ const Navbar2 = () => {
   const closeMenu = () => {
     menuRef.current.style.right="-350px";
   }
+  const Navigate = useNavigate();
 
   return (
     <div className='navbar'>
+      <div className="button-container">
+       
+       <button className="Homebuttons" onClick={() => Navigate("/")}>
+         ← Back
+       </button>
 
+
+       <button className="Homebuttons" onClick={() => Navigate("/Login")}>
+         Next →
+       </button>
+
+       
+       
+     </div>
       
       <img src={menu_open} onClick={openMenu} alt="" className='nav-mob-open' />
       <ul ref={menuRef} className="nav-menu">
         <img src={menu_close}  onClick={closeMenu} alt="" className='nav-mob-close'/>
-        <li><AnchorLink className='anchor-link'  href='#home'><p onClick={()=>setMenu("home")}>Home</p></AnchorLink>{menu==="home"?<img src={underline} alt=''/>:<></>}</li>
+        <li><AnchorLink className='anchor-link'  href='#home'><p onClick={()=>setMenu("home")}>Home</p></AnchorLink>{menu==="home"}</li>
         <li><AnchorLink className='anchor-link' offset={50} href='#about'><p onClick={()=>setMenu("about")}>About Us</p></AnchorLink>{menu==="about"?<img src={underline} alt=''/>:<></>}</li>
         <li><AnchorLink className='anchor-link' offset={50} href='#services'><p onClick={()=>setMenu("services")}>Our Services</p></AnchorLink>{menu==="services"?<img src={underline} alt=''/>:<></>}</li>
         <li><AnchorLink className='anchor-link' offset={50} href='#work'><p onClick={()=>setMenu("work")}>FAQs</p></AnchorLink>{menu==="work"?<img src={underline} alt=''/>:<></>}</li>
