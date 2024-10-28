@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Aircraft.css';
+import axios from 'axios';
 
 const AircraftEdit = () => {
     const [aircrafts, setAircrafts] = useState([
@@ -33,12 +34,35 @@ const AircraftEdit = () => {
         const { name, value } = e.target;
         setNewAircraft({ ...newAircraft, [name]: value });
     };
+    const [result, setResult] = useState('');
 
-    const handleAdd = () => {
-        setAircrafts([...aircrafts, { ...newAircraft, id: aircrafts.length + 1 }]);
-        setNewAircraft({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
+    // const handleAdd = () => {
+    //     setAircrafts([...aircrafts, { ...newAircraft, id: aircrafts.length + 1 }]);
+    //     setNewAircraft({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
+    // };
+    const handleAdd = async () => {
+        try {
+            const response = await axios.post('http://localhost:3067/addaircraft', {
+                
+                
+                
+                    company: newAircraft.company,
+                    AircraftType: newAircraft.type,
+                    totalseats: newAircraft.totalSeats,
+                    ESSN: newAircraft.economyStart,
+                    BSSN: newAircraft.businessStart,
+                    PSSN: newAircraft.platinumStart,
+                
+            });
+            setResult(response.data.message);
+            alert(response.data.message);
+            setNewAircraft({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
+            
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     };
-
+    
     const handleDelete = (id) => {
         setAircrafts(aircrafts.filter(aircraft => aircraft.id !== id));
     };

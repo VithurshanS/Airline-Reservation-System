@@ -14,7 +14,7 @@ export default function Login() {
 
     const handleInput = async (event) => {
         event.preventDefault();
-        console.log(Username);
+        
        
         try {
             const response = await axios.post('http://localhost:3067/login', {
@@ -22,7 +22,7 @@ export default function Login() {
                 Password: Password,
                 Role: role // Include role in request payload
             });
-            console.log(response.data);
+            // console.log(response.data);
             
             if (response.data.message === 201) {
                 const user = response.data.user;

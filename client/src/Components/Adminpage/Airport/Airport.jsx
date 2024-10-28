@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Airport.css';
-
+import axios from 'axios';
 const AirportManagement = () => {
     const [airports, setAirports] = useState([
         { id: 1, airportCode: 'CMB', airportName: 'Bandaranaike International Airport', location: 'Colombo, Western, Sri Lanka' },
@@ -34,9 +34,25 @@ const AirportManagement = () => {
         setNewAirport({ ...newAirport, [name]: value });
     };
 
-    const handleAdd = () => {
-        setAirports([...airports, { id: airports.length + 1, ...newAirport }]);
-        setNewAirport({ airportCode: '', airportName: '', location: '' });
+    // const handleAdd = () => {
+    //     setAirports([...airports, { id: airports.length + 1, ...newAirport }]);
+    //     setNewAirport({ airportCode: '', airportName: '', location: '' });
+    // };
+
+    const handleAdd = async () => {
+        try {
+            const response = await axios.post('http://localhost:3067/addairport', {
+                    Airport_Code :newAirport.airportCode,
+                    Airport_name : newAirport.airportName,
+                    Location :  newAirport.location,
+            });
+            setResult(response.data.message);
+            alert(response.data.message);
+            setNewAirport({ airportCode: '', airportName: '', location: '' });
+            
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     };
 
     const handleDelete = (id) => {
