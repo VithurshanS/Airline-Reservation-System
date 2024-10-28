@@ -1,7 +1,5 @@
 const db = require('../database');
 
-
-    // Start of Selection
     const seatModel = require('../models/seatModel');
 
     exports.addSeat = async (req, res) => {
@@ -78,5 +76,27 @@ const db = require('../database');
         } catch (error) {
             console.log(error);
             res.status(500).send({ "message": "Error occurred when getting seats." });
+        }
+    };
+
+    exports.addselectedseats = async (req, res) => {
+        const {seats} = req.body;
+        try {
+            const results = await seatModel.addselectedseats(seats);
+            res.status(200).send({"message": "Successfully added", "results": results});
+        }catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when adding", "error": error });
+        }
+
+    };
+    exports.removeselectseat = async (req, res) => {
+        const {seats} = req.body;
+        try {
+            const results = await seatModel.removeselectedseats(seats);
+            res.status(200).send({"message": "Successfully added", "results": results});
+        }catch (error) {
+            console.log(error);
+            res.status(500).send({ "message": "Error occurred when removing", "error": error });
         }
     };

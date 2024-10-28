@@ -385,4 +385,29 @@ END $$
 
 DELIMITER ;
 
+drop procedure if exists addselectedseat;
+DELIMITER $$
+CREATE PROCEDURE addselectedseat(
+    IN seatid char(36)
+)
+BEGIN
+	UPDATE seat SET Seat_status = "selected" where Seat_ID = seatid;
+END $$
+DELIMITER ;
+
+drop procedure if exists removeselectedseat;
+DELIMITER $$
+CREATE PROCEDURE removeselectedseat(
+    IN seatid char(36)
+)
+BEGIN
+	DECLARE currentstatus VARCHAR(10);
+    SELECT Seat_status into currentstatus from seat where Seat_ID = seatid;
+    IF currentstatus = "selected" then
+		UPDATE seat SET Seat_status = "available" where Seat_ID = seatid;
+	END IF;
+    
+END $$
+DELIMITER ;
+
 

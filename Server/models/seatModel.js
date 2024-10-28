@@ -91,6 +91,33 @@ const db = require('../database');
             });
         });
     }
+    exports.addselectedseats = (seat) => {
+        return new Promise((resolve, reject) => {
+            const query = `call addselectedseat(?);`;
+            db.query(query, [seat], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+            
+        });
+    }
+    exports.removeselectedseats = (seat) => {
+        return new Promise((resolve, reject) => {
+                const query = `call removeselectedseat(?);`;
+                db.query(query, [seat], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+
+            });
+            
+        });
+    }
     
 
     //create a procedure to book a seat
