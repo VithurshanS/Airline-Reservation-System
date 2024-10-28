@@ -59,3 +59,17 @@ exports.getPastFlightsData = (origin, destination) => {
         });
     });
 };
+
+
+exports.getRevenueByAircraft = () => {
+    return new Promise((resolve, reject) => {
+        const query = `CALL generateRevenueByAircraftReport();`;
+        db.query(query, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results[0]);
+            }
+        });
+    });
+};

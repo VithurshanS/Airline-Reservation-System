@@ -69,3 +69,21 @@ exports.getPastFlights = async (req, res) => {
         res.status(500).send({ "message": "Failed to retrieve past flights data." });
     }
 };
+
+// 5. Get Revenue by Aircraft Type
+exports.getRevenueByAircraft = async (req, res) => {
+    try {
+        const revenue = await reportModel.getRevenueByAircraft();
+        res.send({
+            "message": "Revenue by aircraft type retrieved successfully.",
+            "Revenue": revenue
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ "message": "Failed to retrieve revenue by aircraft type." });
+    }
+};
+
+
+
+
