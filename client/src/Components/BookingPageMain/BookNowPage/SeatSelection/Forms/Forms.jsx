@@ -8,11 +8,14 @@ import {
   Grid,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 import './Forms.css';
+
 function BookingForm() {
   const location = useLocation();
   const { selectedSeats } = location.state || {};
   const [passengers, setPassengers] = useState([]);
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     // Initialize passengers based on selectedSeats length
@@ -32,8 +35,33 @@ function BookingForm() {
     updatedPassengers[index] = {
       ...updatedPassengers[index],
       [field]: value,
+      seatNumber: selectedSeats ? selectedSeats[index] : "",
     };
     setPassengers(updatedPassengers);
+  };
+
+  const handlePassengerdata = async (index) => {
+    const passenger = passengers[index];
+    if (!passenger.name || !passenger.dob || !passenger.gender || !passenger.passportNumber) {
+      setResult("Please fill all fields before adding.");
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:3067/addguest', {
+        Passenger_Name: passenger.name,
+        Passport_Number: passenger.passportNumber,
+        DOB: passenger.dob,
+        Gender: passenger.gender,
+        Seat_Number: passenger.seatNumber,
+      });
+      
+      setResult(response.data.message); // Display success message from backend
+      console.log(`Passenger ${index + 1} added:`, response.data.message);
+    } catch (error) {
+      console.error('Error during post request:', error);
+      setResult("Failed to add passenger. Please try again.");
+    }
   };
 
   return (
@@ -61,7 +89,7 @@ function BookingForm() {
                 Passenger {index + 1}
               </Typography>
               <Grid container spacing={2}>
-              <Grid item xs={4}>
+                <Grid item xs={4}>
                   <TextField
                     label="Seat Number"
                     variant="outlined"
@@ -119,26 +147,32 @@ function BookingForm() {
                     fullWidth
                     value={passenger.passportNumber}
                     onChange={(e) =>
-                      handlePassengerChange(
-                        index,
-                        "passportNumber",
-                        e.target.value
-                      )
+                      handlePassengerChange(index, "passportNumber", e.target.value)
                     }
                   />
                 </Grid>
-                <div className="addpasss"><Button type="submit" className="addpa" variant="contained" color="primary" halfWidth  >
-                        Add
-                    </Button></div>
-                
+                <Grid item xs={4}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handlePassengerdata(index)}
+                  >
+                    Add
+                  </Button>
+                </Grid>
               </Grid>
             </Box>
           </Grid>
         ))}
       </Grid>
-      <Button type="submit"  variant="contained" color="primary" halfWidth  >
-                        Confirm Booking
-                    </Button>
+
+      <Typography color="textSecondary" variant="body2" sx={{ mt: 2 }}>
+        {result}
+      </Typography>
+
+      <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }}>
+        Confirm Booking
+      </Button>
     </Box>
   );
 }
