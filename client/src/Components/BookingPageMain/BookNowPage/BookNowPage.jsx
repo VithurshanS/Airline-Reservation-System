@@ -33,10 +33,10 @@ function BookNowPage() {
   const [economySeatStart, setEconomySeatStart] = useState(0);
   const [businessSeatStart, setBusinessSeatStart] = useState(0);
   const [platinumSeatStart, setPlatinumSeatStart] = useState(0);
-  console.log(totalSeats);
-  console.log(economySeatStart);
-  console.log(businessSeatStart);
-  console.log(platinumSeatStart);
+  // console.log(totalSeats);
+  // console.log(economySeatStart);
+  // console.log(businessSeatStart);
+  // console.log(platinumSeatStart);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [passengers, setPassengers] = useState([

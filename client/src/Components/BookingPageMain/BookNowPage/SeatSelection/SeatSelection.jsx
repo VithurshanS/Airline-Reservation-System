@@ -21,12 +21,13 @@ const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedS
     }
   };
 
-  const renderSeat = (seatNumber, rowType) => {
-    const isSelected = selectedSeats.includes(seatNumber);
-    const isAvailable = availableSeats.some(
-      (seat) => seat.Seat_number === seatNumber
-    );
-
+  const renderSeat = (seatNumber, rowType) => {/////////////////////////////////////////
+    // const isSelected = selectedSeats.includes(seatNumber);
+    // const isAvailable = availableSeats.some(
+    //   (seat) => seat.Seat_number === seatNumber
+    // );
+    const isSelected = selectedSeats.some((s) => s.Seat_number === seatNumber);
+      const isAvailable = availableSeats.some((s) => s.Seat_number === seatNumber);
     // Determine the seat color based on availability, selection, and class type
     let seatColor;
     if (!isAvailable) {
@@ -43,34 +44,38 @@ const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedS
             : "green"; // Default to Economy color
     }
 
-    const handleUserdata = async (event) => {
-      event.preventDefault();
+    
+  const handleSeatClick = async (seatNumber) => {//////////////////////////////////////////////////////////////////////
+    const seatObj = availableSeats.find((s) => s.Seat_number === seatNumber);
+    console.log("seat object id ",seatObj.Seat_ID);
+    if (!seatObj) return; // Only proceed if the seat is available
 
-      // Validate required fields before making the API call
-      if (!Username || !FirstName || !LastName || !Email || !DOB || !Gender || !Password) {
-          setResult("All fields are required.");
-          return;
-      }
-
+    if (selectedSeats.some((s) => s.Seat_number === seatNumber)) {
+      // Deselect seat
+      setSelectedSeats(selectedSeats.filter((s) => s.Seat_number !== seatNumber));
       try {
-          const response = await axios.post('http://localhost:3067/signup', {
-              User_Name: Username,
-              First_name: FirstName,
-              Last_name: LastName,
-              Email: Email,
-              DOB: DOB,
-              Gender: Gender,
-              Password: Password,
-              Role: Role
-          });
+        console.log("its work removing");
+        await axios.post('http://localhost:3067/removeselectedseat', {
+          seats: seatObj.Seat_ID,
           
-          setResult(response.data.message); // Display success message from backend
-          navigate('/login'); 
-         
+        }).then((resd)=>{console.log("seatremove respone mdsss",resd.data.message)});;
+        console.log(`Seat ${seatObj.Seat_ID} deselected`);
       } catch (error) {
-          console.error('Error during post request:', error);
-          setResult('Signup failed. Please try again.');
+        console.error('Error deselecting seat:', error);
       }
+    } else {
+      // Select seat
+      setSelectedSeats([...selectedSeats, seatObj]);
+      try {
+        console.log("its work selecting");
+        await axios.post('http://localhost:3067/addselectedseat', {
+          seats: seatObj.Seat_ID,
+        }).then((res)=>{console.log("seatadding respone mdsss",res.data.message)});
+        console.log(`Seat ${seatObj.Seat_ID} selected`);
+      } catch (error) {
+        console.error('Error selecting seat:', error);
+      }
+    }
   };
 
     return (
