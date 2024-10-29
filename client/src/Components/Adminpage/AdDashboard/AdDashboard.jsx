@@ -57,11 +57,11 @@ const NAVIGATION = [
     title: 'Passenger Details',
     icon: <PeopleIcon fontSize="large" style={{ color: '#2196f3' }} />,
   },
-  {
-    segment: 'revenue',
-    title: 'Revenue',
-    icon: <AttachMoneyIcon fontSize="large" style={{ color: '#2196f3' }} />,
-  },
+  // {
+  //   segment: 'revenue',
+  //   title: 'Revenue',
+  //   icon: <AttachMoneyIcon fontSize="large" style={{ color: '#2196f3' }} />,
+  // },
   
   {
     segment: 'aircraft',
@@ -158,9 +158,9 @@ function DemoPageContent({ pathname }) {
     case '/passenger-details':
       content = '<PassengerDetails />';
       break;
-    case '/revenue':
-      content = '<Revenue />';
-      break;
+    // case '/revenue':
+    //   content = '<Revenue />';
+    //   break;
     case '/account':
       content = <AdminProfile />;
       break;

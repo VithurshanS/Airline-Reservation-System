@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -22,19 +23,22 @@ import { useLocation } from "react-router-dom";
 // import NavBar from '../NavBar/NavBar';
 
 function BookNowPage() {
+  const Navigate = useNavigate();
   const location = useLocation();
-  const { scheduleId,economyFare,businessFare,platinumFare } = location.state || {};
+  const { scheduleId, economyFare, businessFare, platinumFare } =
+    location.state || {};
   const [availableSeats, setAvailableSeats] = useState([]);
-  const [seats,setSeats] =useState([]);
+  const [seats, setSeats] = useState([]);
   const [totalSeats, setTotalSeats] = useState(0);
   const [economySeatStart, setEconomySeatStart] = useState(0);
   const [businessSeatStart, setBusinessSeatStart] = useState(0);
   const [platinumSeatStart, setPlatinumSeatStart] = useState(0);
-      console.log(totalSeats);
-      console.log(economySeatStart);
-      console.log(businessSeatStart);
-      console.log(platinumSeatStart);
+  console.log(totalSeats);
+  console.log(economySeatStart);
+  console.log(businessSeatStart);
+  console.log(platinumSeatStart);
   const [selectedClass, setSelectedClass] = useState("Economy");
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [passengers, setPassengers] = useState([
     { name: "", dob: "", gender: "", passportNumber: "" },
   ]);
@@ -57,11 +61,16 @@ function BookNowPage() {
       )
     );
   };
+  console.log("economy", Math.floor((businessSeatStart - 1) / 9));
+  console.log(
+    "business",
+    Math.floor((platinumSeatStart - businessSeatStart) / 9)
+  );
+  console.log("plantinum", Math.floor((totalSeats - platinumSeatStart) / 9));
 
   useEffect(() => {
-    console.log("hi ");
     console.log("Schedule ID:", { scheduleId });
-    console.log({availableSeats})
+    console.log({ availableSeats });
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user);
     axios
@@ -75,27 +84,53 @@ function BookNowPage() {
       });
   }, [scheduleId]);
 
+  // useEffect(() => {
+
+  //   axios
+  //     .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
+  //     .then((response) => {
+  //       console.log("getseats:", response.data.results);
+  //       setSeats(response.data.results);
+
+  //       if (response.data.results && response.data.results[0] && response.data.results[0][0]) {
+  //         const seatDetails = response.data.results[0][0];
+  //         setTotalSeats(seatDetails.Total_seats);
+  //         setEconomySeatStart(seatDetails.Economy_seat_start_no);
+  //         setBusinessSeatStart(seatDetails.Business_seat_start_no);
+  //         setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
+  //       }
+  //     })
+
+  //     .catch((error) => {
+  //       console.error("Error fetching available seats:", error);
+  //     });
+  // }, [scheduleId]);
   useEffect(() => {
-   
     axios
       .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
       .then((response) => {
-        console.log("getseats:", response.data.results);
-        setSeats(response.data.results);
-        
-        if (response.data.results && response.data.results[0] && response.data.results[0][0]) {
-          const seatDetails = response.data.results[0][0];
+        const seatDetails = response.data.results[0]?.[0];
+        console.log("getseatsss", response.data.results);
+        if (seatDetails) {
           setTotalSeats(seatDetails.Total_seats);
           setEconomySeatStart(seatDetails.Economy_seat_start_no);
           setBusinessSeatStart(seatDetails.Business_seat_start_no);
           setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
-        } 
+        }
       })
-      
       .catch((error) => {
-        console.error("Error fetching available seats:", error);
+        console.error("Error fetching seat details:", error);
       });
   }, [scheduleId]);
+
+  const seatConfig = totalSeats
+    ? {
+        economyRows: Math.floor((businessSeatStart - 1) / 9),
+        businessRows: Math.floor((platinumSeatStart - businessSeatStart) / 9),
+        platinumRows: Math.floor((totalSeats - platinumSeatStart) / 9),
+        seatsPerRow: 9,
+      }
+    : null;
 
   return (
     <>
@@ -128,16 +163,12 @@ function BookNowPage() {
           </div>
         </div>
       </div>
-      {/* <div className="parallax">
-    <ParallaxFlight />
-    </div> */}
 
-      <Box
+      {/* <Box
         className="book-now-page"
         sx={{ p: 4, backgroundColor: "#f5f5f5", borderRadius: 2, boxShadow: 3 }}
       >
-        {/* <NavBar/> */}
-
+       
         <Typography variant="h4" gutterBottom>
           Book Now
         </Typography>
@@ -239,24 +270,25 @@ function BookNowPage() {
           <IconButton color="primary" onClick={handleAddPassenger}>
             <AddIcon /> Add Passenger
           </IconButton>
-        </Box>
+        </Box> */}
+      {seatConfig && (
         <Box sx={{ mt: 4 }}>
           <SeatSelection
-            seatConfig={{
-              economyRows: Math.floor((platinumSeatStart - businessSeatStart) / 9),
-              businessRows: Math.floor((businessSeatStart - economySeatStart) / 9),
-              platinumRows: Math.floor((totalSeats - platinumSeatStart) / 9),
-              seatsPerRow: 9,
-            }}
+            seatConfig={seatConfig}
             availableSeats={availableSeats}
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
           />
         </Box>
-      </Box>
-      
-        <button className="confirm_book">
-          Confirm Booking
-        </button>
-      
+      )}
+      {/* </Box> */}
+
+      <button
+        className="confirm_book"
+        onClick={() => Navigate("/forms", { state: { selectedSeats } })}
+      >
+        Confirm Booking
+      </button>
     </>
   );
 }

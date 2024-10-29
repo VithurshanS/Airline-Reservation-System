@@ -72,7 +72,7 @@ const AirportManagement = () => {
                             <th>Airport Code</th>
                             <th>Airport Name</th>
                             <th>Location</th>
-                            <th>Actions</th>
+                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -82,10 +82,10 @@ const AirportManagement = () => {
                                 <td>{airport.airportCode}</td>
                                 <td>{airport.airportName}</td>
                                 <td>{airport.location}</td>
-                                <td>
+                                {/* <td>
                                     <button onClick={() => handleEdit(airport)} className="edit-btn">Edit</button>
                                     <button onClick={() => handleDelete(airport.id)} className="delete-btn">Delete</button>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>

@@ -106,7 +106,7 @@ export default function Signup() {
                         type='text'
                         id='PaN'
                         name='PaN'
-                        onChange={(e) => setPaN(e.target.value)}
+                        //onChange={(e) => setPaN(e.target.value)}
                     />
 
                     <label htmlFor="gender" className='label1' style={{paddingLeft:"20px"}}>Select Gender</label>

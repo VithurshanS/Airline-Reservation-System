@@ -33,6 +33,10 @@ const Navbar2 = () => {
        <button className="Homebuttons" onClick={() => Navigate("/Login")}>
          Next →
        </button>
+       
+       <button className="Homebuttons" onClick={() => Navigate("/Dashboard")}>
+         user
+       </button>
 
        
        

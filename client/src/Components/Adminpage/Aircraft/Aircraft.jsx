@@ -82,7 +82,7 @@ const AircraftEdit = () => {
                             <th>Economy Seats Start</th>
                             <th>Business Seats Start</th>
                             <th>Platinum Seats Start</th>
-                            <th>Actions</th>
+                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -95,10 +95,10 @@ const AircraftEdit = () => {
                                 <td>{aircraft.economyStart}</td>
                                 <td>{aircraft.businessStart}</td>
                                 <td>{aircraft.platinumStart}</td>
-                                <td>
+                                {/* <td>
                                     <button onClick={() => handleEdit(aircraft)} className="edit-btn">Edit</button>
                                     <button onClick={() => handleDelete(aircraft.id)} className="delete-btn">Delete</button>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>
@@ -135,10 +135,10 @@ const AircraftEdit = () => {
                             Platinum Seats Start:
                             <input type="number" name="platinumStart" value={editedAircraft.platinumStart} onChange={handleInputChange} />
                         </label>
-                        <div className="form-actions">
+                        {/* <div className="form-actions">
                             <button onClick={handleSave} className="save-btn">Save</button>
                             <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-                        </div>
+                        </div> */}
                     </div>
                 )}
 

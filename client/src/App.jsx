@@ -13,6 +13,9 @@ import BookingPageMain from './Components/BookingPageMain/BookingPageMain';
 import BookNowPage from './Components/BookingPageMain/BookNowPage/BookNowPage';
 import AdDashboard from './Components/Adminpage/AdDashboard/AdDashboard'
 import { AuthProvider } from './Context/AuthContext/AuthContext'
+import Forms from './Components/BookingPageMain/BookNowPage/SeatSelection/Forms/Forms';
+// import Dashboard from './Components/Userpage/Dashboard/Dashboard'
+ 
 function App() {
   return (
     //<AuthProvider>
@@ -29,6 +32,9 @@ function App() {
         <Route path="/BookingPageMain" element={<BookingPageMain/>}/>
         <Route path="/booknow" element={<BookNowPage/>}/>
         <Route path="/AdDashboard" element={<AdDashboard/>}/>
+        
+        <Route path="/forms" element={<Forms/>}/>
+
         
       </Routes>
     </Router>

@@ -27,6 +27,7 @@ export default function Login() {
             if (response.data.message === 201) {
                 const user = response.data.user;
                 setUserData(user);
+                console.log(user);
 
                 localStorage.setItem("user",  JSON.stringify(user));
 
@@ -103,5 +104,6 @@ export default function Login() {
             {getUserInfo()}
         </div>
         </div>
+        
     );
 }
