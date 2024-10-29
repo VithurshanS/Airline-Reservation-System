@@ -118,7 +118,8 @@ BEGIN
     DECLARE business_start INT;
     DECLARE platinum_start INT;
     DECLARE seat_no INT;
-    
+
+    -- Get the Aircraft and seat details from Schedule and Aircraft tables in a single query
     SELECT a.Total_seats, a.Economy_seat_start_no, a.Business_seat_start_no, a.Platinum_seat_start_no
     INTO total_seats, economy_start, business_start, platinum_start
     FROM Aircraft a
@@ -233,7 +234,6 @@ CREATE PROCEDURE bookseat(
 	IN seatid CHAR(36)
 )
 BEGIN
-    
     DECLARE useid CHAR(36);
     DECLARE bookingcount INT DEFAULT -1;
     DECLARE inistatus INT DEFAULT 0;
@@ -273,20 +273,13 @@ CREATE PROCEDURE AddPassenger (
 )
 BEGIN
     DECLARE ID CHAR(36);
-   -- DECLARE EXIT HANDLER FOR SQLEXCEPTION
     SELECT Passenger_ID INTO ID FROM Passenger WHERE Passport_Number = p_Passport_Number;
     IF ID IS NOT NULL THEN
         SELECT ID;
     ELSE
-		-- BEGIN
-			-- ROLLBACK;
-		-- END;
-		-- START TRANSACTION;
-			INSERT INTO Passenger (Passenger_ID, Passenger_Name, Passport_Number, DOB, AGE, Gender)
-			VALUES (UUID(), p_Passenger_Name, p_Passport_Number, p_DOB, calculateAge(p_DOB), p_Gender);
-			SELECT Passenger_ID INTO ID FROM Passenger WHERE Passport_Number = p_Passport_Number;
-		-- COMMIT;
-        
+        INSERT INTO Passenger (Passenger_ID, Passenger_Name, Passport_Number, DOB, AGE, Gender)
+        VALUES (UUID(), p_Passenger_Name, p_Passport_Number, p_DOB, calculateAge(p_DOB), p_Gender);
+        SELECT Passenger_ID INTO ID FROM Passenger WHERE Passport_Number = p_Passport_Number;
         SELECT ID;
     END IF;
 END $$
@@ -300,13 +293,8 @@ CREATE PROCEDURE getseatdetails(
 )
 BEGIN
 	DECLARE PI INT;
-	BEGIN
-		ROLLBACK;
-	END;
-	START TRANSACTION;
     SELECT Plane_ID into PI from schedule where Schedule_ID = S_ID;
 	SELECT Total_seats,Economy_seat_start_no,Business_seat_start_no,Platinum_seat_start_no FROM aircraft right outer join plane ON plane.Aircraft_ID = aircraft.Aircraft_ID where plane.Plane_ID = PI;
-	commit;
 END $$
 
 DELIMITER ;
@@ -336,174 +324,6 @@ BEGIN
 END $$
 DELIMITER ;
 
-
--- ---------------------------------------------------------------------------------------------------------
-use AIRLINE;
-
-drop procedure if exists getPassengersByAgeForFlight;
-DELIMITER $$
-CREATE PROCEDURE getPassengersByAgeForFlight(IN flight_no CHAR(36))
-BEGIN
-    SELECT 
-        p.Passenger_ID,
-        p.Passenger_Name,
-        p.Passport_Number,
-        p.DOB,
-        p.AGE,
-        p.Gender
-    FROM 
-        Booking b
-    JOIN 
-        Passenger p ON b.Passenger_ID = p.Passenger_ID
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    WHERE 
-        s.Schedule_ID = flight_no 
-        AND b.Booking_Status = 'confirmed' 
-        AND p.AGE < 18;
-
-    SELECT 
-        p.Passenger_ID,
-        p.Passenger_Name,
-        p.Passport_Number,
-        p.DOB,
-        p.AGE,
-        p.Gender
-    FROM 
-        Booking b
-    JOIN 
-        Passenger p ON b.Passenger_ID = p.Passenger_ID
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    WHERE 
-        s.Schedule_ID = flight_no 
-        AND b.Booking_Status = 'confirmed' 
-        AND p.AGE >= 18;
-END$$
-
-DELIMITER ;
-
-drop procedure if exists getPassengerCountByDestination;
-DELIMITER $$
-CREATE PROCEDURE getPassengerCountByDestination(
-    IN startDate DATETIME,
-    IN endDate DATETIME,
-    IN destination VARCHAR(255)
-)
-BEGIN
-    SELECT 
-        COUNT(DISTINCT b.Passenger_ID) AS PassengerCount
-    FROM 
-        Booking b
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    JOIN 
-        Schedule sc ON s.Schedule_ID = sc.Schedule_ID
-    JOIN 
-        Route r ON sc.Route_ID = r.Route_ID
-    JOIN 
-        Airport a ON r.Arrival_Airport = a.Airport_Code
-    WHERE 
-        sc.Departure_Time BETWEEN startDate AND endDate
-        AND a.Location_ID = destination
-        AND b.Booking_Status = 'confirmed';
-END$$
-
-DELIMITER ;
-
-drop procedure if exists getBookingsByPassengerCategory;
-DELIMITER $$
-CREATE PROCEDURE getBookingsByPassengerCategory(
-    IN startDate DATETIME,
-    IN endDate DATETIME
-)
-BEGIN
-    SELECT 
-        c.Category_Type,
-        COUNT(b.Booking_ID) AS TotalBookings
-    FROM 
-        Booking b
-    JOIN 
-        User u ON b.User_ID = u.User_ID
-    JOIN 
-        User_Category uc ON u.User_ID = uc.User_ID
-    JOIN 
-        Category c ON uc.Category_ID = c.Category_ID
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    JOIN 
-        Schedule sc ON s.Schedule_ID = sc.Schedule_ID
-    WHERE 
-        sc.Departure_Time BETWEEN startDate AND endDate
-        AND b.Booking_Status = 'confirmed'
-    GROUP BY 
-        c.Category_Type
-    ORDER BY 
-        TotalBookings DESC;
-END$$
-
-DELIMITER ;
-
-drop procedure if exists getPastFlightsData;
-DELIMITER $$
-CREATE PROCEDURE getPastFlightsData(
-    IN origin VARCHAR(5),
-    IN destination VARCHAR(5)
-)
-BEGIN
-    SELECT 
-        sc.Schedule_ID,
-        sc.Departure_Time,
-        sc.Arrival_Time,
-        COUNT(b.Booking_ID) AS PassengerCount
-    FROM 
-        Schedule sc
-    JOIN 
-        Route r ON sc.Route_ID = r.Route_ID
-    JOIN 
-        Seat s ON sc.Schedule_ID = s.Schedule_ID
-    JOIN 
-        Booking b ON s.Seat_ID = b.Seat_ID
-    WHERE 
-        r.Departure_Airport = origin
-        AND r.Arrival_Airport = destination
-        AND sc.Departure_Time < NOW()
-        AND b.Booking_Status = 'confirmed'
-    GROUP BY 
-        sc.Schedule_ID, sc.Departure_Time, sc.Arrival_Time
-    ORDER BY 
-        sc.Departure_Time DESC;
-END$$
-
-DELIMITER ;
-
-drop procedure if exists generateRevenueByAircraftReport;
-DELIMITER $$ 
-CREATE PROCEDURE generateRevenueByAircraftReport()
-BEGIN
-    SELECT 
-        a.Aircraft_type,
-        COUNT(b.Booking_ID) AS TotalBookings,
-        SUM(b.Final_Price) AS TotalRevenue
-    FROM 
-        Booking b
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    JOIN 
-        Schedule sc ON s.Schedule_ID = sc.Schedule_ID
-    JOIN 
-        Plane p ON sc.Plane_ID = p.Plane_ID
-    JOIN 
-        Aircraft a ON p.Aircraft_ID = a.Aircraft_ID
-    WHERE 
-        b.Booking_Status = 'confirmed'
-    GROUP BY 
-        a.Aircraft_type
-    ORDER BY 
-        TotalRevenue DESC;
-END$$
-
-DELIMITER ;
 
 
 

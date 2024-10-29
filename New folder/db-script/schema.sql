@@ -1,5 +1,5 @@
 DROP schema if exists AIRLINE;
-CREATE database AIRLINE;
+CREATE schema AIRLINE;
 use AIRLINE;
 
 
@@ -73,7 +73,7 @@ INSERT INTO Route (Route_ID,Departure_Airport, Arrival_Airport) VALUES (2,'CMB',
 CREATE TABLE Passenger (
     Passenger_ID CHAR(36) PRIMARY KEY,
     Passenger_Name VARCHAR(200),
-    Passport_Number CHAR(10) UNIQUE,
+    Passport_Number CHAR(10),
     DOB DATE,
     AGE INT,
     Gender ENUM('Male', 'Female')
