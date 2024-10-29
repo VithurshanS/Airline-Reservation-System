@@ -25,12 +25,16 @@ import Overview from '../Overview/Overview';   // Replace with your actual compo
 import Report from '../Report/Report'; // Import your Reports component
 import Aircraft from '../Aircraft/Aircraft'; // Import your Aircraft component
 import Airport from '../Airport/Airport'; // Import your Airport component
-// import Bookings from '../Bookings/Bookings'; // Import your Bookings component
+import Booking from '../Booking/Booking'; // Import your Bookings component
 // import UserDetails from '../UserDetails/UserDetails'; // Import your User Details component
 // import Routes from '../Routes/Routes'; // Import your Routes component
-// import PlaneDetails from '../PlaneDetails/PlaneDetails'; // Import your Plane Details component
+import PlaneDetails from '../Planedetails/Planedetails'; // Import your Plane Details component
 import Schedule from '../Schedule/Schedule'; // Import your Schedules component
 // import SeatAvailability from '../SeatAvailability/SeatAvailability'; // Import your Seat Availability component
+import PassengerDetails from '../Passengerdetails/Passengerdetail';
+import Userdetails from '../Userdetails/Userdetail';
+import Routess from '../Routes/Routes';
+
 
 const NAVIGATION = [
   {
@@ -98,11 +102,11 @@ const NAVIGATION = [
     title: 'Schedules',
     icon: <ScheduleIcon fontSize="large" style={{ color: '#2196f3' }} />, // Choose an appropriate icon
   },
-  {
-    segment: 'seat-availability',
-    title: 'Seat Availability',
-    icon: <ChairIcon fontSize="large" style={{ color: '#2196f3' }} />, // You can use a different icon if preferred
-  },
+  // {
+  //   segment: 'seat-availability',
+  //   title: 'Seat Availability',
+  //   icon: <ChairIcon fontSize="large" style={{ color: '#2196f3' }} />, // You can use a different icon if preferred
+  // },
 ];
 
 const demoTheme = createTheme({
@@ -156,7 +160,7 @@ function DemoPageContent({ pathname }) {
       content = <Overview />;
       break;
     case '/passenger-details':
-      content = '<PassengerDetails />';
+      content = <PassengerDetails />;
       break;
     // case '/revenue':
     //   content = '<Revenue />';
@@ -174,16 +178,16 @@ function DemoPageContent({ pathname }) {
       content = <Airport />;
       break;
     case '/bookings':
-      content = '<Bookings />';
+      content = <Booking/>;
       break;
     case '/user-details':
-      content = '<UserDetails />';
+      content = <Userdetails />;
       break;
     case '/routes':
-      content = '<Routes />';
+      content = <Routess />;
       break;
     case '/plane-details':
-      content = '<PlaneDetails />';
+      content = <PlaneDetails />;
       break;
     case '/schedules':
       content = <Schedule />;

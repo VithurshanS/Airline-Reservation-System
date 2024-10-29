@@ -6,8 +6,9 @@ import axios from "axios";
 const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedSeats }) => {
 
   const { economyRows, businessRows, platinumRows, seatsPerRow } = seatConfig;
-  localStorage.setItem('num_seat',selectedSeats.length);
+  //localStorage.setItem('num_seat',selectedSeats.length);
   console.log("aaaaa", availableSeats);
+  
 
   const handleSeatClick = (seat) => {
     const isAvailable = availableSeats.some((s) => s.Seat_number === seat);
@@ -47,7 +48,7 @@ const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedS
     
   const handleSeatClick = async (seatNumber) => {//////////////////////////////////////////////////////////////////////
     const seatObj = availableSeats.find((s) => s.Seat_number === seatNumber);
-    console.log("seat object id ",seatObj.Seat_ID);
+    
     if (!seatObj) return; // Only proceed if the seat is available
 
     if (selectedSeats.some((s) => s.Seat_number === seatNumber)) {
@@ -76,6 +77,8 @@ const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedS
         console.error('Error selecting seat:', error);
       }
     }
+
+    
   };
 
     return (
@@ -193,7 +196,8 @@ const SeatSelection = ({ seatConfig, availableSeats, selectedSeats, setSelectedS
 
       <Box sx={{ mt: 4 }}>
         <Typography variant="body2" color="textSecondary">
-          Selected Seats: {selectedSeats.join(", ") || "None"}
+        
+        Selected Seats: {selectedSeats.map((s) => s.Seat_number).join(", ")}
         </Typography>
       </Box>
     </Box>

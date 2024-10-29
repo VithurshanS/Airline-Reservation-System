@@ -1,0 +1,80 @@
+.page-background {
+    background-color: #f8faff;
+    padding: 30px 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Booking container styling */
+.booking-container {
+    background: linear-gradient(white, #beceef);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    color: #333;
+}
+
+.booking-container h2 {
+    font-size: 50px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+/* Table styling */
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #4d4d4d;
+}
+
+.booking-table th,
+.booking-table td {
+    padding: 10px;
+    border: 1px solid #c5d3e0;
+    text-align: left;
+}
+
+.booking-table th {
+    background: linear-gradient(230deg, #dce7f5, #82b1ff);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.booking-table tr:nth-child(even) {
+    background-color: #f9fbff;
+}
+
+.booking-table tr:hover {
+    background-color: #edf7ff;
+}
+
+/* Status-specific colors */
+.status-confirmed td {
+    color: #28a745; /* Green for confirmed */
+    font-weight: bold;
+}
+
+.status-pending td {
+    color: #ffc107; /* Amber for pending */
+    font-weight: bold;
+}
+
+.status-cancelled td {
+    color: #dc3545; /* Red for cancelled */
+    font-weight: bold;
+}
+
+/* Centered table text */
+.booking-table th,
+.booking-table td {
+    text-align: center;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import BookingPage from './BookingPage/BookingPage'
-import AdminPage from '../AdminPages/AdminPages'
+//import AdminPage from '../AdminPages/AdminPages'
 function BookingPageMain() {
   return (
     <div> 

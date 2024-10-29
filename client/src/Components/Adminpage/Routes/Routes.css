@@ -1,0 +1,111 @@
+.page-background {
+    background-color: #f8faff;
+    padding: 30px 0;
+}
+
+.route-container {
+    background: linear-gradient(white, #beceef);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    color: #333;
+}
+
+.route-container h2 {
+    font-size: 50px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.route-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.route-table th,
+.route-table td {
+    padding: 10px;
+    border: 1px solid #c5d3e0;
+    text-align: left;
+}
+
+.route-table th {
+    background: linear-gradient(230deg, #dce7f5, #82b1ff);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.edit-btn,
+.delete-btn,
+.save-btn,
+.cancel-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.save-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+.form-container {
+    margin-top: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin: 10px 0;
+    color: #565758;
+}
+
+.form-container input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+}
+
+.form-actions {
+    text-align: center;
+}

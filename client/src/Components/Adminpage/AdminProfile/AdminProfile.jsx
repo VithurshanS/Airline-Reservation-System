@@ -6,7 +6,7 @@ import { styled } from '@mui/system';
 const user = JSON.parse(localStorage.getItem("user") || "{}")
 // const formattedDOB = new Date(user.DOB).toISOString().split('T')[0];
 const formattedDOB = user.DOB ? new Date(user.DOB).toISOString().split('T')[0] : "";
-console.log("user details",user);
+console.log("user details from admin",user);
 const CustomButton = styled(Button)({
   backgroundColor: '#64b5f6',
   color: '#fff',

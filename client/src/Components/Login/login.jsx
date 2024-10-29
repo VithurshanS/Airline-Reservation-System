@@ -37,7 +37,7 @@ export default function Login() {
                 } else {
                     navigate('/Home');
                 }
-            } else if (response.data.message === 301) {
+            } else if (response.data.message === 401) {
                 setError('Invalid username or password');
             }
         } catch (error) {

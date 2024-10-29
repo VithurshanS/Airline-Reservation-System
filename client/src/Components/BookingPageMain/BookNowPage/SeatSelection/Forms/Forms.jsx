@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -12,13 +13,15 @@ import axios from "axios";
 import './Forms.css';
 
 function BookingForm() {
+  const navigate = useNavigate();
+  const userdetails = JSON.parse(localStorage.getItem("user") || "{}");
+  const userid = userdetails.User_ID;
   const location = useLocation();
   const { selectedSeats } = location.state || {};
   const [passengers, setPassengers] = useState([]);
-  const [result, setResult] = useState("");
+  const [resultMessages, setResultMessages] = useState([]); // Array to store result for each passenger
 
   useEffect(() => {
-    // Initialize passengers based on selectedSeats length
     setPassengers(
       Array(selectedSeats?.length || 0).fill({
         name: "",
@@ -28,6 +31,7 @@ function BookingForm() {
         seatNumber: "",
       })
     );
+    setResultMessages(Array(selectedSeats?.length || 0).fill("")); // Initialize result messages for each passenger
   }, [selectedSeats]);
 
   const handlePassengerChange = (index, field, value) => {
@@ -40,29 +44,64 @@ function BookingForm() {
     setPassengers(updatedPassengers);
   };
 
-  const handlePassengerdata = async (index) => {
+  const handlePassengerData = async (index) => {
     const passenger = passengers[index];
+    const selectedSeat = selectedSeats[index];
+
     if (!passenger.name || !passenger.dob || !passenger.gender || !passenger.passportNumber) {
-      setResult("Please fill all fields before adding.");
+      updateResultMessage(index, "Please fill all fields before adding.");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:3067/addguest', {
+      // First call to add guest
+      const guestResponse = await axios.post('http://localhost:3067/addguest', {
         Passenger_Name: passenger.name,
         Passport_Number: passenger.passportNumber,
         DOB: passenger.dob,
         Gender: passenger.gender,
-        Seat_Number: passenger.seatNumber,
+        Seat_Number: selectedSeat.Seat_number,
       });
+
+      const passengerID = guestResponse.data.result;
+      console.log("passengerid",passengerID);
+
+      // Second call to add booking
+      const bookingResponse = await axios.post('http://localhost:3067/addbooking', {
+        Passenger_ID: passengerID,
+        User_ID: userid,
+        Seat_ID: selectedSeat.Seat_ID,
+      });
+
+      updateResultMessage(index, bookingResponse.data.message);
       
-      setResult(response.data.message); // Display success message from backend
-      console.log(`Passenger ${index + 1} added:`, response.data.message);
+      console.log(`Booking for Passenger ${index + 1} added:`, bookingResponse.data.message);
     } catch (error) {
       console.error('Error during post request:', error);
-      setResult("Failed to add passenger. Please try again.");
+      updateResultMessage(index, "Failed to add booking. Please try again.");
     }
   };
+
+  const updateResultMessage = (index, message) => {
+    const updatedMessages = [...resultMessages];
+    updatedMessages[index] = message;
+    setResultMessages(updatedMessages);
+  };
+  const handleConfirmBooking = async () => {
+    try {
+      for (const seat of selectedSeats) {
+        const response = await axios.post("http://localhost:3067/bookseat", {
+          seat: seat.Seat_ID,
+        });
+        console.log("Seat booking response:", response.data);
+      }
+    } catch (error) {
+      console.error("Error booking seats:", error);
+    }
+    alert("Booking succesful");
+    navigate('/Home');
+  };
+
 
   return (
     <Box
@@ -94,7 +133,7 @@ function BookingForm() {
                     label="Seat Number"
                     variant="outlined"
                     fullWidth
-                    value={selectedSeats ? selectedSeats[index] : ""}
+                    value={selectedSeats ? selectedSeats[index].Seat_number : ""} // Display Seat_number
                     InputProps={{
                       readOnly: true,
                     }}
@@ -155,10 +194,15 @@ function BookingForm() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => handlePassengerdata(index)}
+                    onClick={() => handlePassengerData(index)}
                   >
                     Add
                   </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography color="textSecondary" variant="body2">
+                    {resultMessages[index]}
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>
@@ -166,11 +210,13 @@ function BookingForm() {
         ))}
       </Grid>
 
-      <Typography color="textSecondary" variant="body2" sx={{ mt: 2 }}>
-        {result}
-      </Typography>
-
-      <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }}>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3 }}
+        onClick={handleConfirmBooking}
+      >
         Confirm Booking
       </Button>
     </Box>
