@@ -1,6 +1,5 @@
 const db = require('../database');
 
-// 1. Get Passengers by Age for a Given Flight
 exports.getPassengersByAgeForFlight = (flight_no) => {
     return new Promise((resolve, reject) => {
         const query = `CALL getPassengersByAgeForFlight(?);`;
@@ -18,7 +17,6 @@ exports.getPassengersByAgeForFlight = (flight_no) => {
     });
 };
 
-// 2. Get Passenger Count by Destination Within a Date Range
 exports.getPassengerCountByDestination = (startDate, endDate, destination) => {
     return new Promise((resolve, reject) => {
         const query = `CALL getPassengerCountByDestination(?, ?, ?);`;
@@ -32,7 +30,6 @@ exports.getPassengerCountByDestination = (startDate, endDate, destination) => {
     });
 };
 
-// 3. Get Bookings by Passenger Category Within a Date Range
 exports.getBookingsByPassengerCategory = (startDate, endDate) => {
     return new Promise((resolve, reject) => {
         const query = `CALL getBookingsByPassengerCategory(?, ?);`;
@@ -46,7 +43,6 @@ exports.getBookingsByPassengerCategory = (startDate, endDate) => {
     });
 };
 
-// 4. Get Past Flights Data Between Origin and Destination
 exports.getPastFlightsData = (origin, destination) => {
     return new Promise((resolve, reject) => {
         const query = `CALL getPastFlightsData(?, ?);`;
@@ -59,7 +55,6 @@ exports.getPastFlightsData = (origin, destination) => {
         });
     });
 };
-
 
 exports.getRevenueByAircraft = () => {
     return new Promise((resolve, reject) => {
