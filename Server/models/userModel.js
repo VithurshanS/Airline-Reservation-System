@@ -14,10 +14,10 @@ const db = require('../database');
         });
     };
 
-    exports.addDetails = (User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) => {
+    exports.addDetails = (User_Name, First_name, Last_name, Email, DOB, Gender, Password, Role) => {
         return new Promise((resolve, reject) => {
-            const query = 'CALL addUser(?,?,?,?,?,?,?,?,?);';
-            db.query(query, [User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role], (error, result) => {
+            const query = 'CALL addUser(?,?,?,?,?,?,?,?);';
+            db.query(query, [User_Name, First_name, Last_name, Email, DOB, Gender, Password, Role], (error, result) => {
                 if (error) {
                     reject(error);
                 } else {

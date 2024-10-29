@@ -8,7 +8,7 @@ const db = require('../database');
             if (error) {
                 reject(error);
             } else {
-                resolve(result.insertId);
+                resolve(result);
             }
         });
     });
@@ -26,3 +26,5 @@ const db = require('../database');
         });
     });
  };
+
+ //consider the getroute function is return null value if it cant get route

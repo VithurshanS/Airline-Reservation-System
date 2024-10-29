@@ -7,7 +7,6 @@ exports.getPassengersByAgeForFlight = (flight_no) => {
             if (error) {
                 reject(error);
             } else {
-                // results[0] contains passengers below 18, results[1] contains passengers 18 and above
                 resolve({
                     below18: results[0],
                     aboveOrEqual18: results[1]

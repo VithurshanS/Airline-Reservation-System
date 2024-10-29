@@ -17,7 +17,7 @@ const passengerModel = require('../models/passengerModel');
     };
     
     exports.getGuest = async (req, res) => {
-        const { Passport_Number } = req.body;
+        const { Passport_Number }= req.body;
         try {
             const guest = await passengerModel.getPassengerByPassportNumber(Passport_Number);
             res.send({ "message": "Guests retrieved successfully.", "result": guest });

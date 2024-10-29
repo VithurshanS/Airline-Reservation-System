@@ -6,9 +6,9 @@ const db = require('../database');
 
 
 router.post('/addguest',addGuest);
-router.get('/guest',getGuest);
+router.get('/getguest',getGuest);
 router.get('/getall',(req,res)=>{
-    const queri = `select * from user;`;
+    const queri = `select * from passenger;`;
     db.query(queri,(err,result)=>{
         if(err){
             console.log(err);
@@ -19,6 +19,8 @@ router.get('/getall',(req,res)=>{
     })
 
 })
+
+//change getguest using params and define age of guest strip the dob
 
 
 module.exports = router;

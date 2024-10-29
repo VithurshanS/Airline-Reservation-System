@@ -1,0 +1,81 @@
+.wrap {
+    margin: 100px;
+  }
+  
+  .route {
+    height: 200px;
+    width: 400px;
+    border: 3px dotted #000;
+    position: relative;
+  }
+  
+  .plane {
+    position: absolute;
+    bottom: -13px;
+    left: 100%;
+    animation-iteration-count: 3;
+    animation: flyLeft 1.5s linear forwards, rotatePlane 0.5s linear 1.5s forwards, flyUp 1s linear forwards 2s, RotateRight 0.5s linear 2.8s forwards, MoveRight 3s linear forwards 3s, RotateDown 1s linear 6s forwards, flyDown 1s linear forwards 7s, RotateLeft 1s linear 7.8s forwards;
+  }
+  
+  @keyframes flyLeft {
+    100% {
+      left: -14px;
+    }
+  }
+  
+  @keyframes rotatePlane {
+    100% {
+      transform: rotateZ(90deg);
+    }
+  }
+  
+  @keyframes flyUp {
+    100% {
+      bottom: 100%;
+    }
+  }
+  
+  @keyframes RotateRight {
+    0% {
+      transform: rotateZ(90deg);
+    }
+    100% {
+      transform: rotateZ(180deg);
+    }
+  }
+  
+  @keyframes MoveRight {
+    0% {
+      left: -14px;
+    }
+    100% {
+      left: 380px;
+    }
+  }
+  
+  @keyframes RotateDown {
+    0% {
+      transform: rotateZ(180deg);
+    }
+    100% {
+      transform: rotateZ(270deg);
+    }
+  }
+  
+  @keyframes flyDown {
+    0% {
+      bottom: 100%;
+    }
+    100% {
+      bottom: -8%;
+    }
+  }
+  
+  @keyframes RotateLeft {
+    0% {
+      transform: rotateZ(270deg);
+    }
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }

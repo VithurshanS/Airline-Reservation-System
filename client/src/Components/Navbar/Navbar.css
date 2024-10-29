@@ -1,0 +1,136 @@
+/* Navbar container styling */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 50px;
+  background-color: #001f3f; /* Dark blue background */
+  color: #ffffff; /* White text */
+}
+
+/* Button container for 'Back' and 'Next' buttons */
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.Homebuttons {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #0074d9; /* Medium blue */
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.Homebuttons:hover {
+  background-color: #0056a5; /* Darker blue on hover */
+}
+
+/* Menu container for desktop */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 60px;
+  font-size: 18px;
+}
+
+/* Connect button styling */
+.nav-connect {
+  padding: 12px 30px;
+  border-radius: 25px;
+  background: linear-gradient(267deg, #1e90ff, #0074d9); /* Blue gradient */
+  font-size: 18px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.nav-connect:hover {
+  transform: scale(1.05);
+  background: #0056a5; /* Slightly darker blue on hover */
+}
+
+/* Menu item styling */
+.nav-menu li {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.nav-menu li img {
+  display: flex;
+  margin: auto;
+}
+
+.anchor-link {
+  text-decoration: none;
+  color: #1e90ff; /* Light blue text */
+  transition: color 0.3s;
+}
+
+.anchor-link:hover {
+  color: #0074d9; /* Darker blue on hover */
+}
+
+/* Mobile menu open/close icons */
+.nav-mob-close, .nav-mob-open {
+  display: none;
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 20px 30px;
+  }
+
+  .nav-connect {
+    display: none;
+  }
+
+  .nav-mob-open {
+    display: block;
+    position: fixed;
+    right: 20px;
+    cursor: pointer;
+  }
+
+  .nav-mob-close {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 25px;
+    cursor: pointer;
+  }
+
+  /* Mobile menu styling */
+  .nav-menu {
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 50px;
+    top: 0;
+    right: -350px;
+    width: 300px;
+    height: 100%;
+    background-color: #001f3f; /* Dark blue background */
+    gap: 20px;
+    z-index: 2;
+    transition: right 0.4s ease;
+  }
+
+  .nav-menu li {
+    font-size: 24px;
+    padding-left: 20px;
+    flex-direction: row;
+    gap: 10px;
+    color: #ffffff; /* White text */
+  }
+}

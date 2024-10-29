@@ -1,9 +1,9 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 .hero-image {
-  background-image: url('./assets/entry.jpg'); 
+  background-image: url('../../assets/entrypic.jpg'); 
   background-size: cover; /* Cover the entire viewport */
   background-position: center; /* Center the image */
   min-height: 100vh; /* Ensure the image covers full viewport height */
@@ -12,6 +12,7 @@
   justify-content: center; /* Horizontally center the text */
   text-align: center; /* Center the text within its container */
 }
+
 
 .hero-text {
   color: white; /* Or any contrasting color */
@@ -26,7 +27,7 @@
   background: linear-gradient(270deg,rgb(255, 0, 0),YELLOW);
 }
 p{
-  color:rgb(26, 24, 27);
+  color:white;
   font-family: Georgia, 'Times New Roman', Times, serif;
   
 }

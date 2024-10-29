@@ -4,6 +4,7 @@ const userModel = require('../models/userModel');
 
 exports.getDetails = async (req, res) => {
     const { Username, Password } = req.body;
+    console.log(req.body);
 
     if (!Username || !Password) {
         return res.status(400).send({ message: "Username and password are required." });
@@ -13,7 +14,7 @@ exports.getDetails = async (req, res) => {
         const result = await userModel.getDetails(Username);
         
         if (result.length === 0) {
-            return res.status(404).send({ message: 301 });
+            return res.send({ message: 301 });
         }
 
         const user = result[0];
@@ -23,7 +24,7 @@ exports.getDetails = async (req, res) => {
             const { Password, ...userDetails } = user;
             res.send({ message: 201, user: userDetails });
         } else {
-            res.status(401).send({ message: 401 });
+            res.send({ message: 401 });
         }
     } catch (error) {
         console.error('Database Error:', error);
@@ -32,10 +33,10 @@ exports.getDetails = async (req, res) => {
 };
 
 exports.addDetails = async (req, res) => {
-    const { User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role } = req.body;
+    const { User_Name, First_name, Last_name, Email, DOB, Gender, Password, Role } = req.body;
 
     // Input validation
-    if (!User_Name || !First_name || !Last_name || !Email || !DOB || !Age || !Gender || !Password) {
+    if (!User_Name || !First_name || !Last_name || !Email || !DOB || !Gender || !Password) {
         return res.status(400).send({ message: "All fields are required." });
     }
 
@@ -48,7 +49,6 @@ exports.addDetails = async (req, res) => {
             Last_name,
             Email,
             DOB,
-            Age,
             Gender,
             hash,
             Role

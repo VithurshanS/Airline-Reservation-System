@@ -14,10 +14,10 @@ const db = require('../database');
         });
     };
 
-    exports.getSeat = () => {
+    exports.getSeat = (Schedule_ID) => {
         return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM seat;`;
-            db.query(query, (error, results) => {
+            const query = `SELECT * FROM seat where Schedule_ID = ?;`;
+            db.query(query,[Schedule_ID], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -66,9 +66,9 @@ const db = require('../database');
         });
     };
 
-    exports.bookSeats = (selectedSeats) => {
+    exports.bookSeat = (selectedSeats) => {
         return new Promise((resolve, reject) => {
-            const query = `UPDATE seat SET Seat_status = 'booked' WHERE Seat_ID IN (?);`;
+            const query = `call bookseat(?);`;
             db.query(query, [selectedSeats], (error, result) => {
                 if (error) {
                     reject(error);
@@ -78,3 +78,47 @@ const db = require('../database');
             });
         });
     };
+
+    exports.getse = (Schedule_ID) => {
+        return new Promise((resolve, reject) => {
+            const query = `call getseatdetails(?);`;
+            db.query(query, [Schedule_ID], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+    exports.addselectedseats = (seat) => {
+        return new Promise((resolve, reject) => {
+            const query = `call addselectedseat(?);`;
+            db.query(query, [seat], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+            
+        });
+    }
+    exports.removeselectedseats = (seat) => {
+        return new Promise((resolve, reject) => {
+                const query = `call removeselectedseat(?);`;
+                db.query(query, [seat], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+
+            });
+            
+        });
+    }
+    
+
+    //create a procedure to book a seat
+

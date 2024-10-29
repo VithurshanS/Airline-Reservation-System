@@ -7,7 +7,7 @@ exports.insertAirport = (airportCode, airportName, locationID) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(result.insertId);
+                resolve(result);
             }
         });
     });

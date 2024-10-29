@@ -18,7 +18,7 @@ exports.addAircraftQ = (company,AircraftType,totalseats,ESSN,BSSN,PSSN)=>{
 
 exports.getAircraftQuery = (aircraftID) =>{
     return new Promise((resolve, reject) => {
-        const getAircraft = `SELECT * FROM Aircraft WHERE Aircraft_ID = ?;`;
+        const getAircraft = `SELECT * FROM Aircraft WHERE Aircraft_ID = (?);`;
         db.query(getAircraft, [aircraftID], (error, result) => {
             if (error) {
                 reject(error);

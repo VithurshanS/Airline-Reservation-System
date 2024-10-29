@@ -1,10 +1,6 @@
 const { addressadder } = require('./addressController');
 const airportModel = require('../models/airportModel');
 
-
-
-
-
 exports.addAirport = async (req, res) => {
     const { Airport_Code, Airport_name, Location } = req.body;
     try {

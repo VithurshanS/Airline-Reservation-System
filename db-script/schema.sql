@@ -6,7 +6,8 @@ use AIRLINE;
 CREATE TABLE Location (
     Location_ID INT auto_increment PRIMARY KEY,
     Parent_Location_ID INT,
-    Address VARCHAR(255)
+    Address VARCHAR(255),
+    FOREIGN KEY (parent_Location_ID) REFERENCES Location(Location_ID)
 );
 
 INSERT INTO Location (Location_ID,Parent_Location_ID, Address) VALUES (1,NULL, 'sri lanka');
@@ -74,6 +75,7 @@ CREATE TABLE Passenger (
     Passenger_Name VARCHAR(200),
     Passport_Number CHAR(10),
     DOB DATE,
+    AGE INT,
     Gender ENUM('Male', 'Female')
 );
 
@@ -91,7 +93,7 @@ INSERT INTO Passenger (Passenger_ID, Passenger_Name, Passport_Number, DOB, Gende
 
 CREATE TABLE User (
     User_ID CHAR(36) PRIMARY KEY,
-    User_Name VARCHAR(200),
+    User_Name VARCHAR(200) UNIQUE,
     First_name VARCHAR(200),
     Last_name VARCHAR(200),
     Email VARCHAR(200),
@@ -99,27 +101,30 @@ CREATE TABLE User (
     Age INT,
     Gender ENUM('Male', 'Female'),
     Password VARCHAR(255),
-    Role ENUM('Admin', 'registered user')
+    Role ENUM('Admin', 'R_user')
 );
-
-INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
-VALUES ('b13e4567-e89b-12d3-a456-426614174010', 'vithus', 'vithurshan', 'sivanathan', 'vithu@example.com', '2002-09-22', 22, 'Male', 'password123', 'registered user');
-INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
-VALUES ('c13e4567-e89b-12d3-a456-426614174011', 'jane_smith', 'Jane', 'Smith', 'jane.smith@example.com', '1985-05-15', 39, 'Female', 'password456', 'Admin');
-
-INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
-VALUES ('d13e4567-e89b-12d3-a456-426614174012', 'michael_brown', 'Michael', 'Brown', 'michael.brown@example.com', '1992-10-20', 31, 'Male', 'password789', 'registered user');
 
 CREATE TABLE Category (
     Category_ID INT PRIMARY KEY,
     Category_Type VARCHAR(255),
-    Discount DECIMAL(2,2)
+    Discount DECIMAL(2,2),
+    RBC INT
+    
 );
 
-INSERT INTO Category (Category_ID, Category_Type, Discount) VALUES (1, 'normal', 0.00);
-INSERT INTO Category (Category_ID, Category_Type, Discount) VALUES (2, 'frequent', 0.05);
-INSERT INTO Category (Category_ID, Category_Type, Discount) VALUES (3, 'gold', 0.10);
-INSERT INTO Category (Category_ID, Category_Type, Discount) VALUES (4, 'platinum', 0.15);
+INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
+VALUES ('b13e4567-e89b-12d3-a456-426614174010', 'vithus', 'vithurshan', 'sivanathan', 'vithu@example.com', '2002-09-22', 22, 'Male', 'password123', 'R_user');
+INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
+VALUES ('c13e4567-e89b-12d3-a456-426614174011', 'jane_smith', 'Jane', 'Smith', 'jane.smith@example.com', '1985-05-15', 39, 'Female', 'password456', 'Admin');
+
+INSERT INTO User (User_ID, User_Name, First_name, Last_name, Email, DOB, Age, Gender, Password, Role) 
+VALUES ('d13e4567-e89b-12d3-a456-426614174012', 'michael_brown', 'Michael', 'Brown', 'michael.brown@example.com', '1992-10-20', 31, 'Male', 'password789', 'R_user');
+
+
+INSERT INTO Category (Category_ID, Category_Type, Discount,RBC) VALUES (1, 'normal', 0.00,0);
+INSERT INTO Category (Category_ID, Category_Type, Discount,RBC) VALUES (2, 'frequent', 0.05,5);
+INSERT INTO Category (Category_ID, Category_Type, Discount,RBC) VALUES (3, 'gold', 0.10,10);
+INSERT INTO Category (Category_ID, Category_Type, Discount,RBC) VALUES (4, 'platinum', 0.15,15);
 
 CREATE TABLE User_Category (
     User_ID CHAR(36),
@@ -186,18 +191,12 @@ CREATE TABLE Booking (
     Booking_ID CHAR(36) PRIMARY KEY,
     Passenger_ID CHAR(36),
     User_ID CHAR(36),
-    Seat_ID VARCHAR(100),
     Final_Price DECIMAL(10,2),
     Booking_Status ENUM('pending', 'confirmed', 'cancelled'),
     FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID),
-    FOREIGN KEY (Seat_ID) REFERENCES Seat(Seat_ID)
+    FOREIGN KEY (Booking_ID) REFERENCES Seat(Seat_ID)
 );
-
-INSERT INTO Booking (Booking_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status)
-VALUES ('a13e4567-e89b-12d3-a456-426614174040', '123e4567-e89b-12d3-a456-426614174000', 'b13e4567-e89b-12d3-a456-426614174010', 'a13e4567-e89b-12d3-a456-426614174030', 100.00, 'confirmed');
-INSERT INTO Booking (Booking_ID, Passenger_ID, User_ID, Seat_ID, Final_Price, Booking_Status)
-VALUES ('b13e4567-e89b-12d3-a456-426614174041', '223e4567-e89b-12d3-a456-426614174001', 'c13e4567-e89b-12d3-a456-426614174011', 'e13e4567-e89b-12d3-a456-426614174034', 220.00, 'confirmed');
 
 
 

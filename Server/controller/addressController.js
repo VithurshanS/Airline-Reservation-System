@@ -1,6 +1,4 @@
-const addressModel = require('../models/addressModel');
-
-
+const db = require('../database');
 
 const handleInsertAddress = (Addresslist, parentAddressID, index, callback) => {
     if (index < 0) {
@@ -20,16 +18,16 @@ const handleInsertAddress = (Addresslist, parentAddressID, index, callback) => {
 
 
 
-const insert = async (address, parentAddressID, callback) => {
-    try{
-        const result = await addressModel.insertaddress(address, parentAddressID);
-        return callback(null, result);
-    }catch(err){
-        console.log(err);
-        return callback(err);
-    }
-};
-    
+const insert = (address, parentAddressID, callback) => {
+    const quer = `call addAddress(?,?);`;
+    db.query(quer, [parentAddressID,address], (err, result) => {
+        if (err) {
+            console.log(err);
+            return callback(err);
+        }
+        
+        return callback(null, result[0][0].output_address);
+    });
     /*const checkAddress = `SELECT Location_ID FROM Location WHERE Address = ?;`;
     
     db.query(checkAddress, [address], (err, result) => {
@@ -53,7 +51,7 @@ const insert = async (address, parentAddressID, callback) => {
             return callback(null, result.insertId);
         });
     });*/
-
+};
 
 exports.addressadder = (Addresslist) => {
     return new Promise((resolve, reject) => {
@@ -96,15 +94,14 @@ exports.addLocation =  async (req, res) => {
 
 exports.getLocation = async (req, res) => {
     const locationID = req.params.id;
-    try{    
-        const result = await addressModel.getLocation(locationID);
-        res.send({"message":"Successfully get location.","results":result});
-
-    }catch (err) {
-        console.log(err);
-        return res.status(500).send({"message":"Failed to get location."});
-    }
-};
+    const quer = `call getLocation(?);`;
+    db.query(quer,[locationID],(err, result) => {
+        if(err){
+            console.log(err);
+            return res.status(500).send({"message":"Failed to get location."});
+        }
+        res.send({"message":"Successfully get location.","results":result[0]});
+    });
     /*const getFullLocation = (locationID, locationList = [], callback) => {
         const query = `SELECT Location_ID, Parent_Location_ID, Address FROM Location WHERE Location_ID = ?;`;
 
@@ -137,3 +134,4 @@ exports.getLocation = async (req, res) => {
 
         res.send({ "fullLocation": fullLocation });
     });*/
+}

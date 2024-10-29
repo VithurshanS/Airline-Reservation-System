@@ -1,5 +1,6 @@
 const db = require('../database');
 
+
  // Start Generation Here
 exports.addPlane = (Aircraft_ID, Plane_name) => {
     return new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ exports.addPlane = (Aircraft_ID, Plane_name) => {
 
 exports.getPlane = (Aircraft_ID) => {
     return new Promise((resolve, reject) => {
-        const query = `SELECT * FROM Plane WHERE Aircraft_ID = ?;`;
+        const query = `SELECT * FROM Plane WHERE Plane_ID = (?);`;
         db.query(query, [Aircraft_ID], (error, results) => {
             if (error) {
                 reject(error);

@@ -19,10 +19,12 @@ function BookingPage() {
   const [filteredFlights, setFilteredFlights] = useState([]);
 
   // Fetch schedules from backend using Axios
+
   useEffect(() => {
-    axios.get('http://localhost:3066/getschedule')
+    axios.get('http://localhost:3067/getscheduleall')
       .then(response => {
-        if (response.data.message === 'successfully get') {
+        console.log(response)
+        if (response.data.message === 'Successfully retrieved schedules.') {
           const schedules = response.data.results;
           const formattedFlights = schedules.map(schedule => ({
             id: schedule.Schedule_ID,
@@ -50,8 +52,9 @@ function BookingPage() {
         flight.departureTime.includes(searchQuery.departureDate)
     );
     setFilteredFlights(results);
+    // console.log(results)
   };
-
+  
   return (
     <div className="booking-page">
       <header className="bookingheader">
@@ -63,9 +66,10 @@ function BookingPage() {
         <div className="overlay">
           <h1 className='overlayh1'>Book Your Flight Today!</h1>
           <form onSubmit={handleSearch} className="search-form">
-            <label>
+            <label className='label1'>
               <h2 className="h2tags">From:</h2>
               <TextField
+                className='textfield'
                 placeholder="Enter departure city"
                 variant="filled"
                 value={searchQuery.from}
@@ -75,6 +79,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">To:</h2>
               <TextField
+              className='textfield'
                 placeholder="Enter destination city"
                 variant="filled"
                 value={searchQuery.to}
@@ -84,6 +89,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">Departure Date:</h2>
               <TextField
+              className='textfield'
                 type="date"
                 variant="filled"
                 value={searchQuery.departureDate}
@@ -93,6 +99,8 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">Passengers:</h2>
               <TextField
+                className='textfield'
+                clads
                 type="number"
                 variant="filled"
                 value={searchQuery.passengers}
@@ -122,9 +130,18 @@ function BookingPage() {
                   Business Fare: ${flight.businessFare}<br />
                   Platinum Fare: ${flight.platinumFare}
                 </p>
-                <Link to='/booknow'>
-                  <button className="search-button">Book Now</button>
+                <Link
+                  to={{
+                    pathname: '/booknow'
+                   }}
+                   state= {{ scheduleId: flight.id,
+                    economyFare: flight.economyFare,
+                    businessFare: flight.businessFare,
+                    platinumFare: flight.platinumFare
+                    }}>
+               <button className="search-button">Book Now</button>
                 </Link>
+
               </li>
             ))}
           </ul>
