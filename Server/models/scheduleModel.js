@@ -26,3 +26,16 @@ const db = require('../database')
             });
         });
     };
+
+    exports.getSche = (date)=>{
+        return new Promise((resolve, reject) => {
+            const query = `call getscheduleafter(?);`;
+            db.query(query,[date], (error, results) => {
+                if (error) {
+                    reject(error);
+                }else{
+                    resolve(results);
+                }
+            });
+        });
+    }
