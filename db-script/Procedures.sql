@@ -406,16 +406,18 @@ BEGIN
     FROM 
         Booking b
     JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
+        Seat s ON b.Booking_ID = s.Seat_ID
     JOIN 
         Schedule sc ON s.Schedule_ID = sc.Schedule_ID
     JOIN 
         Route r ON sc.Route_ID = r.Route_ID
     JOIN 
         Airport a ON r.Arrival_Airport = a.Airport_Code
+        
+	JOIN Location L on L.Location_ID = a.Location_ID
     WHERE 
         sc.Departure_Time BETWEEN startDate AND endDate
-        AND a.Location_ID = destination
+        AND L.Address = destination
         AND b.Booking_Status = 'confirmed';
 END$$
 
@@ -498,7 +500,7 @@ BEGIN
     FROM 
         Booking b
     JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
+        Seat s ON b.Booking_ID = s.Seat_ID
     JOIN 
         Schedule sc ON s.Schedule_ID = sc.Schedule_ID
     JOIN 
@@ -598,33 +600,6 @@ BEGIN
     ORDER BY 
         TotalBookings DESC
     LIMIT 10;
-END$$
-DELIMITER ;
-
-
-drop procedure if exists generateRevenueByAircraftReport;
-CREATE PROCEDURE generateRevenueByAircraftReport()
-BEGIN
-    SELECT 
-        a.Aircraft_type,
-        COUNT(b.Booking_ID) AS TotalBookings,
-        SUM(b.Final_Price) AS TotalRevenue
-    FROM 
-        Booking b
-    JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
-    JOIN 
-        Schedule sc ON s.Schedule_ID = sc.Schedule_ID
-    JOIN 
-        Plane p ON sc.Plane_ID = p.Plane_ID
-    JOIN 
-        Aircraft a ON p.Aircraft_ID = a.Aircraft_ID
-    WHERE 
-        b.Booking_Status = 'confirmed'
-    GROUP BY 
-        a.Aircraft_type
-    ORDER BY 
-        TotalRevenue DESC
 END$$
 DELIMITER ;
 

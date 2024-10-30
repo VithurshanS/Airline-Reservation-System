@@ -58,7 +58,7 @@ exports.getPastFlightsData = (origin, destination) => {
 
 exports.getRevenueByAircraft = () => {
     return new Promise((resolve, reject) => {
-        const query = `CALL generateRevenueByAircraftReport();`;
+        const query = `call generateRevenueByAircraftReport();`;
         db.query(query, (error, results) => {
             if (error) {
                 reject(error);
