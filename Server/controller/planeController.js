@@ -23,3 +23,13 @@ exports.getPlane = async (req, res) => {
         res.status(500).send({ "message": "Failed to get plane." });
     }
 };
+
+exports.getAllPlanes = async (req,res) => {
+    try {
+        const planes = await planeModel.getallplane();
+        res.send({ "message": "All planes retrieved successfully.", "result": planes });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to get all planes." });
+    }
+}

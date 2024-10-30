@@ -28,3 +28,16 @@ exports.getAircraftQuery = (aircraftID) =>{
         });
     });
 }
+
+exports.getAllAircraftQuery = ()=>{
+    return new Promise((resolve, reject) => {
+        const getAllAircraft = `SELECT * FROM Aircraft;`;
+        db.query(getAllAircraft, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}

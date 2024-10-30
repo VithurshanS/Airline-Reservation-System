@@ -27,3 +27,16 @@ exports.getPlane = (Aircraft_ID) => {
         });
     });
 };
+
+exports.getallplane = ()=>{
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM Plane;`;
+        db.query(query, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
