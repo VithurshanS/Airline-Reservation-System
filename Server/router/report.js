@@ -12,3 +12,5 @@ router.post('/bookings-by-category', reportController.getBookingsByCategory);
 router.post('/past-flights', reportController.getPastFlights);
 
 router.get('/revenue-by-aircraft', reportController.getRevenueByAircraft);
+
+module.exports = router;
