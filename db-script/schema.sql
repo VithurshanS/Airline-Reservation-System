@@ -130,6 +130,7 @@ CREATE TABLE Booking (
     Passenger_ID CHAR(36),
     User_ID CHAR(36),
     Final_Price DECIMAL(10,2),
+    User_Category VARCHAR(100),
     Booking_Status ENUM('pending', 'confirmed', 'cancelled'),
     FOREIGN KEY (Passenger_ID) REFERENCES Passenger(Passenger_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID),

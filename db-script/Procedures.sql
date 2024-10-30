@@ -187,44 +187,57 @@ DELIMITER ;
 drop procedure if exists handleBooking;
 DELIMITER $$
 CREATE PROCEDURE handleBooking(
-	IN p_Passenger_ID char(36),
-    IN p_User_ID char(36),
-    IN p_Seat_ID char(36)
+    IN p_Passenger_ID CHAR(36),
+    IN p_User_ID CHAR(36),
+    IN p_Seat_ID CHAR(36)
 )
 BEGIN
-	DECLARE actualPrice DECIMAL(10,2);
+    DECLARE actualPrice DECIMAL(10,2);
     DECLARE finalPrice DECIMAL(10,2);
-    DECLARE discount DECIMAL(2,2);
+    DECLARE discount DECIMAL(3,2);
     DECLARE class VARCHAR(255);
     DECLARE classname VARCHAR(255);
     DECLARE getpricequery TEXT;
-    SELECT s.Seat_class into class from seat s where s.Seat_ID = p_Seat_ID;
-    IF class = "economy" THEN
-		SET classname = "Economy_Fare";
-	ELSEIF class = "business" THEN
-		SET classname = "Business_Fare";
-	ELSE
-		SET classname ="Platinum_Fare";
-	END IF;
-    SET @getpricequery = CONCAT('select ',classname,' into @ac from seat v left outer join schedule s on s.Schedule_ID = v.Schedule_ID where v.Seat_ID = ?;');
-    PREPARE vi from @getpricequery;
+    DECLARE cattype VARCHAR(100);
+
+    -- Determine class type
+    SELECT s.Seat_class INTO class FROM seat s WHERE s.Seat_ID = p_Seat_ID;
+    
+    IF class = 'economy' THEN
+        SET classname = 'Economy_Fare';
+    ELSEIF class = 'business' THEN
+        SET classname = 'Business_Fare';
+    ELSE
+        SET classname = 'Platinum_Fare';
+    END IF;
+    
+    -- Get the actual price for the seat
+    SET @getpricequery = CONCAT('SELECT ', classname, ' INTO @ac FROM seat v LEFT JOIN schedule s ON s.Schedule_ID = v.Schedule_ID WHERE v.Seat_ID = ?');
     SET @p_Seat_ID = p_Seat_ID;
+    PREPARE vi FROM @getpricequery;
     EXECUTE vi USING @p_Seat_ID;
     DEALLOCATE PREPARE vi;
     SET actualPrice = @ac;
-    IF p_User_ID is not null THEN
-		select c.Discount into discount from category c right outer join user_category uc on uc.Category_ID = c.Category_ID where uc.User_ID = p_User_ID;
-	ELSE
-		SET discount = 0;
-	END IF;
-    SET finalPrice = calculateFinalamount(actualPrice,discount);
-    INSERT INTO booking (Booking_ID,Passenger_ID,User_ID,final_Price,Booking_Status) 
-    values (p_Seat_ID,p_Passenger_ID,p_User_ID,finalprice,"pending");
+
+    -- Calculate discount and category type
+    IF p_User_ID IS NOT NULL THEN
+        SELECT c.Discount, c.Category_Type INTO discount, cattype
+        FROM category c 
+        RIGHT JOIN user_category uc ON uc.Category_ID = c.Category_ID
+        WHERE uc.User_ID = p_User_ID;
+    ELSE
+        SET discount = 0;
+        SET cattype = 'guest';
+    END IF;
+
+    SET finalPrice = actualPrice * (1 - discount);
     
-    
+    INSERT INTO booking (Booking_ID, Passenger_ID, User_ID, final_Price, User_Category, Booking_Status)
+    VALUES (p_Seat_ID, p_Passenger_ID, p_User_ID, finalPrice, cattype, 'pending');
     
 END$$
 DELIMITER ;
+
 
 
 drop procedure if exists bookseat;
@@ -442,7 +455,7 @@ BEGIN
     JOIN 
         Category c ON uc.Category_ID = c.Category_ID
     JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
+        Seat s ON b.Booking_ID = s.Seat_ID
     JOIN 
         Schedule sc ON s.Schedule_ID = sc.Schedule_ID
     WHERE 
@@ -644,6 +657,26 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+drop procedure if exists GetConfirmedBookingCountByCategory;
+DELIMITER $$
+
+CREATE PROCEDURE GetConfirmedBookingCountByCategory(
+    IN start_date DATE,
+    IN end_date DATE
+)
+BEGIN
+    SELECT b.User_Category, COUNT(*) AS Booking_Count
+    FROM booking b
+    JOIN seat s ON b.Booking_ID = s.Seat_ID
+    JOIN schedule sch ON s.Schedule_ID = sch.Schedule_ID
+    WHERE b.Booking_Status = 'confirmed' 
+      AND DATE(sch.Departure_Time) BETWEEN start_date AND end_date
+    GROUP BY b.User_Category;
+END $$
+
+DELIMITER ;
+
 
 
 

@@ -1,3 +1,6 @@
+
+
+
 drop trigger if exists AfterInsertSchedule;
 DELIMITER $$
 
@@ -50,7 +53,7 @@ BEGIN
     -- Initialize Category_ID based on initial conditions (RBC = 0)
     SELECT Category_ID INTO catid FROM category WHERE RBC = 0;
 
-    -- Insert only if the new user is not an Admin
+
     IF NEW.Role != 'Admin' THEN
         INSERT INTO user_category (User_ID, Bookings_count, Category_ID) 
         VALUES (NEW.User_ID, 0, catid);
