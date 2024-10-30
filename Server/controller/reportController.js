@@ -2,33 +2,34 @@ const reportModel = require('../models/reportModel');
 
 
 exports.getPassengersByAge = async (req, res) => {
+    console.log(req.params.flight_no);
     const flight_no = req.params.flight_no;
     try {
         const result = await reportModel.getPassengersByAgeForFlight(flight_no);
-        res.send({ 
-            "message": "Passengers retrieved successfully.", 
-            "data": result 
-        });
+        console.log(result);
+        return res.json({"status":200, "below18":result.below18,"aboveOrEqual18":result.aboveOrEqual18});
+        
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "message": "Failed to retrieve passengers by age." });
+        return res.json({"status":500, "message": "Failed to retrieve passengers by age." });
     }
 };
 
 exports.getPassengerCountByDestination = async (req, res) => {
+    console.log(req.body);
     const { startDate, endDate, destination } = req.body;
     if (!startDate || !endDate || !destination) {
         return res.status(400).send({ "message": "startDate, endDate, and destination are required." });
     }
     try {
         const count = await reportModel.getPassengerCountByDestination(startDate, endDate, destination);
-        res.send({ 
-            "message": "Passenger count retrieved successfully.", 
-            "PassengerCount": count 
-        });
+        console.log(count);
+        return res.json({"status":200, "message": "Passenger count retrieved successfully.", 
+            "PassengerCount": count });
+        
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "message": "Failed to retrieve passenger count by destination." });
+        return res.json({"status":500,"message": "Failed to retrieve passenger count by destination." });
     }
 };
 
@@ -39,13 +40,17 @@ exports.getBookingsByCategory = async (req, res) => {
     }
     try {
         const bookings = await reportModel.getBookingsByPassengerCategory(startDate, endDate);
-        res.send({ 
-            "message": "Bookings by category retrieved successfully.", 
-            "Bookings": bookings 
+        return res.json({
+            "status": 200,
+            "message": "Bookings retrieved successfully",
+            "Bookings": bookings
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "message": "Failed to retrieve bookings by category." });
+        return res.json({
+            "status": 500,
+            "message": "Failed to retrieve bookings by category."
+        });
     }
 };
 
@@ -56,26 +61,34 @@ exports.getPastFlights = async (req, res) => {
     }
     try {
         const flights = await reportModel.getPastFlightsData(origin, destination);
-        res.send({ 
-            "message": "Past flights data retrieved successfully.", 
-            "Flights": flights 
+        return res.json({
+            "status": 200,
+            "message": "Past flights data retrieved successfully",
+            "Flights": flights
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "message": "Failed to retrieve past flights data." });
+        return res.json({
+            "status": 500,
+            "message": "Failed to retrieve past flights data."
+        });
     }
 };
 
 exports.getRevenueByAircraft = async (req, res) => {
     try {
         const revenue = await reportModel.getRevenueByAircraft();
-        res.send({
-            "message": "Revenue by aircraft type retrieved successfully.",
+        return res.json({
+            "status": 200,
+            "message": "Revenue by aircraft type retrieved successfully",
             "Revenue": revenue
         });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "message": "Failed to retrieve revenue by aircraft type." });
+        return res.json({
+            "status": 500,
+            "message": "Failed to retrieve revenue by aircraft type."
+        });
     }
 };
 
