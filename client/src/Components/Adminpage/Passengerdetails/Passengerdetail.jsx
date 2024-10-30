@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Passengerdetails.css';
 
 const PassengerPage = () => {
-    const passengers = [
-        { passenger_id: 1, passenger_name: 'Alice Johnson', passport_number: 'P9876543', DOB: '1990-06-15', gender: 'Female' },
-        { passenger_id: 2, passenger_name: 'Robert Smith', passport_number: 'P1234567', DOB: '1985-12-20', gender: 'Male' },
-        { passenger_id: 3, passenger_name: 'Laura Wilson', passport_number: 'P2345678', DOB: '2000-03-18', gender: 'Female' },
-        { passenger_id: 4, passenger_name: 'Michael Brown', passport_number: 'P3456789', DOB: '1998-07-23', gender: 'Male' },
-        { passenger_id: 5, passenger_name: 'Sara Thompson', passport_number: 'P4567890', DOB: '2005-10-11', gender: 'Female' },
-        // Add more hardcoded passenger details as needed
-    ];
+    const [passengers, setPassengers] = useState([]);
+
+    const fetchPassengers = async () => {
+        try {
+            const response = await axios.get('http://localhost:3067/getall');
+            
+            if (response.data.message === 'got that' && response.data.result) {
+                const formattedPassengers = response.data.result.map((passenger) => ({
+                    passenger_id: passenger.Passenger_ID,
+                    passenger_name: passenger.Passenger_Name,
+                    passport_number: passenger.Passport_Number,
+                    DOB: passenger.DOB,
+                    gender: passenger.Gender
+                }));
+                setPassengers(formattedPassengers);
+            } else {
+                console.error('Unexpected response structure:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching passengers:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPassengers();
+    }, []);
 
     return (
         <div className="page-background">

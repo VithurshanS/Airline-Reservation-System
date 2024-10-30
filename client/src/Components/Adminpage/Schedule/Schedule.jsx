@@ -1,32 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Schedule.css';
 
 const ScheduleEdit = () => {
-    const [schedules, setSchedules] = useState([
-        { id: 1, flightNumber: 'BA123', origin: 'BIA', destination: 'BKK', departureTime: '10:00', arrivalTime: '13:00', airplane: 'Boeing 737' },
-        { id: 2, flightNumber: 'BA456', origin: 'CGK', destination: 'SIN', departureTime: '15:00', arrivalTime: '18:00', airplane: 'Airbus A380' },
-        { id: 3, flightNumber: 'BA789', origin: 'DEL', destination: 'DMK', departureTime: '08:00', arrivalTime: '11:30', airplane: 'Boeing 757' },
-        { id: 4, flightNumber: 'BA101', origin: 'HRI', destination: 'MAA', departureTime: '14:00', arrivalTime: '16:30', airplane: 'Boeing 737' },
-        { id: 5, flightNumber: 'BA202', origin: 'SIN', destination: 'DPS', departureTime: '09:30', arrivalTime: '12:30', airplane: 'Boeing 757' },
-        { id: 6, flightNumber: 'BA303', origin: 'BOM', destination: 'CGK', departureTime: '20:00', arrivalTime: '23:00', airplane: 'Boeing 737' },
-        { id: 7, flightNumber: 'BA404', origin: 'BIA', destination: 'HRI', departureTime: '06:30', arrivalTime: '08:00', airplane: 'Airbus A380' },
-        { id: 8, flightNumber: 'BA505', origin: 'DEL', destination: 'BKK', departureTime: '11:45', arrivalTime: '15:15', airplane: 'Boeing 757' },
-        { id: 9, flightNumber: 'BA606', origin: 'DMK', destination: 'SIN', departureTime: '13:00', arrivalTime: '16:00', airplane: 'Boeing 737' },
-        { id: 10, flightNumber: 'BA707', origin: 'MAA', destination: 'BIA', departureTime: '07:15', arrivalTime: '10:45', airplane: 'Airbus A380' },
-        // other schedules
-    ]);
+    const [schedules, setSchedules] = useState([]);
     const [editedSchedule, setEditedSchedule] = useState(null);
     const [newSchedule, setNewSchedule] = useState({
-        id: '', flightNumber: '', origin: '', destination: '', departureTime: '', arrivalTime: '', airplane: ''
+        flightNumber: '', airplane: '', departureDate: '', departureTime: '', arrivalDate: '', arrivalTime: '', economyFare: '', businessFare: '', platinumFare: ''
     });
 
-    const handleEdit = (schedule) => {
-        setEditedSchedule(schedule);
+    const fetchSchedules = async () => {
+        try {
+            const response = await axios.get('http://localhost:3067/getscheduleall');
+            
+            if (response.data.message === 'Successfully retrieved schedules.' && response.data.results) {
+                const formattedSchedules = response.data.results.map((schedule) => ({
+                    id: schedule.Schedule_ID,
+                    flightNumber: schedule.Route_ID,
+                    airplane: schedule.Plane_ID,
+                    departureTime: schedule.Departure_Time,
+                    arrivalTime: schedule.Arrival_Time,
+                    economyFare: schedule.Economy_Fare,
+                    businessFare: schedule.Business_Fare,
+                    platinumFare: schedule.Platinum_Fare
+                }));
+                setSchedules(formattedSchedules);
+            } else {
+                console.error('Unexpected response structure:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching schedules:', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        setSchedules(schedules.filter(schedule => schedule.id !== id));
-    };
+    useEffect(() => {
+        fetchSchedules();
+    }, []);
 
     const handleInputChange = (e, isNew = false) => {
         const { name, value } = e.target;
@@ -37,18 +46,33 @@ const ScheduleEdit = () => {
         }
     };
 
-    const handleSave = () => {
-        setSchedules(schedules.map(schedule => schedule.id === editedSchedule.id ? editedSchedule : schedule));
-        setEditedSchedule(null);
-    };
+    const handleAddNewFlight = async () => {
+        const departureDateTime = `${newSchedule.departureDate} ${newSchedule.departureTime}`;
+        const arrivalDateTime = `${newSchedule.arrivalDate} ${newSchedule.arrivalTime}`;
 
-    const handleCancel = () => {
-        setEditedSchedule(null);
-    };
+        try {
+            const response = await axios.post('http://localhost:3067/addschedule', {
+                Route_ID: newSchedule.flightNumber,
+                Plane_ID: newSchedule.airplane,
+                Departure_Time: departureDateTime,
+                Arrival_Time: arrivalDateTime,
+                Economy_Fare: newSchedule.economyFare,
+                Business_Fare: newSchedule.businessFare,
+                Platinum_Fare: newSchedule.platinumFare
+            });
+            console.log('shedule added',response.data.message);
 
-    const handleAddNewFlight = () => {
-        setSchedules([...schedules, { ...newSchedule, id: schedules.length + 1 }]);
-        setNewSchedule({ id: '', flightNumber: '', origin: '', destination: '', departureTime: '', arrivalTime: '', airplane: '' });
+            if (response.data.message === 'Insertion successful.') {
+                fetchSchedules();
+                alert("Schedule added successfully.");
+            } else {
+                console.error("Error adding schedule:", response.data);
+            }
+
+            setNewSchedule({ flightNumber: '', airplane: '', departureDate: '', departureTime: '', arrivalDate: '', arrivalTime: '', economyFare: '', businessFare: '', platinumFare: '' });
+        } catch (error) {
+            console.error("Error adding schedule:", error);
+        }
     };
 
     return (
@@ -59,13 +83,13 @@ const ScheduleEdit = () => {
                     <thead>
                         <tr>
                             <th>Schedule ID</th>
-                            <th>Flight No.</th>
-                            <th>Origin</th>
-                            <th>Destination</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
+                            <th>Route ID</th>
                             <th>Airplane</th>
-                            <th>Actions</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Economy Fare</th>
+                            <th>Business Fare</th>
+                            <th>Platinum Fare</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,83 +97,54 @@ const ScheduleEdit = () => {
                             <tr key={schedule.id}>
                                 <td>{schedule.id}</td>
                                 <td>{schedule.flightNumber}</td>
-                                <td>{schedule.origin}</td>
-                                <td>{schedule.destination}</td>
+                                <td>{schedule.airplane}</td>
                                 <td>{schedule.departureTime}</td>
                                 <td>{schedule.arrivalTime}</td>
-                                <td>{schedule.airplane}</td>
-                                {/* <td>
-                                    <button onClick={() => handleEdit(schedule)} className="edit-btn">Edit</button>
-                                    <button onClick={() => handleDelete(schedule.id)} className="delete-btn">Delete</button>
-                                </td> */}
+                                <td>{schedule.economyFare}</td>
+                                <td>{schedule.businessFare}</td>
+                                <td>{schedule.platinumFare}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                {editedSchedule && (
-                    <div className="edit-form">
-                        <h3>Edit Flight Schedule</h3>
-                        <label>
-                            Schedule ID:
-                            <input type="text" name="id" value={editedSchedule.id} onChange={(e) => handleInputChange(e)} disabled />
-                        </label>
-                        <label>
-                            Flight Number:
-                            <input type="text" name="flightNumber" value={editedSchedule.flightNumber} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <label>
-                            Origin:
-                            <input type="text" name="origin" value={editedSchedule.origin} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <label>
-                            Destination:
-                            <input type="text" name="destination" value={editedSchedule.destination} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <label>
-                            Departure Time:
-                            <input type="time" name="departureTime" value={editedSchedule.departureTime} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <label>
-                            Arrival Time:
-                            <input type="time" name="arrivalTime" value={editedSchedule.arrivalTime} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <label>
-                            Airplane:
-                            <input type="text" name="airplane" value={editedSchedule.airplane} onChange={(e) => handleInputChange(e)} />
-                        </label>
-                        <div className="form-actions">
-                            <button onClick={handleSave} className="save-btn">Save</button>
-                            <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-                        </div>
-                    </div>
-                )}
-
                 <div className="add-new-form">
                     <h3>Add New Flight Schedule</h3>
                     <label>
-                        Flight Number:
+                        Route ID:
                         <input type="text" name="flightNumber" value={newSchedule.flightNumber} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <label>
-                        Origin:
-                        <input type="text" name="origin" value={newSchedule.origin} onChange={(e) => handleInputChange(e, true)} />
+                        Airplane ID:
+                        <input type="text" name="airplane" value={newSchedule.airplane} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <label>
-                        Destination:
-                        <input type="text" name="destination" value={newSchedule.destination} onChange={(e) => handleInputChange(e, true)} />
+                        Departure Date:
+                        <input type="date" name="departureDate" value={newSchedule.departureDate} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <label>
                         Departure Time:
                         <input type="time" name="departureTime" value={newSchedule.departureTime} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <label>
+                        Arrival Date:
+                        <input type="date" name="arrivalDate" value={newSchedule.arrivalDate} onChange={(e) => handleInputChange(e, true)} />
+                    </label>
+                    <label>
                         Arrival Time:
                         <input type="time" name="arrivalTime" value={newSchedule.arrivalTime} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <label>
-                        Airplane:
-                        <input type="text" name="airplane" value={newSchedule.airplane} onChange={(e) => handleInputChange(e, true)} />
+                        Economy Fare:
+                        <input type="number" name="economyFare" value={newSchedule.economyFare} onChange={(e) => handleInputChange(e, true)} />
+                    </label>
+                    <label>
+                        Business Fare:
+                        <input type="number" name="businessFare" value={newSchedule.businessFare} onChange={(e) => handleInputChange(e, true)} />
+                    </label>
+                    <label>
+                        Platinum Fare:
+                        <input type="number" name="platinumFare" value={newSchedule.platinumFare} onChange={(e) => handleInputChange(e, true)} />
                     </label>
                     <div className="form-actions">
                         <button onClick={handleAddNewFlight} className="save-btn">Add Flight</button>

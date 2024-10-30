@@ -1,13 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Airport.css';
 import axios from 'axios';
-const AirportManagement = () => {
-    const [airports, setAirports] = useState([
-        { id: 1, airportCode: 'CMB', airportName: 'Bandaranaike International Airport', location: 'Colombo, Western, Sri Lanka' },
-        { id: 2, airportCode: 'TRR', airportName: 'Ratmalana Airport', location: 'Ratmalana, Western, Sri Lanka' },
-        { id: 3, airportCode: 'HRI', airportName: 'Jaffna International Airport', location: 'Jaffna, Northern, Sri Lanka' },
-    ]);
 
+const AirportManagement = () => {
+    const [airports, setAirports] = useState([]);
     const [editedAirport, setEditedAirport] = useState(null);
     const [newAirport, setNewAirport] = useState({ airportCode: '', airportName: '', location: '' });
 
@@ -34,31 +30,59 @@ const AirportManagement = () => {
         setNewAirport({ ...newAirport, [name]: value });
     };
 
-    // const handleAdd = () => {
-    //     setAirports([...airports, { id: airports.length + 1, ...newAirport }]);
-    //     setNewAirport({ airportCode: '', airportName: '', location: '' });
-    // };
-
     const handleAdd = async () => {
         try {
+            // Split the location string by commas and trim each part to remove extra whitespace
+            const locationArray = newAirport.location.split(',').map(part => part.trim());
+    
             const response = await axios.post('http://localhost:3067/addairport', {
-                    Airport_Code :newAirport.airportCode,
-                    Airport_name : newAirport.airportName,
-                    Location :  newAirport.location,
+                Airport_Code: newAirport.airportCode,
+                Airport_name: newAirport.airportName,
+                Location: locationArray,  // Pass location as an array
             });
-            setResult(response.data.message);
+    
             alert(response.data.message);
             setNewAirport({ airportCode: '', airportName: '', location: '' });
-            
+            fetchAirports(); 
+             // Refresh the list after adding a new airport
+             alert("airport add successfully");
         } catch (error) {
             console.error("An error occurred:", error);
         }
     };
 
-    const handleDelete = (id) => {
-        const updatedAirports = airports.filter(airport => airport.id !== id);
-        setAirports(updatedAirports);
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3067/deleteairport/${id}`);
+            setAirports(airports.filter(airport => airport.id !== id));
+        } catch (error) {
+            console.error("An error occurred while deleting:", error);
+        }
     };
+
+    const fetchAirports = async () => {
+        try {
+            const response = await axios.get('http://localhost:3067/getairport');
+            
+            if (response.data.message === 'Airports retrieved successfully.' && response.data.result) {
+                const formattedAirports = response.data.result.map((airport) => ({
+                      // Ensure this field exists or adjust according to your API
+                    airportCode: airport.Airport_Code,
+                    airportName: airport.Airport_name,
+                    location: airport.Location_ID
+                }));
+                setAirports(formattedAirports);
+            } else {
+                console.error('Unexpected response structure:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching airports:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchAirports();
+    }, []);
 
     return (
         <div className="page-background">
@@ -68,24 +92,17 @@ const AirportManagement = () => {
                 <table className="airport-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Airport Code</th>
                             <th>Airport Name</th>
                             <th>Location</th>
-                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
-                        {airports.map(airport => (
+                        {airports.map((airport) => (
                             <tr key={airport.id}>
-                                <td>{airport.id}</td>
                                 <td>{airport.airportCode}</td>
                                 <td>{airport.airportName}</td>
                                 <td>{airport.location}</td>
-                                {/* <td>
-                                    <button onClick={() => handleEdit(airport)} className="edit-btn">Edit</button>
-                                    <button onClick={() => handleDelete(airport.id)} className="delete-btn">Delete</button>
-                                </td> */}
                             </tr>
                         ))}
                     </tbody>
