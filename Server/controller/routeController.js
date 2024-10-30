@@ -24,3 +24,13 @@ exports.getRoute = async (req, res) => {
         res.status(500).send({ "message": "Failed to get route." });
     }
 };
+
+exports.getAllRoute = async (req,res) => {
+    try {
+        const routes = await routeModel.getAllRoute();
+        res.send({ "message": "All routes retrieved successfully.", "results": routes });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to get all routes." });
+    }
+}

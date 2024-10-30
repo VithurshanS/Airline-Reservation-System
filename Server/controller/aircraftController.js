@@ -22,7 +22,12 @@ exports.getAircraft = async (req, res) => {
         }
     }
 
-/*{
-  "AircraftType":"KingFisher323",
-  "Fuel_capacity":20000
-}*/
+exports.getallaircraft = async (req, res) => {
+    try {
+        const result = await aircraftModel.getAllAircraftQuery();
+        res.send({ "message": "All aircraft retrieved successfully.", "results": result });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "message": "Failed to get all aircraft." });
+    }
+}

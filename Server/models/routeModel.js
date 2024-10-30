@@ -27,4 +27,16 @@ const db = require('../database');
     });
  };
 
+ exports.getAllRoute = ()=>{
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM route;`;
+        db.query(query, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+ }
  //consider the getroute function is return null value if it cant get route
