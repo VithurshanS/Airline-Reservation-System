@@ -212,8 +212,8 @@ BEGIN
     EXECUTE vi USING @p_Seat_ID;
     DEALLOCATE PREPARE vi;
     SET actualPrice = @ac;
-    IF p_User_ID != null THEN
-		select uc.Discount into discount from category c left outer join user_category uc on uc.Category_ID = c.Category_ID where uc.User_ID = p_User_ID;
+    IF p_User_ID is not null THEN
+		select c.Discount into discount from category c right outer join user_category uc on uc.Category_ID = c.Category_ID where uc.User_ID = p_User_ID;
 	ELSE
 		SET discount = 0;
 	END IF;
@@ -505,6 +505,32 @@ END$$
 
 DELIMITER ;
 
+drop procedure if exists generateRevenueByAircraftReportbyid;
+DELIMITER $$ 
+CREATE PROCEDURE generateRevenueByAircraftReportbyid(
+	IN aircraftid CHAR(36)
+)
+BEGIN
+    SELECT 
+        a.Aircraft_type,
+        COUNT(b.Booking_ID) AS TotalBookings,
+        SUM(b.Final_Price) AS TotalRevenue
+    FROM 
+        Booking b
+    JOIN 
+        Seat s ON b.Seat_ID = s.Seat_ID
+    JOIN 
+        Schedule sc ON s.Schedule_ID = sc.Schedule_ID
+    JOIN 
+        Plane p ON sc.Plane_ID = p.Plane_ID
+    JOIN 
+        Aircraft a ON p.Aircraft_ID = a.Aircraft_ID
+    WHERE 
+        b.Booking_Status = 'confirmed' and p.Aircraft_ID = aircraftid;
+END$$
+
+DELIMITER ;
+
 
 
 
@@ -591,8 +617,6 @@ BEGIN
         TotalRevenue DESC
 END$$
 DELIMITER ;
-
-use airline;
 
 
 
