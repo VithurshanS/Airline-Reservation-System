@@ -162,115 +162,15 @@ function BookNowPage() {
             <span>{businessFare}</span>
           </div>
         </div>
-      </div>
-
-      {/* <Box
-        className="book-now-page"
-        sx={{ p: 4, backgroundColor: "#f5f5f5", borderRadius: 2, boxShadow: 3 }}
+        <button
+        className="confirm_book"
+        onClick={() => Navigate("/forms", { state: { selectedSeats } })}
       >
-       
-        <Typography variant="h4" gutterBottom>
-          Book Now
-        </Typography>
-
-        <Box className="class-selection" sx={{ mb: 3 }}>
-          <Typography variant="h6">Select Class</Typography>
-          <TextField
-            select
-            value={selectedClass}
-            onChange={handleClassChange}
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            <MenuItem value="Economy">Economy</MenuItem>
-            <MenuItem value="Business">Business</MenuItem>
-            <MenuItem value="Platinum">Platinum</MenuItem>
-          </TextField>
-        </Box>
-
-        <Grid container spacing={2}>
-          {passengers.map((passenger, index) => (
-            <Grid item xs={12} key={index}>
-              <Box
-                className="passenger"
-                sx={{
-                  p: 2,
-                  backgroundColor: "#fff",
-                  borderRadius: 1,
-                  boxShadow: 2,
-                }}
-              >
-                <Typography variant="subtitle1" gutterBottom>
-                  Passenger {index + 1}
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Name"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.name}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "name", e.target.value)
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Date of Birth"
-                      type="date"
-                      variant="outlined"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      value={passenger.dob}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "dob", e.target.value)
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      select
-                      label="Gender"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.gender}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "gender", e.target.value)
-                      }
-                    >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
-                      <MenuItem value="Other">Other</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Passport Number"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.passportNumber}
-                      onChange={(e) =>
-                        handlePassengerChange(
-                          index,
-                          "passportNumber",
-                          e.target.value
-                        )
-                      }
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box sx={{ mt: 3, textAlign: "center" }}>
-          <IconButton color="primary" onClick={handleAddPassenger}>
-            <AddIcon /> Add Passenger
-          </IconButton>
-        </Box> */}
+        Confirm Booking
+      </button>
+      </div>
+      
+      
       {seatConfig && (
         <Box sx={{ mt: 4 }}>
           <SeatSelection
@@ -281,14 +181,9 @@ function BookNowPage() {
           />
         </Box>
       )}
-      {/* </Box> */}
+     
 
-      <button
-        className="confirm_book"
-        onClick={() => Navigate("/forms", { state: { selectedSeats } })}
-      >
-        Confirm Booking
-      </button>
+      
     </>
   );
 }

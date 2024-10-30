@@ -102,6 +102,21 @@ function BookingForm() {
     navigate('/Home');
   };
 
+  const handleCancelBooking = async () => {
+    try {
+      for (const seat of selectedSeats) {
+        const response = await axios.post("http://localhost:3067/removeselectedseat", {
+          seats: seat.Seat_ID,
+        });
+        console.log("Seat booking response:", response.data);
+      }
+    } catch (error) {
+      console.error("Error booking seats:", error);
+    }
+    alert("Booking Canceled succesfully");
+    navigate('/BookingPageMain');
+  };
+
 
   return (
     <Box
@@ -219,6 +234,17 @@ function BookingForm() {
       >
         Confirm Booking
       </Button>
+      <div className="cancelbtn"><Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3 }}
+        onClick={handleCancelBooking}
+      >
+        Cancel Booking
+      </Button>
+</div>
+      
     </Box>
   );
 }

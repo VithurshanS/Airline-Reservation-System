@@ -1,27 +1,83 @@
+/* Overall Seat Selection Container */
 .seat-selection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .seat-selection .MuiButton-root {
-    margin: 4px;
-  }
-  
-  .seat-selection .MuiTypography-root {
-    font-weight: bold;
-  }
-  
-  .seat-selection .selected-seat {
-    background-color: #1976d2 !important;
-    color: white !important;
-  }
-  
-  .seat-selection .seat {
-    border-radius: 50%;
-  }
-  
-  .seat-selection .seat:hover {
-    background-color: #1565c0 !important;
-  }
-  
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  margin-right: 500px;
+}
+
+/* Typography */
+.seat-selection h5 {
+  color: #1976d2;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Class Label Styles */
+.seat-selection h6 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Seat Button Styles */
+.MuiButton-root {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.MuiButton-contained {
+  background-color: #ffeb3b; /* Selected seats */
+  color: #fff;
+  border: none;
+}
+
+.MuiButton-outlined {
+  border: 1px solid #bdbdbd; /* Unselected, available seats */
+}
+
+/* Hover Effect for Seats */
+.MuiButton-root:hover {
+  background-color: #d1d1d1 !important;
+}
+
+/* Disabled Seat */
+.MuiButton-root.Mui-disabled {
+  background-color: #e57373 !important;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+/* Row Container */
+.seat-selection .MuiGrid-container {
+  margin-bottom: 12px;
+  justify-content: center;
+}
+
+/* Empty Space for Aisle */
+.seat-selection .MuiBox-root {
+  min-width: 30px;
+}
+
+/* Selected Seats Display */
+.seat-selection .MuiBox-root + .MuiBox-root {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.seat-selection .MuiTypography-body2 {
+  font-weight: 500;
+  color: #666;
+  font-size: 16px;
+}
+
