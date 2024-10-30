@@ -261,6 +261,16 @@ BEGIN
 END $$
 DELIMITER ;
 
+drop procedure if exists getscheduleafterwithaddress;
+DELIMITER $$
+CREATE PROCEDURE getscheduleafterwithaddress(
+	IN indate date
+)
+BEGIN
+	SELECT * FROM schedulewithaddress where DATE(Departure_Time) >= indate;
+END $$
+DELIMITER ;
+
 
 drop procedure if exists AddPassenger;
 DELIMITER $$

@@ -39,3 +39,29 @@ const db = require('../database')
             });
         });
     }
+
+    exports.getSchedulewithaddress = () => {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM schedulewithaddress;`;
+            db.query(query, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    };
+
+    exports.getSchewithaddress = (date)=>{
+        return new Promise((resolve, reject) => {
+            const query = `call getscheduleafterwithaddress(?);`;
+            db.query(query,[date], (error, results) => {
+                if (error) {
+                    reject(error);
+                }else{
+                    resolve(results);
+                }
+            });
+        });
+    }
