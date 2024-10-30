@@ -46,10 +46,41 @@ const ScheduleEdit = () => {
         }
     };
 
-    const handleAddNewFlight = async () => {
-        const departureDateTime = `${newSchedule.departureDate} ${newSchedule.departureTime}`;
-        const arrivalDateTime = `${newSchedule.arrivalDate} ${newSchedule.arrivalTime}`;
+    // const handleAddNewFlight = async () => {
+    //     const departureDateTime = `${newSchedule.departureDate} ${newSchedule.departureTime}`;
+    //     const arrivalDateTime = `${newSchedule.arrivalDate} ${newSchedule.arrivalTime}`;
 
+    //     try {
+    //         const response = await axios.post('http://localhost:3067/addschedule', {
+    //             Route_ID: newSchedule.flightNumber,
+    //             Plane_ID: newSchedule.airplane,
+    //             Departure_Time: departureDateTime,
+    //             Arrival_Time: arrivalDateTime,
+    //             Economy_Fare: newSchedule.economyFare,
+    //             Business_Fare: newSchedule.businessFare,
+    //             Platinum_Fare: newSchedule.platinumFare
+    //         });
+    //         console.log('shedule added',response.data.message);
+
+    //         if (response.data.message === 'Insertion successful.') {
+    //             fetchSchedules();
+    //             alert("Schedule added successfully.");
+    //         } else {
+    //             console.error("Error adding schedule:", response.data);
+    //         }
+
+    //         setNewSchedule({ flightNumber: '', airplane: '', departureDate: '', departureTime: '', arrivalDate: '', arrivalTime: '', economyFare: '', businessFare: '', platinumFare: '' });
+    //     } catch (error) {
+    //         console.error("Error adding schedule:", error);
+    //     }
+    // };
+
+    const handleAddNewFlight = async () => {
+        const formatDateTime = (date, time) => `${date} ${time}:00`;
+    
+        const departureDateTime = formatDateTime(newSchedule.departureDate, newSchedule.departureTime);
+        const arrivalDateTime = formatDateTime(newSchedule.arrivalDate, newSchedule.arrivalTime);
+    
         try {
             const response = await axios.post('http://localhost:3067/addschedule', {
                 Route_ID: newSchedule.flightNumber,
@@ -60,20 +91,22 @@ const ScheduleEdit = () => {
                 Business_Fare: newSchedule.businessFare,
                 Platinum_Fare: newSchedule.platinumFare
             });
-            console.log('shedule added',response.data.message);
-
+    
+            console.log('Schedule added:', response.data.message);
+    
             if (response.data.message === 'Insertion successful.') {
                 fetchSchedules();
                 alert("Schedule added successfully.");
             } else {
                 console.error("Error adding schedule:", response.data);
             }
-
+    
             setNewSchedule({ flightNumber: '', airplane: '', departureDate: '', departureTime: '', arrivalDate: '', arrivalTime: '', economyFare: '', businessFare: '', platinumFare: '' });
         } catch (error) {
             console.error("Error adding schedule:", error);
         }
     };
+    
 
     return (
         <div className="page-background">
