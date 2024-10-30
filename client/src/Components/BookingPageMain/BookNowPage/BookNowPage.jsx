@@ -25,7 +25,7 @@ import { useLocation } from "react-router-dom";
 function BookNowPage() {
   const Navigate = useNavigate();
   const location = useLocation();
-  const { scheduleId, economyFare, businessFare, platinumFare } =
+  const { scheduleId, economyFare, businessFare, platinumFare,dep_city,arr_city } =
     location.state || {};
   const [availableSeats, setAvailableSeats] = useState([]);
   const [seats, setSeats] = useState([]);
@@ -84,27 +84,7 @@ function BookNowPage() {
       });
   }, [scheduleId]);
 
-  // useEffect(() => {
-
-  //   axios
-  //     .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
-  //     .then((response) => {
-  //       console.log("getseats:", response.data.results);
-  //       setSeats(response.data.results);
-
-  //       if (response.data.results && response.data.results[0] && response.data.results[0][0]) {
-  //         const seatDetails = response.data.results[0][0];
-  //         setTotalSeats(seatDetails.Total_seats);
-  //         setEconomySeatStart(seatDetails.Economy_seat_start_no);
-  //         setBusinessSeatStart(seatDetails.Business_seat_start_no);
-  //         setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
-  //       }
-  //     })
-
-  //     .catch((error) => {
-  //       console.error("Error fetching available seats:", error);
-  //     });
-  // }, [scheduleId]);
+  
   useEffect(() => {
     axios
       .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
@@ -143,11 +123,11 @@ function BookNowPage() {
           </div>
           <div className="info-item">
             <label>Departure:</label>
-            <span>New York</span>
+            <span>{dep_city}</span>
           </div>
           <div className="info-item">
             <label>Arrival:</label>
-            <span>London</span>
+            <span>{arr_city}</span>
           </div>
           <div className="info-item">
             <label>Economy Fees:</label>

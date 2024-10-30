@@ -1,49 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Planedetails.css';
 
 const PlaneDetails = () => {
-    const [planes, setPlanes] = useState([
-        { id: 1, aircraftName: 'Boeing 737', planeName: 'Sky Hawk' },
-        { id: 2, aircraftName: 'Airbus A380', planeName: 'Eagle One' },
-        { id: 3, aircraftName: 'Boeing 757', planeName: 'Falcon Flyer' },
-        { id: 4, aircraftName: 'Boeing 737', planeName: 'Blue Bird' },
-        { id: 5, aircraftName: 'Airbus A320', planeName: 'Jet Stream' },
-    ]);
-
+    const [planes, setPlanes] = useState([]);
     const [editedPlane, setEditedPlane] = useState(null);
-    const [newPlane, setNewPlane] = useState({ id: '', aircraftName: '', planeName: '' });
+    const [newPlane, setNewPlane] = useState({ aircraftId: '', planeName: '' });
+    const [result, setResult] = useState('');
 
-    const handleEdit = (plane) => {
-        setEditedPlane(plane);
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedPlane({ ...editedPlane, [name]: value });
-    };
-
-    const handleSave = () => {
-        setPlanes(planes.map(plane => plane.id === editedPlane.id ? editedPlane : plane));
-        setEditedPlane(null);
-    };
-
-    const handleCancel = () => {
-        setEditedPlane(null);
-    };
-
-    const handleDelete = (id) => {
-        setPlanes(planes.filter(plane => plane.id !== id));
-    };
+    useEffect(() => {
+        // Fetch all planes on component load
+        const fetchPlanes = async () => {
+            try {
+                const response = await axios.get('http://localhost:3067/getallplane');
+                setPlanes(response.data.result); // Accessing the 'result' array from the response
+            } catch (error) {
+                console.error("Error fetching planes:", error);
+            }
+        };
+        fetchPlanes();
+    }, []);
 
     const handleAddChange = (e) => {
         const { name, value } = e.target;
         setNewPlane({ ...newPlane, [name]: value });
     };
 
-    const handleAdd = () => {
-        const newPlaneEntry = { ...newPlane, id: planes.length + 1 };
-        setPlanes([...planes, newPlaneEntry]);
-        setNewPlane({ id: '', aircraftName: '', planeName: '' });
+    const handleAdd = async () => {
+        try {
+            const response = await axios.post('http://localhost:3067/addplane', {
+                Aircraft_ID: newPlane.aircraftId,
+                Plane_name: newPlane.planeName,
+            });
+            setResult(response.data.message);
+            alert(response.data.message);
+
+            // Fetch updated plane list after successful addition
+            const updatedResponse = await axios.get('http://localhost:3067/getallplane');
+            setPlanes(updatedResponse.data.result);
+
+            setNewPlane({ aircraftId: '', planeName: '' });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
     };
 
     return (
@@ -54,53 +53,26 @@ const PlaneDetails = () => {
                     <thead>
                         <tr>
                             <th>Plane ID</th>
-                            <th>Aircraft Name</th>
+                            <th>Aircraft ID</th>
                             <th>Plane Name</th>
-                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
                         {planes.map(plane => (
-                            <tr key={plane.id}>
-                                <td>{plane.id}</td>
-                                <td>{plane.aircraftName}</td>
-                                <td>{plane.planeName}</td>
-                                {/* <td>
-                                    <button onClick={() => handleEdit(plane)} className="edit-btn">Edit</button>
-                                    <button onClick={() => handleDelete(plane.id)} className="delete-btn">Delete</button>
-                                </td> */}
+                            <tr key={plane.Plane_ID}>
+                                <td>{plane.Plane_ID}</td>
+                                <td>{plane.Aircraft_ID}</td>
+                                <td>{plane.Plane_name}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
-                {editedPlane && (
-                    <div className="edit-form">
-                        <h3>Edit Plane Details</h3>
-                        <label>
-                            ID:
-                            <input type="text" name="id" value={editedPlane.id} onChange={handleInputChange} disabled />
-                        </label>
-                        <label>
-                            Aircraft Name:
-                            <input type="text" name="aircraftName" value={editedPlane.aircraftName} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Plane Name:
-                            <input type="text" name="planeName" value={editedPlane.planeName} onChange={handleInputChange} />
-                        </label>
-                        <div className="form-actions">
-                            <button onClick={handleSave} className="save-btn">Save</button>
-                            <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-                        </div>
-                    </div>
-                )}
-
                 <div className="add-form">
                     <h3>Add New Plane</h3>
                     <label>
-                        Aircraft Name:
-                        <input type="text" name="aircraftName" value={newPlane.aircraftName} onChange={handleAddChange} />
+                        Aircraft ID:
+                        <input type="number" name="aircraftId" value={newPlane.aircraftId} onChange={handleAddChange} />
                     </label>
                     <label>
                         Plane Name:
@@ -115,4 +87,4 @@ const PlaneDetails = () => {
     );
 };
 
-export default PlaneDetails;
+export default PlaneDetails;

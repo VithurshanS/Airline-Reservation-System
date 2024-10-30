@@ -1,17 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Routes.css';
 
 const Route = () => {
-    const [routes, setRoutes] = useState([
-        { route_id: 101, departure_airport: 'JFK', arrival_airport: 'LAX' },
-        { route_id: 102, departure_airport: 'ORD', arrival_airport: 'DFW' },
-        { route_id: 103, departure_airport: 'ATL', arrival_airport: 'MIA' },
-        { route_id: 104, departure_airport: 'LHR', arrival_airport: 'DXB' },
-        { route_id: 105, departure_airport: 'SIN', arrival_airport: 'SYD' },
-    ]);
-
+    const [routes, setRoutes] = useState([]);
     const [editingRoute, setEditingRoute] = useState(null);
     const [newRoute, setNewRoute] = useState({ route_id: '', departure_airport: '', arrival_airport: '' });
+
+    const fetchRoutes = async () => {
+        try {
+            const response = await axios.get('http://localhost:3067/getallroute');
+            if (response.data.message === 'All routes retrieved successfully.') {
+                const formattedRoutes = response.data.results.map(route => ({
+                    route_id: route.Route_ID,
+                    departure_airport: route.Departure_Airport,
+                    arrival_airport: route.Arrival_Airport
+                }));
+                setRoutes(formattedRoutes);
+            }
+        } catch (error) {
+            console.error('Error fetching routes:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchRoutes();
+    }, []);
 
     const handleEdit = (route) => {
         setEditingRoute(route);
@@ -27,16 +41,28 @@ const Route = () => {
         setNewRoute(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (editingRoute) {
-            // Update existing route
             setRoutes(routes.map(route => (route.route_id === editingRoute.route_id ? newRoute : route)));
             setEditingRoute(null);
         } else {
-            // Add new route
-            setRoutes([...routes, { ...newRoute, route_id: parseInt(newRoute.route_id) }]);
+            try {
+                const response = await axios.post('http://localhost:3067/addroute', {
+                    Depature_Airport: newRoute.departure_airport,
+                    Arival_Airport: newRoute.arrival_airport,
+                });
+                if (response.data.message === 'Route added successfully.') {
+                    setRoutes([...routes, {
+                        route_id: response.data.result,
+                        departure_airport: newRoute.departure_airport,
+                        arrival_airport: newRoute.arrival_airport,
+                    }]);
+                    setNewRoute({ route_id: '', departure_airport: '', arrival_airport: '' });
+                }
+            } catch (error) {
+                console.error('Error adding route:', error);
+            }
         }
-        setNewRoute({ route_id: '', departure_airport: '', arrival_airport: '' });
     };
 
     const handleCancel = () => {
@@ -55,7 +81,6 @@ const Route = () => {
                             <th>Route ID</th>
                             <th>Departure Airport</th>
                             <th>Arrival Airport</th>
-                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -64,10 +89,6 @@ const Route = () => {
                                 <td>{route.route_id}</td>
                                 <td>{route.departure_airport}</td>
                                 <td>{route.arrival_airport}</td>
-                                {/* <td>
-                                    <button className="edit-btn" onClick={() => handleEdit(route)}>Edit</button>
-                                    <button className="delete-btn" onClick={() => handleDelete(route.route_id)}>Delete</button>
-                                </td> */}
                             </tr>
                         ))}
                     </tbody>
@@ -77,7 +98,7 @@ const Route = () => {
                 <div className="form-container">
                     <label>
                         Route ID:
-                        <input type="number" name="route_id" value={newRoute.route_id} onChange={handleChange} />
+                        <input type="number" name="route_id" value={newRoute.route_id} onChange={handleChange} disabled={!!editingRoute} />
                     </label>
                     <label>
                         Departure Airport:

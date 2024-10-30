@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Paper, TextField, Button } from '@mui/material';
 
 const passengersData = [
@@ -60,6 +60,26 @@ function Report() {
     );
     setPastFlights(flights);
   };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3067/passengers-by-age/:flight_no/${scheduleId}`)
+  //     .then((response) => {
+  //       const seatDetails = response.data.results[0]?.[0];
+  //       console.log("getseatsss", response.data.results);
+  //       if (seatDetails) {
+  //         setTotalSeats(seatDetails.Total_seats);
+  //         setEconomySeatStart(seatDetails.Economy_seat_start_no);
+  //         setBusinessSeatStart(seatDetails.Business_seat_start_no);
+  //         setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching seat details:", error);
+  //     });
+  // }, [scheduleId]);
+
+  
 
   return (
     <Box sx={{ p: 4, backgroundColor: '#e3f2fd', minHeight: '100vh' }}>

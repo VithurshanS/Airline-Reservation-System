@@ -34,7 +34,7 @@ import Schedule from '../Schedule/Schedule'; // Import your Schedules component
 import PassengerDetails from '../Passengerdetails/Passengerdetail';
 import Userdetails from '../Userdetails/Userdetail';
 import Routess from '../Routes/Routes';
-
+import Revenues from '../Revenue/Revenue'
 
 const NAVIGATION = [
   {
@@ -61,11 +61,11 @@ const NAVIGATION = [
     title: 'Passenger Details',
     icon: <PeopleIcon fontSize="large" style={{ color: '#2196f3' }} />,
   },
-  // {
-  //   segment: 'revenue',
-  //   title: 'Revenue',
-  //   icon: <AttachMoneyIcon fontSize="large" style={{ color: '#2196f3' }} />,
-  // },
+  {
+    segment: 'revenue',
+    title: 'Revenue',
+    icon: <AttachMoneyIcon fontSize="large" style={{ color: '#2196f3' }} />,
+  },
   
   {
     segment: 'aircraft',
@@ -162,9 +162,9 @@ function DemoPageContent({ pathname }) {
     case '/passenger-details':
       content = <PassengerDetails />;
       break;
-    // case '/revenue':
-    //   content = '<Revenue />';
-    //   break;
+    case '/revenue':
+      content = <Revenues />;
+      break;
     case '/account':
       content = <AdminProfile />;
       break;

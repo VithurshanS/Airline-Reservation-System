@@ -1,0 +1,31 @@
+/* Set the chart container to full width and adjust height */
+.aircraft-type-revenue-chart {
+    padding: 20px;
+    width: 100%;
+    background-color: transparent;
+    text-align: center;
+}
+
+.aircraft-type-revenue-chart h2 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.revenue-summary {
+    margin-bottom: 30px;
+}
+
+.revenue-summary p {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Increase the chart canvas height for a larger display */
+.aircraft-type-revenue-chart canvas {
+    max-height: 800px; /* Increased height */
+    height: 800px; /* Set a specific height */
+    width: 100%;
+}
