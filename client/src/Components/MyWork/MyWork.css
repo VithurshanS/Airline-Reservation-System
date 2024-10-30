@@ -160,7 +160,7 @@
   align-items: center;
   justify-content: center;
   gap: 80px;
-  margin: 80px 170px;
+  /* margin: 80px 170px; */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
