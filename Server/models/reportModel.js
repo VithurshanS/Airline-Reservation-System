@@ -32,7 +32,7 @@ exports.getPassengerCountByDestination = (startDate, endDate, destination) => {
 
 exports.getBookingsByPassengerCategory = (startDate, endDate) => {
     return new Promise((resolve, reject) => {
-        const query = `CALL getBookingsByPassengerCategory(?, ?);`;
+        const query = `CALL GetConfirmedBookingCountByCategory(?, ?);`;
         db.query(query, [startDate, endDate], (error, results) => {
             if (error) {
                 reject(error);
