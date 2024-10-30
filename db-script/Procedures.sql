@@ -489,6 +489,9 @@ END$$
 
 DELIMITER ;
 
+
+
+
 drop procedure if exists generateRevenueByAircraftReport;
 DELIMITER $$ 
 CREATE PROCEDURE generateRevenueByAircraftReport()
@@ -602,6 +605,46 @@ BEGIN
     LIMIT 10;
 END$$
 DELIMITER ;
+
+drop procedure if exists GetFlightReport;
+DELIMITER $$
+
+CREATE PROCEDURE GetFlightReport(
+    IN origin_city VARCHAR(255),
+    IN destination_city VARCHAR(255)
+)
+BEGIN
+    SELECT 
+        swa.Schedule_ID,
+        swa.Departure_Time,
+        swa.Arrival_Time,
+        swa.Economy_Fare,
+        swa.Business_Fare,
+        swa.Platinum_Fare,
+        swa.dep_city AS Origin,
+        swa.arr_city AS Destination,
+        COUNT(b.Booking_ID) AS Passenger_Count
+    FROM 
+        SchedulewithAddress swa
+    LEFT JOIN Seat s ON swa.Schedule_ID = s.Schedule_ID
+    LEFT JOIN Booking b ON b.Booking_ID = s.Seat_ID
+    WHERE 
+        swa.dep_city = origin_city
+        AND swa.arr_city = destination_city
+        AND swa.Departure_Time < NOW()
+    GROUP BY 
+        swa.Schedule_ID,
+        swa.Departure_Time,
+        swa.Arrival_Time,
+        swa.Economy_Fare,
+        swa.Business_Fare,
+        swa.Platinum_Fare,
+        swa.dep_city,
+        swa.arr_city;
+END $$
+
+DELIMITER ;
+
 
 
 

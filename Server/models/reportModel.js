@@ -45,7 +45,7 @@ exports.getBookingsByPassengerCategory = (startDate, endDate) => {
 
 exports.getPastFlightsData = (origin, destination) => {
     return new Promise((resolve, reject) => {
-        const query =  `CALL getPastFlightsData(?, ?);`;
+        const query =  `CALL getFlightReport(?, ?);`;
         db.query(query, [origin, destination], (error, results) => {
             if (error) {
                 reject(error);
