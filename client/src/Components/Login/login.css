@@ -1,168 +1,91 @@
-/* login.css
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+/* Basic reset for margin and padding */
+.body {
+    background-color: #e0f7fa; /* Page background aligned with theme */
+    padding: 50px 0;
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    margin: 10px auto;
+    padding: 50px;
+    background-color: #e0f7fa; /* Light blue background */
+    border-radius: 40px;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 150, 136, 0.5); /* Soft shadow for modern look */
 }
 
 .login-form {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-.login-form h2 {
+    max-width: 100%;
+    margin: 0;
+    padding: 40px;
+    background-color: #ffffff; /* White background inside the form */
+    border-radius: 20px;
     text-align: center;
-    color: #333;
-    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for form box */
 }
 
-.login-form label {
+.login-form h1{
+    font-weight: 200px;
+    font-size: 30px;
+}
+
+/* Style for labels */
+.label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
+    font-size: 18px;
     font-weight: 600;
     color: #333;
+    text-align: left;
+    
 }
 
-.input-field {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.input-field:focus {
-    border-color: #3f51b5;
-    outline: none;
-}
-
-.error-message {
-    color: #d9534f;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.user-info {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: #f0f3f7;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    color: #555;
-    text-align: center;
-} */
-
-/* General Styling */
-.body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-}
-
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;
-    width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 2rem;
-}
-
-.login-form {
-    width: 100%;
-}
-
-.login-form h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-.label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #555;
-}
-
+/* Style for input fields */
 .input-field,
 .role-select {
     width: 100%;
-    padding: 0.8rem;
-    margin: 0.5rem 0 1rem 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.2s ease-in-out;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #b2dfdb;
+    background-color: #e0f2f1; /* Light blue input fields */
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+    text-align: left;
 }
 
+/* Change border color on focus */
 .input-field:focus,
 .role-select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    border-color: #00796b;
+    outline: 0;
 }
 
+/* Style for error message */
+.error-message {
+    color: #d32f2f; /* Red color for error message */
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+/* Style for submit button */
+.MuiButton-root {
+    background-color: #00796b; /* Dark blue-green for submit button */
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease-in;
+}
+
+.MuiButton-root:hover {
+    background-color: #004d40; /* Darker blue-green on hover */
+}
+
+/* Additional styling for select dropdown */
 .role-select {
     cursor: pointer;
+    background-color: #e0f2f1; /* Light blue dropdown */
 }
 
-.error-message {
-    color: #e74c3c;
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 1rem;
-}
 
-.user-info {
-    color: #007bff;
-    font-size: 0.9rem;
-    text-align: center;
-    margin-top: 1rem;
-    word-wrap: break-word;
-}
-
-/* button.MuiButton-root {
-    margin-top: 1.5rem;
-    background-color: #007bff ;
-    color: #fff ;
-    font-weight: bold ;
-    font-size: 1rem ;
-    text-transform: none ;
-}
-
-button.MuiButton-root:hover {
-    background-color: #0056b3 ;
-} */

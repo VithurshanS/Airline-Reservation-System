@@ -13,6 +13,7 @@ export default function Signup() {
     const [Gender, setGender] = useState('');
     const [Role, setRole] = useState('R_user'); // default to 'registered user'
     const [Password, setPassword] = useState('');
+    const [ConfirmPassword, setConfirmPassword] = useState('');
     const [result, setResult] = useState('');
     const navigate = useNavigate();
 
@@ -22,6 +23,13 @@ export default function Signup() {
         // Validate required fields before making the API call
         if (!Username || !FirstName || !LastName || !Email || !DOB || !Gender || !Password) {
             setResult("All fields are required.");
+            return;
+        }
+
+        // Check if Password and ConfirmPassword match
+        if (Password !== ConfirmPassword) {
+            //setResult("Passwords do not match.");
+            alert("Passwords do not match.");
             return;
         }
 
@@ -106,7 +114,6 @@ export default function Signup() {
                         type='text'
                         id='PaN'
                         name='PaN'
-                        //onChange={(e) => setPaN(e.target.value)}
                     />
 
                     <label htmlFor="gender" className='label1' style={{paddingLeft:"20px"}}>Select Gender</label>
@@ -131,6 +138,16 @@ export default function Signup() {
                         name='password'
                         onChange={(e) => setPassword(e.target.value)}
                         value={Password}
+                    />
+
+                    <label htmlFor="confirmPassword" className='label1'>Confirm Password</label>
+                    <input
+                        className="password-in"
+                        type='password'
+                        id='confirmPassword'
+                        name='confirmPassword'
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={ConfirmPassword}
                     />
 
                     <label htmlFor="role" className='label1'>Select Role</label>
