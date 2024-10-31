@@ -14,6 +14,19 @@ const db = require('../database');
         });
     };
 
+    exports.getview = (UserID) => {
+        return new Promise((resolve, reject) => {
+            const query = 'call getuserview(?);';
+            db.query(query, [UserID], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    }
+
     exports.addDetails = (User_Name, First_name, Last_name, Email, DOB, Gender, Password, Role) => {
         return new Promise((resolve, reject) => {
             const query = 'CALL addUser(?,?,?,?,?,?,?,?);';

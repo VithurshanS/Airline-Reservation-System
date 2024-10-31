@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 
 // Sample hardcoded user and booking data
 const user = {
-  username: 'john_doe',
+  username: 'john_',
   category: 'Regular', // Can be 'Regular', 'Frequent', or 'Gold'
   bookings: 3,
   offer: 5, // Offer percentage

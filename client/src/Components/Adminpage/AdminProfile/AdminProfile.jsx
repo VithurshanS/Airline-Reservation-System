@@ -2,9 +2,11 @@ import { Grid, TextField, Paper, Avatar, Button, IconButton, Typography, Card, C
 import { Edit, Lock, Person } from '@mui/icons-material';
 import { useState } from 'react';
 import { styled } from '@mui/system';
-const user = JSON.parse(localStorage.getItem("user"));
-const formattedDOB = new Date(user.DOB).toISOString().split('T')[0];
-console.log("user details",user);
+ 
+const user = JSON.parse(localStorage.getItem("user") || "{}")
+// const formattedDOB = new Date(user.DOB).toISOString().split('T')[0];
+const formattedDOB = user.DOB ? new Date(user.DOB).toISOString().split('T')[0] : "";
+console.log("user details from admin",user);
 const CustomButton = styled(Button)({
   backgroundColor: '#64b5f6',
   color: '#fff',
@@ -33,7 +35,6 @@ const UserProfile = () => {
     email: user.Email,
     dob: formattedDOB,
     age:user.Age,
-    
     gender: user.Gender,
   });
 

@@ -1,0 +1,105 @@
+/* Forms.css */
+
+.book-now-page {
+    max-width: 800px;
+    margin: auto;
+    padding: 24px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin-left: 350px;
+    margin-top: 150px;
+  }
+  
+  .book-now-page .MuiTypography-h4 {
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  .class-selection .MuiTypography-h6 {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 8px;
+  }
+  
+  .class-selection .MuiTextField-root {
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .passenger {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+  }
+  
+  .passenger .MuiTypography-subtitle1 {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  
+  .passenger .MuiTextField-root {
+    background-color: #ffffff;
+    border-radius: 4px;
+  }
+  
+  .passenger .MuiTextField-root input,
+  .passenger .MuiTextField-root select {
+    padding: 12px;
+  }
+  
+  .passenger .MuiTextField-root label {
+    font-size: 0.9rem;
+  }
+  
+  .passenger .MuiGrid-item {
+    margin-bottom: 8px;
+  }
+  
+  .MuiIconButton-root {
+    color: #1976d2;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .MuiIconButton-root:hover {
+    color: #005cbf;
+  }
+  
+  @media (max-width: 600px) {
+    .book-now-page {
+      padding: 16px;
+    }
+  
+    .passenger {
+      padding: 12px;
+    }
+  
+    .MuiTypography-h4 {
+      font-size: 1.8rem;
+    }
+  }
+.addpasss{
+    flex: 1;
+    /* padding: 2em; */
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-right: 40px;
+    width: 60px;
+}
+
+.cancelbtn{
+  float: right;
+  margin-right: 00px;
+  padding-left: 20px;
+}
+

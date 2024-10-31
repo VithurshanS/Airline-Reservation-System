@@ -379,7 +379,7 @@ BEGIN
     JOIN 
         Passenger p ON b.Passenger_ID = p.Passenger_ID
     JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
+        Seat s ON b.Booking_ID = s.Seat_ID
     WHERE 
         s.Schedule_ID = flight_no 
         AND b.Booking_Status = 'confirmed' 
@@ -397,7 +397,7 @@ BEGIN
     JOIN 
         Passenger p ON b.Passenger_ID = p.Passenger_ID
     JOIN 
-        Seat s ON b.Seat_ID = s.Seat_ID
+        Seat s ON b.Booking_ID = s.Seat_ID
     WHERE 
         s.Schedule_ID = flight_no 
         AND b.Booking_Status = 'confirmed' 
@@ -676,6 +676,8 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
 
 
 

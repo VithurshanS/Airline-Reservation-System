@@ -1,70 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Aircraft.css';
 import axios from 'axios';
 
 const AircraftEdit = () => {
-    const [aircrafts, setAircrafts] = useState([
-        { id: 1, company: 'Boeing', type: '737', totalSeats: 180, economyStart: 1, businessStart: 181, platinumStart: 191 },
-        { id: 2, company: 'Airbus', type: 'A380', totalSeats: 500, economyStart: 1, businessStart: 301, platinumStart: 401 },
-        { id: 3, company: 'Boeing', type: '757', totalSeats: 200, economyStart: 1, businessStart: 101, platinumStart: 151 },
-    ]);
-    
+    const [aircrafts, setAircrafts] = useState([]);
     const [editedAircraft, setEditedAircraft] = useState(null);
     const [newAircraft, setNewAircraft] = useState({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
+    const [result, setResult] = useState('');
 
-    const handleEdit = (aircraft) => {
-        setEditedAircraft(aircraft);
-    };
+    useEffect(() => {
+        fetchAircraft();
+    }, []);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setEditedAircraft({ ...editedAircraft, [name]: value });
-    };
-
-    const handleSave = () => {
-        setAircrafts(aircrafts.map(aircraft => aircraft.id === editedAircraft.id ? editedAircraft : aircraft));
-        setEditedAircraft(null);
-    };
-
-    const handleCancel = () => {
-        setEditedAircraft(null);
+    const fetchAircraft = async () => {
+        try {
+            const response = await axios.get('http://localhost:3067/getallaircraft');
+            if (response.data.message === 'All aircraft retrieved successfully.' && response.data.results) {
+                const formattedAircrafts = response.data.results.map((aircraft) => ({
+                    id: aircraft.Aircraft_ID,
+                    company: aircraft.Company,
+                    type: aircraft.Aircraft_type,
+                    totalSeats: aircraft.Total_seats,
+                    economyStart: aircraft.Economy_seat_start_no,
+                    businessStart: aircraft.Business_seat_start_no,
+                    platinumStart: aircraft.Platinum_seat_start_no
+                }));
+                setAircrafts(formattedAircrafts);
+            } else {
+                console.error('Unexpected response structure:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching aircraft:', error);
+        }
     };
 
     const handleAddChange = (e) => {
         const { name, value } = e.target;
         setNewAircraft({ ...newAircraft, [name]: value });
     };
-    const [result, setResult] = useState('');
 
-    // const handleAdd = () => {
-    //     setAircrafts([...aircrafts, { ...newAircraft, id: aircrafts.length + 1 }]);
-    //     setNewAircraft({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
-    // };
     const handleAdd = async () => {
         try {
             const response = await axios.post('http://localhost:3067/addaircraft', {
-                
-                
-                
-                    company: newAircraft.company,
-                    AircraftType: newAircraft.type,
-                    totalseats: newAircraft.totalSeats,
-                    ESSN: newAircraft.economyStart,
-                    BSSN: newAircraft.businessStart,
-                    PSSN: newAircraft.platinumStart,
-                
+                company: newAircraft.company,
+                AircraftType: newAircraft.type,
+                totalseats: newAircraft.totalSeats,
+                ESSN: newAircraft.economyStart,
+                BSSN: newAircraft.businessStart,
+                PSSN: newAircraft.platinumStart,
             });
             setResult(response.data.message);
             alert(response.data.message);
             setNewAircraft({ id: '', company: '', type: '', totalSeats: '', economyStart: '', businessStart: '', platinumStart: '' });
-            
+            fetchAircraft(); // Refresh the list after adding new aircraft
         } catch (error) {
             console.error("An error occurred:", error);
         }
-    };
-    
-    const handleDelete = (id) => {
-        setAircrafts(aircrafts.filter(aircraft => aircraft.id !== id));
     };
 
     return (
@@ -82,7 +73,6 @@ const AircraftEdit = () => {
                             <th>Economy Seats Start</th>
                             <th>Business Seats Start</th>
                             <th>Platinum Seats Start</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,52 +85,10 @@ const AircraftEdit = () => {
                                 <td>{aircraft.economyStart}</td>
                                 <td>{aircraft.businessStart}</td>
                                 <td>{aircraft.platinumStart}</td>
-                                <td>
-                                    <button onClick={() => handleEdit(aircraft)} className="edit-btn">Edit</button>
-                                    <button onClick={() => handleDelete(aircraft.id)} className="delete-btn">Delete</button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-
-                {editedAircraft && (
-                    <div className="edit-form">
-                        <h3>Edit Aircraft Details</h3>
-                        <label>
-                            ID:
-                            <input type="text" name="id" value={editedAircraft.id} onChange={handleInputChange} disabled />
-                        </label>
-                        <label>
-                            Company:
-                            <input type="text" name="company" value={editedAircraft.company} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Type:
-                            <input type="text" name="type" value={editedAircraft.type} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Total Seats:
-                            <input type="number" name="totalSeats" value={editedAircraft.totalSeats} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Economy Seats Start:
-                            <input type="number" name="economyStart" value={editedAircraft.economyStart} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Business Seats Start:
-                            <input type="number" name="businessStart" value={editedAircraft.businessStart} onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Platinum Seats Start:
-                            <input type="number" name="platinumStart" value={editedAircraft.platinumStart} onChange={handleInputChange} />
-                        </label>
-                        <div className="form-actions">
-                            <button onClick={handleSave} className="save-btn">Save</button>
-                            <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-                        </div>
-                    </div>
-                )}
 
                 <div className="add-form">
                     <h3>Add New Aircraft</h3>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './BookingPage.css';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Carosoul from './Carosoul/Carousel';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -19,11 +17,9 @@ function BookingPage() {
   const [filteredFlights, setFilteredFlights] = useState([]);
 
   // Fetch schedules from backend using Axios
-
   useEffect(() => {
-    axios.get('http://localhost:3067/getscheduleall')
+    axios.get('http://localhost:3067/getscheduleallwithaddress')
       .then(response => {
-        console.log(response)
         if (response.data.message === 'Successfully retrieved schedules.') {
           const schedules = response.data.results;
           const formattedFlights = schedules.map(schedule => ({
@@ -34,7 +30,11 @@ function BookingPage() {
             arrivalTime: new Date(schedule.Arrival_Time).toLocaleString(),
             economyFare: schedule.Economy_Fare,
             businessFare: schedule.Business_Fare,
-            platinumFare: schedule.Platinum_Fare
+            platinumFare: schedule.Platinum_Fare,
+            dep_airport: schedule.dep_airport,
+            arr_airport: schedule.arr_airport,
+            dep_city: schedule.dep_city,
+            arr_city: schedule.arr_city,
           }));
           setFlights(formattedFlights);
         }
@@ -52,9 +52,8 @@ function BookingPage() {
         flight.departureTime.includes(searchQuery.departureDate)
     );
     setFilteredFlights(results);
-    // console.log(results)
   };
-  
+
   return (
     <div className="booking-page">
       <header className="bookingheader">
@@ -79,7 +78,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">To:</h2>
               <TextField
-              className='textfield'
+                className='textfield'
                 placeholder="Enter destination city"
                 variant="filled"
                 value={searchQuery.to}
@@ -89,7 +88,7 @@ function BookingPage() {
             <label>
               <h2 className="h2tags">Departure Date:</h2>
               <TextField
-              className='textfield'
+                className='textfield'
                 type="date"
                 variant="filled"
                 value={searchQuery.departureDate}
@@ -100,7 +99,6 @@ function BookingPage() {
               <h2 className="h2tags">Passengers:</h2>
               <TextField
                 className='textfield'
-                clads
                 type="number"
                 variant="filled"
                 value={searchQuery.passengers}
@@ -122,10 +120,15 @@ function BookingPage() {
           <ul>
             {filteredFlights.map((flight) => (
               <li key={flight.id} className="flight-item">
+<h3>From : {flight.dep_city} &nbsp;&nbsp;&nbsp; To : &nbsp; {flight.arr_city}</h3>
+
                 <h3>
                   Plane {flight.planeId} - Departure: {flight.departureTime} to Arrival: {flight.arrivalTime}
                 </h3>
+                
                 <p>
+                  {/* Departure City: {flight.dep_city} <br />
+                  Arrival City: {flight.arr_city} <br /> */}
                   Economy Fare: ${flight.economyFare}<br />
                   Business Fare: ${flight.businessFare}<br />
                   Platinum Fare: ${flight.platinumFare}
@@ -133,15 +136,17 @@ function BookingPage() {
                 <Link
                   to={{
                     pathname: '/booknow'
-                   }}
-                   state= {{ scheduleId: flight.id,
+                  }}
+                  state={{
+                    scheduleId: flight.id,
                     economyFare: flight.economyFare,
                     businessFare: flight.businessFare,
-                    platinumFare: flight.platinumFare
-                    }}>
-               <button className="search-button">Book Now</button>
+                    platinumFare: flight.platinumFare,
+                    dep_city: flight.dep_city,
+                    arr_city: flight.arr_city
+                  }}>
+                  <button className="search-button">Book Now</button>
                 </Link>
-
               </li>
             ))}
           </ul>

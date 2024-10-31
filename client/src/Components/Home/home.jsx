@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 //import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import AdDashboard from '../Adminpage/AdDashboard/AdDashboard';
-//import Dashboard from '../Userpage/Dashboard/Dashboard'
+import Dashboard from '../Userpage/Dashboard/Dashboard'
 function Home() {
   const Navigate = useNavigate();
   return (

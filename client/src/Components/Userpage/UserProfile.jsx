@@ -60,7 +60,7 @@ const UserProfile = () => {
               <Typography variant="body1">Bookings Count: {userView.Bookings_count}</Typography>
               <Typography variant="body1">Next Level: {userView.next_level}</Typography>
               <Typography variant="body1">
-                Required Bookings for {userView.next_level}: {userView.RBC - userView.Bookings_count}
+                Required Bookings for {userView.next_level}: {userView.RBC}
               </Typography>
             </>
           ) : (

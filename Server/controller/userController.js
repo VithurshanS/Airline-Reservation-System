@@ -3,6 +3,19 @@ const bcrypt = require('bcrypt');
 
 const userModel = require('../models/userModel');
 
+
+
+exports.getview = async (req,res) => {
+    const {user_id} = req.body;
+    try{
+        const result = await userModel.getview(user_id);
+        res.status(200).send({"userview":result[0][0]});
+    }catch(e){
+        console.error('Database Error:', e);
+        res.status(500).send({ message: "Internal server error" });
+    }
+}
+
 exports.getDetails = async (req, res) => {
     const { Username, Password } = req.body;
     console.log(req.body);

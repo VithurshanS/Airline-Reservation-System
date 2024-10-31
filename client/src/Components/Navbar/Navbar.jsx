@@ -26,12 +26,16 @@ const Navbar2 = () => {
       <div className="button-container">
        
        <button className="Homebuttons" onClick={() => Navigate("/")}>
-         ← Back
+         ← Logout
        </button>
 
 
        <button className="Homebuttons" onClick={() => Navigate("/Login")}>
-         Next →
+         Login →
+       </button>
+       
+       <button className="Homebuttons" onClick={() => Navigate("/Dashboard")}>
+         user
        </button>
 
        

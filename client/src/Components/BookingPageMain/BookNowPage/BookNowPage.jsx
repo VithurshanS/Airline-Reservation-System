@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -22,19 +23,22 @@ import { useLocation } from "react-router-dom";
 // import NavBar from '../NavBar/NavBar';
 
 function BookNowPage() {
+  const Navigate = useNavigate();
   const location = useLocation();
-  const { scheduleId,economyFare,businessFare,platinumFare } = location.state || {};
+  const { scheduleId, economyFare, businessFare, platinumFare,dep_city,arr_city } =
+    location.state || {};
   const [availableSeats, setAvailableSeats] = useState([]);
-  const [seats,setSeats] =useState([]);
+  const [seats, setSeats] = useState([]);
   const [totalSeats, setTotalSeats] = useState(0);
   const [economySeatStart, setEconomySeatStart] = useState(0);
   const [businessSeatStart, setBusinessSeatStart] = useState(0);
   const [platinumSeatStart, setPlatinumSeatStart] = useState(0);
-      console.log(totalSeats);
-      console.log(economySeatStart);
-      console.log(businessSeatStart);
-      console.log(platinumSeatStart);
+  // console.log(totalSeats);
+  // console.log(economySeatStart);
+  // console.log(businessSeatStart);
+  // console.log(platinumSeatStart);
   const [selectedClass, setSelectedClass] = useState("Economy");
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [passengers, setPassengers] = useState([
     { name: "", dob: "", gender: "", passportNumber: "" },
   ]);
@@ -57,11 +61,16 @@ function BookNowPage() {
       )
     );
   };
+  console.log("economy", Math.floor((businessSeatStart - 1) / 9));
+  console.log(
+    "business",
+    Math.floor((platinumSeatStart - businessSeatStart) / 9)
+  );
+  console.log("plantinum", Math.floor((totalSeats - platinumSeatStart) / 9));
 
   useEffect(() => {
-    console.log("hi ");
     console.log("Schedule ID:", { scheduleId });
-    console.log({availableSeats})
+    console.log({ availableSeats });
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user);
     axios
@@ -75,27 +84,33 @@ function BookNowPage() {
       });
   }, [scheduleId]);
 
+  
   useEffect(() => {
-   
     axios
       .get(`http://localhost:3067/getseatdetails/${scheduleId}`)
       .then((response) => {
-        console.log("getseats:", response.data.results);
-        setSeats(response.data.results);
-        
-        if (response.data.results && response.data.results[0] && response.data.results[0][0]) {
-          const seatDetails = response.data.results[0][0];
+        const seatDetails = response.data.results[0]?.[0];
+        console.log("getseatsss", response.data.results);
+        if (seatDetails) {
           setTotalSeats(seatDetails.Total_seats);
           setEconomySeatStart(seatDetails.Economy_seat_start_no);
           setBusinessSeatStart(seatDetails.Business_seat_start_no);
           setPlatinumSeatStart(seatDetails.Platinum_seat_start_no);
-        } 
+        }
       })
-      
       .catch((error) => {
-        console.error("Error fetching available seats:", error);
+        console.error("Error fetching seat details:", error);
       });
   }, [scheduleId]);
+
+  const seatConfig = totalSeats
+    ? {
+        economyRows: Math.floor((businessSeatStart - 1) / 9),
+        businessRows: Math.floor((platinumSeatStart - businessSeatStart) / 9),
+        platinumRows: Math.floor((totalSeats - platinumSeatStart) / 9),
+        seatsPerRow: 9,
+      }
+    : null;
 
   return (
     <>
@@ -108,11 +123,11 @@ function BookNowPage() {
           </div>
           <div className="info-item">
             <label>Departure:</label>
-            <span>New York</span>
+            <span>{dep_city}</span>
           </div>
           <div className="info-item">
             <label>Arrival:</label>
-            <span>London</span>
+            <span>{arr_city}</span>
           </div>
           <div className="info-item">
             <label>Economy Fees:</label>
@@ -127,135 +142,27 @@ function BookNowPage() {
             <span>{businessFare}</span>
           </div>
         </div>
-      </div>
-      {/* <div className="parallax">
-    <ParallaxFlight />
-    </div> */}
-
-      <Box
-        className="book-now-page"
-        sx={{ p: 4, backgroundColor: "#f5f5f5", borderRadius: 2, boxShadow: 3 }}
+        <button
+        className="confirm_book"
+        onClick={() => Navigate("/forms", { state: { selectedSeats } })}
       >
-        {/* <NavBar/> */}
-
-        <Typography variant="h4" gutterBottom>
-          Book Now
-        </Typography>
-
-        <Box className="class-selection" sx={{ mb: 3 }}>
-          <Typography variant="h6">Select Class</Typography>
-          <TextField
-            select
-            value={selectedClass}
-            onChange={handleClassChange}
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            <MenuItem value="Economy">Economy</MenuItem>
-            <MenuItem value="Business">Business</MenuItem>
-            <MenuItem value="Platinum">Platinum</MenuItem>
-          </TextField>
-        </Box>
-
-        <Grid container spacing={2}>
-          {passengers.map((passenger, index) => (
-            <Grid item xs={12} key={index}>
-              <Box
-                className="passenger"
-                sx={{
-                  p: 2,
-                  backgroundColor: "#fff",
-                  borderRadius: 1,
-                  boxShadow: 2,
-                }}
-              >
-                <Typography variant="subtitle1" gutterBottom>
-                  Passenger {index + 1}
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Name"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.name}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "name", e.target.value)
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Date of Birth"
-                      type="date"
-                      variant="outlined"
-                      fullWidth
-                      InputLabelProps={{ shrink: true }}
-                      value={passenger.dob}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "dob", e.target.value)
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      select
-                      label="Gender"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.gender}
-                      onChange={(e) =>
-                        handlePassengerChange(index, "gender", e.target.value)
-                      }
-                    >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
-                      <MenuItem value="Other">Other</MenuItem>
-                    </TextField>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      placeholder="Passport Number"
-                      variant="outlined"
-                      fullWidth
-                      value={passenger.passportNumber}
-                      onChange={(e) =>
-                        handlePassengerChange(
-                          index,
-                          "passportNumber",
-                          e.target.value
-                        )
-                      }
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box sx={{ mt: 3, textAlign: "center" }}>
-          <IconButton color="primary" onClick={handleAddPassenger}>
-            <AddIcon /> Add Passenger
-          </IconButton>
-        </Box>
+        Confirm Booking
+      </button>
+      </div>
+      
+      
+      {seatConfig && (
         <Box sx={{ mt: 4 }}>
           <SeatSelection
-            seatConfig={{
-              economyRows: Math.floor((platinumSeatStart - businessSeatStart) / 9),
-              businessRows: Math.floor((businessSeatStart - economySeatStart) / 9),
-              platinumRows: Math.floor((totalSeats - platinumSeatStart) / 9),
-              seatsPerRow: 9,
-            }}
+            seatConfig={seatConfig}
             availableSeats={availableSeats}
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
           />
         </Box>
-      </Box>
-      
-        <button className="confirm_book">
-          Confirm Booking
-        </button>
+      )}
+     
+
       
     </>
   );

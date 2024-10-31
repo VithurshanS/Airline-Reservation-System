@@ -71,15 +71,15 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 function Overview() {
   return (
-    <Box sx={{ p: 4, backgroundColor: '#f5f5f5', minHeight: '100vh', paddingTop:'1050PX', maxWidth:'200%', width:'1150px' }}>
-      <Typography variant="h4" gutterBottom style={{ color: '#0d47a1', fontWeight: 'bold' }}>
+    <Box sx={{ p: 4, backgroundColor: '#f5f5f5', minHeight: '100vh', paddingTop:'900PX', maxWidth:'200%', width:'1150px' }}>
+      <Typography variant="h4" gutterBottom style={{ color: '#0d47a1', fontWeight: 'bold',paddingBottom:'30px' }}>
         Admin Overview
       </Typography>
       
       <Grid container spacing={4}>
         {/* Booking Trends Line Chart */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: '100%' }}>
+          <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: '100%', }}>
             <Typography variant="h6" gutterBottom style={{ color: '#2196f3' }}>Booking Trends</Typography>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={bookingData}>

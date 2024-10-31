@@ -1,0 +1,42 @@
+.page-background {
+    background-color: #f8faff;
+    padding: 30px 0;
+}
+
+.user-page-container {
+    background: linear-gradient(white, #beceef);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #333;
+}
+
+.user-page-container h2 {
+    font-size: 50px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.user-table th,
+.user-table td {
+    padding: 10px;
+    border: 1px solid #c5d3e0;
+    text-align: left;
+}
+
+.user-table th {
+    background: linear-gradient(230deg, #dce7f5, #82b1ff);
+    color: #ffffff;
+    font-weight: bold;
+}
